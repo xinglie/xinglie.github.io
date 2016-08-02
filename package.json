@@ -1,0 +1,29 @@
+{
+  "name": "xinglie-blog",
+  "version": "1.0.0",
+  "description": "xinglie's blog",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xinglie/xinglie.github.io.git"
+  },
+  "keywords": [
+    "xinglie",
+    "magix",
+    "blog"
+  ],
+  "author": "xinglie.lkf@taobao.com",
+  "license": "MIT",
+  "dependencies": {
+    "del": "",
+    "gulp": "",
+    "gulp-cssnano": "",
+    "gulp-uglify": "",
+    "gulp-watch": "",
+    "magix-combine": "^1.1.6"
+  },
+  "bugs": {
+    "url": "https://github.com/xinglie/xinglie.github.io/issues"
+  },
+  "homepage": "https://github.com/xinglie/xinglie.github.io#readme"
+}

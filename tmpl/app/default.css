@@ -1,0 +1,32 @@
+/* CSS Document */
+* { margin: 0; padding: 0 }
+body { font-size: 12px; color: #3F3E3C; line-height: 1.5; background: #333; font-family: 'helvetica neue',arial,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+  -ms-text-autospace: ideograph-alpha ideograph-numeric ideograph-parenthesis; /* 5 */
+  text-spacing: ideograph-alpha ideograph-numeric ideograph-parenthesis; /* 5 */}
+img { border: 0; vertical-align: middle }
+p { word-wrap: break-word }
+ul, ol { list-style: none; }
+a { color: #a6a6a6; text-decoration: none; transition: All 1s ease; -webkit-transition: All 1s ease; -moz-transition: All 1s ease; -ms-transition: All 1s ease; -o-transition: All 1s ease; }
+a:hover { color: #fff; }
+/* -----------------------nav 一级导航----------------- */
+header { width: 100%; background: #222; height: 70px; border-bottom: #464647 1px solid;}
+header nav { margin: 0 auto; width: 1000px; text-align: center; padding-top: 15px }
+header nav ul li { line-height: 40px; display: inline }
+header nav ul li a { color: #E7E7E7; display: block; padding: 0 20px; margin-right: 10px; float: left }
+header nav ul li a:hover, #nav_current { color: #fff; background: rgba(20, 20, 20, 0.8); box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px; }
+
+
+footer { background:#1D1D1D; -webkit-box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); -moz-box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); }
+.footer-mid { width: 1000px; margin: auto; padding: 20px 0; overflow: hidden }
+.footer-mid li { line-height: 26px; }
+.footer-bottom { background: rgba(0, 0, 0, 0.55); overflow: hidden; }
+.footer-bottom p { width: 1000px; margin: 0 auto; padding: 10px 0; }
+.links li{float:left;margin-right:30px;}
+
+*html { background-image: url(about:blank); background-attachment: fixed; }/*解决IE6下滚动抖动的问题*/
+#tbox { width: 54px; float: right; position: fixed; right: 50px; bottom: 15px; _position: absolute; _bottom: auto; _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop, 10)||0)-(parseInt(this.currentStyle.marginBottom, 10)||0)));
+_margin-bottom: 15px; }/*解决IE6下不兼容 position:fixed 的问题*/
+#togbook, #gotop { width: 54px; height: 56px; display: block; background:url(icons.png) no-repeat  #111 ;box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;}
+#togbook { margin: 5px 0 ;background-position:10px -407px;}
+#gotop {background-position:12px -365px;}
+#togbook:hover, #gotop:hover { opacity: 0.5 }
