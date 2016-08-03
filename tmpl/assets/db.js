@@ -1,4 +1,14 @@
 module.exports = [{
+    title: '关于view数据的处理',
+    href: 'https://github.com/thx/magix/issues/17',
+    desc: '在magix项目中，因为数据直接在view中对接，有时候复杂的界面会导致背后的js文件也很复杂，再夹杂着数据处理，显得view不清晰，本文尝试提供一种解决方案来解决这个问题',
+    date: '2016-8-3'
+}, {
+    title: 'Nuclear看法',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/28',
+    desc: '记录我对Nuclear的一点技术点的看法',
+    date: '2016-8-3'
+}, {
     title: 'magix的事件代理',
     href: 'https://github.com/thx/magix/issues/14',
     desc: 'magix相关的文章',
@@ -18,6 +28,11 @@ module.exports = [{
     href: 'https://github.com/thx/magix/issues/11',
     desc: 'magix相关的文章',
     date: '2016-7-28'
+}, {
+    title: '关于style的scope',
+    href: 'https://github.com/thx/magix-combine/issues/6',
+    desc: '这是magix项目中区块嵌套遇到的问题，因为嵌套的原因，css命名空间的方案有坑，该文章记录了坑的原因，及尝试给出解决方案',
+    date: '2016-7-7'
 }, {
     title: '新版汉字转拼音 50kb',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/27',
