@@ -1,5 +1,10 @@
 define('assets/db',function(require,exports,module){
 module.exports = [{
+    title: 'magix中的2种事件绑定方式',
+    href: 'https://github.com/thx/magix/issues/18',
+    desc: 'magix采用html与js文件分离的写法，当我们在阅读时，希望能直观的看出节点绑定了哪些事件或这个函数是为哪种事件服务的',
+    date: '2016-8-4'
+}, {
     title: '关于view数据的处理',
     href: 'https://github.com/thx/magix/issues/17',
     desc: '在magix项目中，因为数据直接在view中对接，有时候复杂的界面会导致背后的js文件也很复杂，再夹杂着数据处理，显得view不清晰，本文尝试提供一种解决方案来解决这个问题',
@@ -7,7 +12,7 @@ module.exports = [{
 }, {
     title: 'Nuclear看法',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/28',
-    desc: '记录我对Nuclear的一点技术点的看法',
+    desc: '记录我对Nuclear的一些技术点的看法',
     date: '2016-8-3'
 }, {
     title: 'magix的事件代理',
