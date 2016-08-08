@@ -1,4 +1,29 @@
 module.exports = [{
+    title: 'document.elementFromPoint',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/33',
+    desc: '给坐标获取元素的兼容性',
+    date: '2016-08-08'
+}, {
+    title: '判断矩形相交以及求出相交的区域',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/32',
+    desc: '矩形相交',
+    date: '2016-08-08'
+}, {
+    title: 'LZW压缩算法js版本',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/31',
+    desc: '压缩算法',
+    date: '2016-08-08'
+}, {
+    title: '大段文本的多个关键字高亮',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/30',
+    desc: '如何高亮一大估文本',
+    date: '2016-08-08'
+}, {
+    title: 'javascript正则$的其它用法',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/29',
+    desc: '一些不常见的用法',
+    date: '2016-08-08'
+}, {
     title: 'magix中的2种事件绑定方式',
     href: 'https://github.com/thx/magix/issues/18',
     desc: 'magix采用html与js文件分离的写法，当我们在阅读时，希望能直观的看出节点绑定了哪些事件或这个函数是为哪种事件服务的',
