@@ -1,5 +1,10 @@
 define('assets/db',function(require,exports,module){
 module.exports = [{
+    title: '关于onpopstate',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/34',
+    desc: '2012年做Magix时遇到的popstate问题',
+    date: '2016-08-18'
+}, {
     title: 'document.elementFromPoint',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/33',
     desc: '给坐标获取元素的兼容性',
