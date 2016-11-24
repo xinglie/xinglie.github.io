@@ -1,5 +1,10 @@
 define('assets/db',function(require,exports,module){
 module.exports = [{
+    title: '前端的离线处理',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/35',
+    desc: '聊一聊在应用上线前，提前把一些能做的事情做掉，减少运行时的计算',
+    date: '2016-11-18'
+}, {
     title: '关于onpopstate',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/34',
     desc: '2012年做Magix时遇到的popstate问题',
