@@ -1,4 +1,9 @@
 module.exports = [{
+    title: '我是如何做固定头部(thead)的',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/36',
+    desc: '自己在处理表格头部列固定时所做的方案',
+    date: '2017-02-26'
+}, {
     title: '前端的离线处理',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/35',
     desc: '聊一聊在应用上线前，提前把一些能做的事情做掉，减少运行时的计算',
