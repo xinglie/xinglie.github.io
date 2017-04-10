@@ -1,5 +1,5 @@
-define('coms/tmpl/index',['magix'],function(require,exports,module){
-/*Magix */
+define('coms/tmpl/index',["magix"],function(require,exports,module){
+/*Magix*/
 var Magix = require('magix');
 var Cache = new Magix.Cache();
 var tmpl = function(text, data) {

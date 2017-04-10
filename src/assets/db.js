@@ -1,5 +1,10 @@
 define('assets/db',function(require,exports,module){
 module.exports = [{
+    title:'前端做模糊搜索',
+    href:'https://github.com/xinglie/xinglie.github.io/issues/37',
+    desc:'前端用正则做内容的模糊匹配',
+    date:'2017-03-17'
+},{
     title: '我是如何做固定头部(thead)的',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/36',
     desc: '自己在处理表格头部列固定时所做的方案',

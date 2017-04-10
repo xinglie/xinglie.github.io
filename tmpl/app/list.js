@@ -6,7 +6,7 @@ Magix.applyStyle('@list.css');
 var Tmpl = require('coms/tmpl/index');
 var Data = require('assets/db');
 module.exports = Magix.View.extend({
-    tmpl: '@list.html',
+    tmpl: 'raw@list.html',
     render: function() {
         var me = this;
         console.log(Data);

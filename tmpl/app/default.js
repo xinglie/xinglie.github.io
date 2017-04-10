@@ -4,7 +4,7 @@
 var Magix = require('magix');
 Magix.applyStyle('@default.css');
 module.exports = Magix.View.extend({
-    tmpl: '@default.html',
+    tmpl: 'raw@default.html',
     render: function() {
         var me = this;
         me.setHTML(me.id, me.tmpl);
