@@ -1,3 +1,6 @@
+'#snippet';
+'#exclude(define)';
+
 var define
 var require;
 (function(global, undefined) {

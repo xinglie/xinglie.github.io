@@ -13,6 +13,7 @@ var del = require('del');
 combineTool.config({
     tmplFolder: tmplFolder,
     srcFolder: srcFolder,
+    compressCssSelectorNames:true,
     cssSelectorPrefix: 'x',
     md5CssFileLen: 1,
     md5CssSelectorLen: 1
@@ -44,6 +45,9 @@ gulp.task('build', ['cleanBuild', 'combine'], function() {
         .pipe(uglify({
             compress: {
                 drop_console: true
+            },
+            output: {
+              ascii_only: true
             }
         }))
         .pipe(gulp.dest(buildFolder));

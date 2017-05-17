@@ -1,3 +1,6 @@
+'#snippet';
+'#exclude(define)';
+
 /* Zepto v1.1.4-86-g0616279 - zepto event touch - zeptojs.com/license */
 
 var Zepto = (function() {

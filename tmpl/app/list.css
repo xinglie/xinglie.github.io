@@ -6,13 +6,13 @@
 .ti { width: 0px; height: 0px; border-style: solid; border-width: 0px 0 20px 22px; border-color: transparent transparent transparent #111; position: absolute; right: -22px; top: 20px; }/* 三角形 */
 .ci { width: 10px; height: 10px; border-radius: 50%; position: absolute; right: -43px; top: 13px; background: #000; border: 2px solid #333; } /* 圆形定义边框色与背景一致 */
 .ci:hover { border: 2px solid #B9B9B9; }
-.arrow_box h2.title { padding: 0 0 0 20px; font: 16px/50px "微软雅黑", "Microsoft YaHei", Arial, Helvetica, sans-serif }
-.arrow_box h2 a:hover { padding-left: 20px }
+.title { padding: 0 0 0 20px; font: 16px/50px "微软雅黑", "Microsoft YaHei", Arial, Helvetica, sans-serif }
+.arrow_box a:hover { padding-left: 20px }
 .textinfo { overflow: hidden; }
 .arrow_box p { line-height: 24px; padding: 0 20px 20px }
 .arrow_box p:hover { text-shadow: 1px 1px 1px #000; }
 .details { background: rgba(1,1,1,0.3); border-radius: 0 0 6px 6px; padding: 0 10px }
 .details li { line-height: 26px; display: inline; font-size: 11px; margin-right: 10px; }
-.details li a { color: #3F3E3C }
-.details li a:hover { color: #933 }
+.details a { color: #3F3E3C }
+.details a:hover { color: #933 }
 .icon-time { background-position: 0 -208px; padding: 0 0 0 18px; }

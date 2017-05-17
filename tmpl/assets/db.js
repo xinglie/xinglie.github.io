@@ -1,3 +1,5 @@
+'#snippets';
+
 module.exports = [{
     title:'前端做模糊搜索',
     href:'https://github.com/xinglie/xinglie.github.io/issues/37',
