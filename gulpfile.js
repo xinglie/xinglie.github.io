@@ -2,26 +2,20 @@ var tmplFolder = 'tmpl'; //template folder
 var srcFolder = 'src'; //source folder
 var buildFolder = 'build'; //build folder
 
-var excludeTmplFolders = [
-    'tmpl/libs'
-];
 
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var fs = require('fs');
-var combineTool = require('../magix-combine/index');
+var combineTool = require('magix-combine');
 var del = require('del');
 
 
 combineTool.config({
     tmplFolder: tmplFolder,
     srcFolder: srcFolder,
-    buildFolder: buildFolder,
-    compressCssSelectorNames: true,
     cssSelectorPrefix: 'x',
     md5CssFileLen: 1,
-    md5CssSelectorLen: 1,
-    excludeTmplFolders: excludeTmplFolders
+    md5CssSelectorLen: 1
 });
 
 gulp.task('cleanSrc', function() {
