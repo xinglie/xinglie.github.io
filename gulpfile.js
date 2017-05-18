@@ -41,10 +41,12 @@ var uglify = require('gulp-uglify');
 gulp.task('cleanBuild', function() {
     return del(buildFolder);
 });
-gulp.task('build', ['cleanBuild', 'combine'], function() {
+gulp.task('build', ['cleanBuild'], function() {
     combineTool.config({
         compressCss: true
     });
+
+
     combineTool.combine().then(() => {
         gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({
