@@ -11,9 +11,10 @@ var del = require('del');
 
 
 combineTool.config({
+    compressCss: false,
     tmplFolder: tmplFolder,
     srcFolder: srcFolder,
-    compressCssSelectorNames:true,
+    compressCssSelectorNames: true,
     cssSelectorPrefix: 'x',
     md5CssFileLen: 1,
     md5CssSelectorLen: 1
@@ -41,14 +42,19 @@ gulp.task('cleanBuild', function() {
     return del(buildFolder);
 });
 gulp.task('build', ['cleanBuild', 'combine'], function() {
-    gulp.src(srcFolder + '/**/*.js')
-        .pipe(uglify({
-            compress: {
-                drop_console: true
-            },
-            output: {
-              ascii_only: true
-            }
-        }))
-        .pipe(gulp.dest(buildFolder));
+    combineTool.config({
+        compressCss: true
+    });
+    combineTool.combine().then(() => {
+        gulp.src(srcFolder + '/**/*.js')
+            .pipe(uglify({
+                compress: {
+                    drop_console: true
+                },
+                output: {
+                    ascii_only: true
+                }
+            }))
+            .pipe(gulp.dest(buildFolder));
+    });
 });

@@ -1,16 +1,12 @@
 /* --------------------博客列表-------------------- */
 .blogs { width: 1000px; margin: 0 auto 20px; }
 .bloglist { width: 100%; }
-.bloglist>li { border-right: #111 2px solid; padding: 20px 0; }
+.bloglist>li {  padding: 20px 0; }
 .arrow_box { background: #222; box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); width: 963px; color: #b9b9b9; border-radius: 6px; position: relative }
-.ti { width: 0px; height: 0px; border-style: solid; border-width: 0px 0 20px 22px; border-color: transparent transparent transparent #111; position: absolute; right: -22px; top: 20px; }/* 三角形 */
-.ci { width: 10px; height: 10px; border-radius: 50%; position: absolute; right: -43px; top: 13px; background: #000; border: 2px solid #333; } /* 圆形定义边框色与背景一致 */
-.ci:hover { border: 2px solid #B9B9B9; }
 .title { padding: 0 0 0 20px; font: 16px/50px "微软雅黑", "Microsoft YaHei", Arial, Helvetica, sans-serif }
 .arrow_box a:hover { padding-left: 20px }
 .textinfo { overflow: hidden; }
-.arrow_box p { line-height: 24px; padding: 0 20px 20px }
-.arrow_box p:hover { text-shadow: 1px 1px 1px #000; }
+.arrow_box p { line-height: 24px; padding: 0 20px 20px;color:#616161;}
 .details { background: rgba(1,1,1,0.3); border-radius: 0 0 6px 6px; padding: 0 10px }
 .details li { line-height: 26px; display: inline; font-size: 11px; margin-right: 10px; }
 .details a { color: #3F3E3C }
