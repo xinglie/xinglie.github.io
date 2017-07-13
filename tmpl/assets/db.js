@@ -1,11 +1,21 @@
 '#snippets';
 
 module.exports = [{
-    title:'前端做模糊搜索',
-    href:'https://github.com/xinglie/xinglie.github.io/issues/37',
-    desc:'前端用正则做内容的模糊匹配',
-    date:'2017-03-17'
-},{
+    title: 'html实体编码遇上js代码',
+    href: 'https://github.com/thx/magix-combine/issues/26',
+    desc: '介绍一些坑的问题所在',
+    date: '2017-07-11'
+}, {
+    title: 'Magix.State简介',
+    href: 'https://github.com/thx/magix/issues/39',
+    desc: '介绍虚拟路由的实现',
+    date: '2017-07-14'
+}, {
+    title: '前端做模糊搜索',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/37',
+    desc: '前端用正则做内容的模糊匹配',
+    date: '2017-03-17'
+}, {
     title: '我是如何做固定头部(thead)的',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/36',
     desc: '自己在处理表格头部列固定时所做的方案',
