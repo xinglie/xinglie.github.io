@@ -47,8 +47,8 @@ gulp.task('build', ['cleanBuild'], function() {
     });
 
 
-    combineTool.combine().then(() => {
-        gulp.src(srcFolder + '/**/*.js')
+    return combineTool.combine().then(() => {
+        return gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({
                 compress: {
                     drop_console: true
@@ -59,4 +59,11 @@ gulp.task('build', ['cleanBuild'], function() {
             }))
             .pipe(gulp.dest(buildFolder));
     });
+});
+gulp.task('embed', () => {
+    let c = fs.readFileSync('./build/boot.js') + '';
+    let index = fs.readFileSync('./index.html') + '';
+    c = c.replace(/\$/g, '$&$&');
+    index = index.replace(/<script[^>]*?>[\s\S]*?<\/script>/, '<script>' + c + '</script>');
+    fs.writeFileSync('./index.html', index);
 });
