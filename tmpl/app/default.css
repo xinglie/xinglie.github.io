@@ -22,8 +22,7 @@ footer { background:#1D1D1D; -webkit-box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inse
 .footer-bottom p { width: 1000px; margin: 0 auto; padding: 10px 0; }
 .links li{float:left;margin-right:30px;}
 
-#tbox { width: 54px; float: right; position: fixed; right: 50px; bottom: 15px;}/*解决IE6下不兼容 position:fixed 的问题*/
-#togbook, #gotop { width: 54px; height: 56px; display: block; background:url(icons.png) no-repeat  #111 ;box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;}
-#togbook { margin: 5px 0 ;background-position:10px -407px;}
-#gotop {background-position:12px -365px;}
+#tbox {  position: fixed; right: 50px; bottom: 15px;}
+#togbook, #gotop { width: 30px; height: 30px; display: block; box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;background: #111;color:#a6a6a6;line-height: 30px;text-align: center;font-size:16px;}
+#togbook { margin: 5px 0 ;}
 #togbook:hover, #gotop:hover { opacity: 0.5 }
