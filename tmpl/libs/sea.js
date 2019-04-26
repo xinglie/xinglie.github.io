@@ -1,84 +1,29 @@
-'#snippet';
-'#exclude(define)';
-
-var define
-var require;
-(function(global, undefined) {
-
-  function isType(type) {
-    return function(obj) {
-      return {}.toString.call(obj) == "[object " + type + "]"
-    }
+//#snippet;
+//#exclude=define;
+(global => {
+  let cachedMods = {};
+  let isArray = Array.isArray;
+  let getModule = id => cachedMods[id] || (cachedMods[id] = {});
+  let require = id => {
+      let mod = getModule(id)
+      if (!mod['@{module#execed}']) {
+          mod['@{module#execed}'] = 1;
+          let factory = mod['@{module#factory}']
+          let epts = factory(require, mod.exports = {}, mod);
+          if (epts !== void 0) {
+              mod.exports = epts;
+          }
+          delete mod['@{module#factory}']
+      }
+      return mod.exports;
   }
-
-  var isFunction = isType("Function")
-
-  var cachedMods = {}
-
-  function Module() {}
-
-  Module.prototype.exec = function() {
-    var mod = this
-
-    if (this.execed) {
-      return mod.exports
-    }
-    this.execed = true
-
-    function require(id) {
-      return Module.get(id).exec()
-    }
-
-    var factory = mod.factory
-
-    var exports = isFunction(factory) ?
-      factory(require, mod.exports = {}, mod) :
-      factory
-
-    if (exports === undefined) {
-      exports = mod.exports
-    }
-
-    // Reduce memory leak
-    delete mod.factory
-
-    mod.exports = exports
-
-    return exports
-  }
-
-  define = function(id, deps, factory) {
-    if (isFunction(deps)) {
-      factory = deps;
-      deps = [];
-    }
-    var meta = {
-      id: id,
-      deps: deps,
-      factory: factory
-    }
-
-    Module.save(meta)
-  }
-
-  Module.save = function(meta) {
-    var mod = Module.get(meta.id)
-
-    mod.id = meta.id
-    mod.dependencies = meta.deps
-    mod.factory = meta.factory
-  }
-
-  Module.get = function(id) {
-    return cachedMods[id] || (cachedMods[id] = new Module())
-  }
-
-  global.require = function(id) {
-    var mod = Module.get(id)
-    if (!mod.execed) {
-      mod.exec()
-    }
-    return mod.exports
-  }
-
-})(this)
+  global.define = (id, deps, factory) => {
+      if (!isArray(deps)) {
+          factory = deps;
+          deps = [];
+      }
+      let mod = getModule(id);
+      mod['@{module#factory}'] = factory
+  };
+  global.require = require;
+})(this);

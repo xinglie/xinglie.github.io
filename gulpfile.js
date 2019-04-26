@@ -6,28 +6,25 @@ var buildFolder = 'build'; //build folder
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var fs = require('fs');
-var combineTool = require('magix-combine');
+var combineTool = require('../magix-composer/index');
 var del = require('del');
 
 
 combineTool.config({
-    compressCss: false,
+    debug: true,
     tmplFolder: tmplFolder,
     srcFolder: srcFolder,
-    compressCssSelectorNames: true,
-    cssSelectorPrefix: 'x',
-    md5CssFileLen: 1,
-    md5CssSelectorLen: 1
+    projectName: 'xl'
 });
 
-gulp.task('cleanSrc', function() {
+gulp.task('cleanSrc', function () {
     return del(srcFolder);
 });
-gulp.task('combine', ['cleanSrc'], function() {
+gulp.task('combine', gulp.series('cleanSrc', function () {
     return combineTool.combine();
-});
-gulp.task('watch', ['combine'], function() {
-    watch(tmplFolder + '/**/*', function(e) {
+}));
+gulp.task('watch', gulp.series('combine', function () {
+    watch(tmplFolder + '/**/*', function (e) {
         console.log(e.path);
         if (fs.existsSync(e.path)) {
             combineTool.processFile(e.path);
@@ -35,15 +32,15 @@ gulp.task('watch', ['combine'], function() {
             combineTool.removeFile(e.path);
         }
     });
-});
+}));
 
-var uglify = require('gulp-uglify');
-gulp.task('cleanBuild', function() {
+var uglify = require('../gulp-terser-scoped/index');
+gulp.task('cleanBuild', function () {
     return del(buildFolder);
 });
-gulp.task('build', ['cleanBuild'], function() {
+gulp.task('build', gulp.series('cleanBuild', function () {
     combineTool.config({
-        compressCss: true
+        debug: false
     });
 
 
@@ -59,11 +56,12 @@ gulp.task('build', ['cleanBuild'], function() {
             }))
             .pipe(gulp.dest(buildFolder));
     });
-});
-gulp.task('embed', () => {
+}));
+gulp.task('embed', (cb) => {
     let c = fs.readFileSync('./build/boot.js') + '';
     let index = fs.readFileSync('./index.html') + '';
     c = c.replace(/\$/g, '$&$&');
     index = index.replace(/<script[^>]*?>[\s\S]*?<\/script>/, '<script>' + c + '</script>');
     fs.writeFileSync('./index.html', index);
+    cb();
 });

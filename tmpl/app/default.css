@@ -1,28 +1,137 @@
 /* CSS Document */
-* { margin: 0; padding: 0 }
-body { font-size: 12px; color: #3F3E3C; line-height: 1.5; background: #333; font-family: 'helvetica neue',arial,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
-  -ms-text-autospace: ideograph-alpha ideograph-numeric ideograph-parenthesis; /* 5 */
-  text-spacing: ideograph-alpha ideograph-numeric ideograph-parenthesis; /* 5 */}
-p { word-wrap: break-word }
-ul { list-style: none; }
-a { color: #a6a6a6; text-decoration: none; transition: All 1s ease; -webkit-transition: All 1s ease; -moz-transition: All 1s ease; -ms-transition: All 1s ease; -o-transition: All 1s ease; }
-a:hover { color: #fff; }
+body,
+ul,
+li,
+h2,
+p{
+  padding:0;
+  margin:0;
+}
+html,
+body{
+  font-size: 12px;
+  color: #3F3E3C;
+  line-height: 1.5;
+  background: #333;
+  font-family: 'helvetica neue',arial,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+  scroll-behavior: smooth;
+}
+ul {
+  list-style: none;
+}
+a {
+  color: #a6a6a6;
+  text-decoration: none; 
+  transition: all 1s ease;
+}
+a:hover {
+  color: #fff;
+}
 /* -----------------------nav 一级导航----------------- */
-header { width: 100%; background: #222; height: 70px; border-bottom: #464647 1px solid;}
-header nav { margin: 0 auto; width: 1000px; text-align: center; padding-top: 15px }
-header li { line-height: 40px; display: inline }
-header a { color: #E7E7E7; display: block; padding: 0 20px; margin-right: 10px; float: left }
-header a:hover, #nav_current { color: #fff; background: rgba(20, 20, 20, 0.8); box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px; }
+header {
+  width: 100%;
+  background: #222;
+  height: 70px;
+  border-bottom: #464647 1px solid;
+}
+nav {
+   margin: 0 auto;
+   width: 1100px;
+   text-align: center;
+   padding-top: 15px
+}
+nav li {
+  line-height: 40px;
+  float: left;
+}
+header a {
+  color: #E7E7E7;
+  display: block;
+  padding: 0 20px;
+  margin-right: 10px;
+}
+header a:hover{
+  color: #fff;
+  background: rgba(20, 20, 20, 0.8);
+  box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7);
+  border-radius: 6px;
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: " "; 
+    display: table; 
+}
+.clearfix::after{
+  clear: both
+}
+
+footer {
+  background:#1D1D1D;
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
+  text-align: center;
+}
+.footer-bottom-p {
+  width: 1100px;
+  margin: 0 auto; padding: 10px 0;
+}
+
+.tbox {
+  position: fixed;
+  right: 50px;
+  bottom: 15px;
+}
+.tbook, .gotop {
+  width: 30px;
+  height: 30px;
+  display: block;
+  box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;
+  background: #111;
+  color:#a6a6a6;
+  line-height: 30px;
+  text-align: center;
+  font-size:16px;
+}
+.tbook {
+  margin: 5px 0 ;
+}
+.tbook:hover,
+.gotop:hover {
+  opacity: 0.5
+}
 
 
-footer { background:#1D1D1D; -webkit-box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); -moz-box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); box-shadow: 0 -1px 0 rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09); }
-.footer-mid { width: 1000px; margin: auto; padding: 20px 0; overflow: hidden }
-.footer-mid li { line-height: 26px; }
-.footer-bottom { background: rgba(0, 0, 0, 0.55); overflow: hidden; }
-.footer-bottom p { width: 1000px; margin: 0 auto; padding: 10px 0; }
-.links li{float:left;margin-right:30px;}
-
-#tbox {  position: fixed; right: 50px; bottom: 15px;}
-#togbook, #gotop { width: 30px; height: 30px; display: block; box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;background: #111;color:#a6a6a6;line-height: 30px;text-align: center;font-size:16px;}
-#togbook { margin: 5px 0 ;}
-#togbook:hover, #gotop:hover { opacity: 0.5 }
+/* --------------------博客列表-------------------- */
+.blogs {
+  width: 1100px;
+  margin: 0 auto 20px;
+}
+.blog-box {
+  margin:20px 5px;
+  background: #222;
+  box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7);
+  width: 530px;
+  color: #b9b9b9;
+  border-radius: 6px;
+  float: left;
+}
+.title {
+  padding: 0 0 0 20px;
+  font: 16px/50px  "Microsoft YaHei", Arial, Helvetica, sans-serif
+}
+.blog-box a:hover {
+  padding-left: 20px
+}
+.textinfo {
+  overflow: hidden;
+  line-height: 24px;
+  height:50px;
+  padding: 0 20px 5px;
+  color:#616161;
+}
+.details {
+  background: rgba(1,1,1,0.3);
+  border-radius: 0 0 6px 6px;
+  padding: 0 10px 0 18px;
+  color: #3F3E3C
+}

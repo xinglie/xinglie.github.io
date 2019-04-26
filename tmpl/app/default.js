@@ -1,16 +1,18 @@
-'#snippets';
+//#snippets;
 /*
     author:xinglie.lkf@taobao.com
  */
-var Magix = require('magix');
+let Magix = require('magix5');
 Magix.applyStyle('@default.css');
+let Data = require('assets/db');
 module.exports = Magix.View.extend({
     tmpl: '@default.html',
-    render: function() {
-        var me = this;
-        me.updater.digest();
+    render() {
+        this.digest({
+            list: Data
+        });
     },
-    'toTop<click>': function(e) {
+    '@{to.top}<click>'(e) {
         e.preventDefault();
         window.scrollTo(0, 0);
     }

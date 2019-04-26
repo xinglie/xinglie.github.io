@@ -1,6 +1,36 @@
-'#snippets';
+//#snippets;
 
 module.exports = [{
+    title: '浏览器会内置类React框架',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/43',
+    desc: '谈谈对未来浏览器会做的事情的看法',
+    date: '2019-4-10'
+}, {
+    title: '极致的性能',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/42',
+    desc: '记录如何改善应用中的性能',
+    date: '2019-3-8'
+}, {
+    title: '那些年的magix',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/41',
+    desc: '记录我开发过的magix及心路历程',
+    date: '2019-3-8'
+}, {
+    title: '用div模拟表格',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/40',
+    desc: '要用表格实现一些固定头、列、尾等操作时，table非常难实现，不如我们换div来模拟实现',
+    date: '2018-10-19'
+}, {
+    title: '在前端如何保护共享对象',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/39',
+    desc: '深入谈一下如何在前端保护一个对象，使得别人无法更改，这在某些场景：一些配置信息防止误修改的情况下非常有用',
+    date: '2018-9-4'
+}, {
+    title: '获取光标位置',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/38',
+    desc: '记录一下别人的实现',
+    date: '2018-1-3'
+}, {
     title: 'html实体编码遇上js代码',
     href: 'https://github.com/thx/magix-combine/issues/26',
     desc: '介绍一些坑的问题所在',

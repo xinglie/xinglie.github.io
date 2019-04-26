@@ -17,10 +17,7 @@
   "dependencies": {
     "del": "",
     "gulp": "",
-    "gulp-cssnano": "",
-    "gulp-uglify": "",
-    "gulp-watch": "",
-    "magix-combine": "3.3.3"
+    "gulp-watch": ""
   },
   "bugs": {
     "url": "https://github.com/xinglie/xinglie.github.io/issues"
