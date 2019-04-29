@@ -48,7 +48,10 @@ gulp.task('build', gulp.series('cleanBuild', function () {
         return gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({
                 compress: {
-                    drop_console: true
+                    drop_console: true,
+                    global_defs: {
+                        DEBUG: false
+                    }
                 },
                 output: {
                     ascii_only: true

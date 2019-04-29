@@ -1,6 +1,11 @@
 //#snippets;
 
 module.exports = [{
+    title: '把三次贝塞尔曲线放进外接矩形中',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/44',
+    desc: '把曲线放进一个矩形内，方便后续进行其它的操作',
+    date: '2019-4-29'
+}, {
     title: '浏览器会内置类React框架',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/43',
     desc: '谈谈对未来浏览器会做的事情的看法',
