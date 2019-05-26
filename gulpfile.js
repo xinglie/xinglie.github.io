@@ -66,5 +66,11 @@ gulp.task('embed', (cb) => {
     c = c.replace(/\$/g, '$&$&');
     index = index.replace(/<script[^>]*?>[\s\S]*?<\/script>/, '<script>' + c + '</script>');
     fs.writeFileSync('./index.html', index);
+
+    let c1 = fs.readFileSync('./build/book.js') + '';
+    let book = fs.readFileSync('./book.html') + '';
+    c1 = c1.replace(/\$/g, '$&$&');
+    book = book.replace(/<script[^>]*?>[\s\S]*?<\/script>/, '<script>' + c1 + '</script>');
+    fs.writeFileSync('./book.html', book);
     cb();
 });

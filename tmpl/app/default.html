@@ -11,6 +11,7 @@
       <li><a href="https://github.com/xinglie/frontend" rel="noopener noreferrer" target="_blank">网址导航</a></li>
       <li><a href="https://github.com/xinglie/magix-table" rel="noopener noreferrer" target="_blank">表格</a></li>
       <li><a href="https://github.com/xinglie/pinyin" rel="noopener noreferrer" target="_blank">汉字转拼音</a></li>
+      <li><a href="./book.html" rel="noopener noreferrer" target="_blank">书单</a></li>
       <li><a href="http://weibo.com/u/2604537020" rel="noopener noreferrer" target="_blank">微博</a></li>
     </ul>
   </nav>
@@ -20,7 +21,7 @@
     {{each list as a}}
         <div class="blog-box">
             <h2 class="title">
-                <a href="{{=a.href}}" target="_blank" rel="noopener noreferrer">
+                <a class="blog-box-link" href="{{=a.href}}" target="_blank" rel="noopener noreferrer">
                     {{=a.title}}
                 </a>
             </h2>

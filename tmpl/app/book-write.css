@@ -1,0 +1,27 @@
+body{
+  padding:0;
+  margin:0;
+}
+html,
+body{
+  font-size: 18px;
+  line-height: 1.5;
+  font-family: 'helvetica neue', arial, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', sans-serif;
+  scroll-behavior: smooth;
+}
+.form-item{
+    margin:4px 0;
+}
+.w200{
+    width: 280px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.book-form{
+    margin:50px;
+}
+.error{
+    color:red;
+}

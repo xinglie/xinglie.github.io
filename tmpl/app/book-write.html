@@ -1,0 +1,23 @@
+<form class="book-form" id="form{{=id}}">
+    <div class="form-item">
+        大类：<input class="w200" value="{{:category}}" />
+    </div>
+    <div class="form-item">
+        书名：<input required class="w200" value="{{:title}}" />
+    </div>
+    <div class="form-item">
+        作者：<input class="w200" value="{{:author}}" />
+    </div>
+    <div class="form-item">
+        翻译：<input class="w200" value="{{:translater}}" />
+    </div>
+    <div class="form-item">
+        出版：<input required class="w200" value="{{:publisher}}" />
+    </div>
+    <div class="error">
+        {{if error}}
+            {{=error}}
+        {{/if}}
+    </div>
+    <button type="submit" mx-click="submit()">提交</button>
+</form>

@@ -1,6 +1,16 @@
 //#snippets;
 
 module.exports = [{
+    title: '教育部推荐中小学生最全必读书目',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/46',
+    desc: '网上找到从小学到高中最好让小孩子读的书',
+    date: '2019-5-24'
+}, {
+    title: '中缀转后缀',
+    href: 'https://github.com/xinglie/xinglie.github.io/issues/45',
+    desc: '记录如何把数学表达式从中缀转成后缀，从而方便计算机处理',
+    date: '2019-5-17'
+}, {
     title: '把三次贝塞尔曲线放进外接矩形中',
     href: 'https://github.com/xinglie/xinglie.github.io/issues/44',
     desc: '把曲线放进一个矩形内，方便后续进行其它的操作',

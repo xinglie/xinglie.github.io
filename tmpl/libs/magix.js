@@ -3,7 +3,7 @@ version:5.0.1 Licensed MIT
 author:kooboy_li@163.com
 loader:cmd
 enables:
-optionals:router,service,rich,richView,richVframe,mixins,state,recast,seajs,xml,routerHash,routerState,routerTip,routerTipLockUrl,mxevent
+optionals:router,routerHash,routerState,routerTip,routerTipLockUrl,rich,richView,richVframe,mixins,recast,xml,customTags,service,state,seajs,mxevent
 */
 //#snippet;
 //#exclude = all;
@@ -21,8 +21,9 @@ define('magix5', () => {
     let Timeout = Doc_Window.setTimeout; //setTimeout;
     let Encode = encodeURIComponent;
     let Value = 'value';
-    let Tag_Static_Key = 'mxs';
-    let Tag_View_Params_Key = 'mxv';
+    let Tag_Static_Key = '_';
+    let Tag_View_Params_Key = '$';
+    let Tag_Prop_Id = 'id';
     let Hash_Key = '#';
     function Noop() { }
     let Doc_Body = Doc_Document.body;
@@ -41,7 +42,7 @@ define('magix5', () => {
     let Type = o => ToString.call(o).slice(8, -1);
     let IsObject = o => Type(o) == 'Object';
     let IsArray = Array.isArray;
-    let GUID = (prefix) => (prefix || 'mx_') + Counter++;
+    let GUID = (prefix) => (prefix || Tag_Static_Key) + Counter++;
     let GetById = id => Doc_Document.getElementById(id);
     let SetInnerHTML = (n, html) => n.innerHTML = html;
     let MxGlobalView = GUID();
@@ -67,10 +68,9 @@ define('magix5', () => {
     };
     let { assign: Assign, hasOwnProperty: HasProp } = Object;
     let Header = Doc_Document.head;
-    let Temp = Doc_Document.createElement('div');
-    let GA = Temp.getAttribute;
+    let GA = Doc_Body.getAttribute;
     let GetAttribute = (node, attr) => GA.call(node, attr);
-    let ApplyStyle = (key, css) => {
+    let ApplyStyle = (key, css, node) => {
         if (DEBUG && IsArray(key)) {
             for (let i = 0; i < key.length; i += 2) {
                 ApplyStyle(key[i], key[i + 1]);
@@ -83,21 +83,23 @@ define('magix5', () => {
                 if (key.indexOf('$throw_') === 0) {
                     throw new Error(css);
                 }
-                SetInnerHTML(Temp, `<style id="${key}">${css}`);
-                Header.appendChild(Temp.firstChild);
+                node = Doc_Document.createElement('style');
+                node.id = key;
+                SetInnerHTML(node, css);
+                Header.appendChild(node);
             }
             else {
-                SetInnerHTML(Temp, `<style>${css}`);
-                Header.appendChild(Temp.firstChild);
+                node = Doc_Document.createElement('style');
+                SetInnerHTML(node, css);
+                Header.appendChild(node);
             }
         }
     };
     let ToTry = (fns, args, context, r, e) => {
-        args = args || Empty_Array;
         if (!IsArray(fns))
             fns = [fns];
         if (!IsArray(args))
-            args = [args];
+            args = args && [args] || Empty_Array;
         for (e of fns) {
             try {
                 r = e && e.apply(context, args);
@@ -300,12 +302,10 @@ define('magix5', () => {
             if (expr.indexOf(Spliter) > -1) {
                 TranslateData(data, result);
             }
-            else {
-                ParseExprCache.set(expr, result);
+            if (DEBUG) {
+                result = Safeguard(result, true);
             }
-        }
-        if (DEBUG) {
-            result = Safeguard(result);
+            ParseExprCache.set(expr, result);
         }
         return result;
     };
@@ -378,52 +378,61 @@ define('magix5', () => {
     let Safeguard = data => data;
     if (DEBUG && window.Proxy) {
         let ProxiesPool = new Map();
-        Safeguard = (data, getter, setter, root) => {
+        Safeguard = (data, allowDeep, setter, prefix = '') => {
             if (IsPrimitive(data)) {
                 return data;
             }
-            let build = (prefix, o) => {
-                let key = getter + '\x01' + setter;
-                let cached = ProxiesPool.get(o);
-                if (cached && cached.key == key) {
-                    return cached.entity;
-                }
-                if (o['\x1e_sf_\x1e']) {
-                    return o;
-                }
-                let entity = new Proxy(o, {
-                    set(target, property, value) {
-                        if (!setter && !prefix) {
-                            throw new Error('avoid writeback,key: ' + prefix + property + ' value:' + value + ' more info: https://github.com/thx/magix/issues/38');
-                        }
-                        target[property] = value;
-                        if (setter) {
-                            setter(prefix + property, value);
-                        }
-                        return true;
-                    },
-                    get(target, property) {
-                        if (property == '\x1e_sf_\x1e') {
-                            return true;
-                        }
-                        let out = target[property];
-                        if (!prefix && getter) {
-                            getter(property);
-                        }
-                        if (!root && Has(target, property) &&
-                            (IsArray(out) || IsObject(out))) {
-                            return build(prefix + property + '.', out);
-                        }
-                        return out;
+            let key = prefix + '\x01' + setter;
+            let p = data['\x01_sf_\x01'];
+            if (p && p.proxy) {
+                data = p.entity;
+            }
+            let list = ProxiesPool.get(data);
+            if (list) {
+                for (let e of list) {
+                    if (e.key == key) {
+                        return e.entity;
                     }
-                });
-                ProxiesPool.set(o, {
+                }
+            }
+            let entity = new Proxy(data, {
+                set(target, property, value) {
+                    if (!setter && (!prefix || !allowDeep)) {
+                        throw new Error('avoid writeback, key: "' + prefix + property + '" value: ' + value + ' more info: https://github.com/thx/magix/issues/38');
+                    }
+                    if (setter) {
+                        setter(prefix + property, value);
+                    }
+                    target[property] = value;
+                    return true;
+                },
+                get(target, property) {
+                    if (property == '\x01_sf_\x01') {
+                        return {
+                            entity: data,
+                            proxy: true
+                        };
+                    }
+                    let out = target[property];
+                    if (!allowDeep &&
+                        Has(target, property) &&
+                        (IsArray(out) || IsObject(out))) {
+                        return Safeguard(out, allowDeep, setter, prefix + property + '.');
+                    }
+                    return out;
+                }
+            });
+            if (!prefix) {
+                if (!list) {
+                    list = [];
+                }
+                list.push({
                     key,
                     entity
                 });
-                return entity;
-            };
-            return build('', data);
+                ProxiesPool.set(data, list);
+            }
+            return entity;
         };
     }
     let Vframe_RootVframe;
@@ -532,14 +541,14 @@ define('magix5', () => {
                                     throw new Error(`avoid write ${p} at file ${viewPath}!`);
                                 }
                             }
-                            view = Safeguard(view, null, (key, value) => {
+                            view = Safeguard(view, true, (key, value) => {
                                 if (Has(viewProto, key) ||
                                     (Has(importantProps, key) &&
                                         (key != 'd' || !isFinite(value)) &&
                                         ((key != 'owner' && key != 'root') || value !== Null))) {
                                     throw new Error(`avoid write ${key} at file ${viewPath}!`);
                                 }
-                            }, true);
+                            });
                         }
                         me['a'] = view;
                         View_DelegateEvents(view);
@@ -703,6 +712,10 @@ define('magix5', () => {
     let Body_EvtInfoReg = /(?:([\w\-]+)\x1e)?([^(]+)\(([\s\S]*)?\)/;
     let Body_RootEvents = {};
     let Body_SearchSelectorEvents = {};
+    let Body_Empty_Object = {};
+    if (DEBUG) {
+        Body_Empty_Object = Safeguard(Body_Empty_Object);
+    }
     let Body_FindVframeInfo = (current, eventType) => {
         let vf, tempId, selectorObject, eventSelector, eventInfos = [], begin = current, info = GetAttribute(current, `mx-${eventType}`), match, view, vfs, selectorVfId, backtrace = 0;
         if (info) {
@@ -830,7 +843,7 @@ define('magix5', () => {
                             fn = view[eventName];
                             if (fn) {
                                 domEvent.eventTarget = target;
-                                params = i ? ParseExpr(i, view['a']) : {};
+                                params = i ? ParseExpr(i, view['a']) : Body_Empty_Object;
                                 domEvent[Params] = params;
                                 ToTry(fn, domEvent, view);
                             }
@@ -892,16 +905,16 @@ define('magix5', () => {
         };
     }
     let Updater_EM = {
-        '&': 'amp',
-        '<': 'lt',
-        '>': 'gt',
-        '"': '#34',
-        '\'': '#39',
-        '\`': '#96'
+        '&': '&#38;',
+        '<': '&#60;',
+        '>': '&#62;',
+        '"': '&#34;',
+        '\'': '&#39;',
+        '\`': '&#96;'
     };
     let Updater_ER = /[&<>"'\`]/g;
-    let Updater_Safeguard = v => Empty + (v == Null ? Empty : v);
-    let Updater_EncodeReplacer = m => `&${Updater_EM[m]};`;
+    let Updater_Safeguard = v => v == Null ? Empty : Empty + v;
+    let Updater_EncodeReplacer = m => Updater_EM[m];
     let Updater_Encode = v => Updater_Safeguard(v).replace(Updater_ER, Updater_EncodeReplacer);
     let Updater_UM = {
         '!': '%21',
@@ -918,26 +931,19 @@ define('magix5', () => {
     let Updater_Ref = ($$, v, k) => {
         if (!$$.has(v)) {
             k = Spliter + $$.size;
-            $$.set(v, k);
-            $$.set(k, v);
+            $$.set(v, k)
+                .set(k, v);
         }
         return $$.get(v);
     };
-    let Updater_Digest = (view, digesting) => {
-        let keys = view['j'], changed = view['k'], viewId = view.id, vf = Vframe_Vframes[viewId], ref = { 'a': [] }, tmpl, vdom, data = view['e'], refData = view['a'], redigest = () => {
-            if (digesting['a'] < digesting.length) {
-                Updater_Digest(view, digesting);
-            }
-            else {
-                ref = digesting.slice();
-                digesting['a'] = digesting.length = 0;
-                ToTry(ref);
-            }
-        };
-        digesting['a'] = digesting.length;
-        view['k'] = 0;
-        view['j'] = {};
-        if (changed && view['d'] > 0 && (tmpl = view.tmpl)) {
+    let Updater_Digest = (view, tmpl) => {
+        if (view['d'] > 0 &&
+            (tmpl = view.tmpl)) {
+            let keys = view['j'], viewId = view.id, vf = Vframe_Vframes[viewId], ref = {
+                'a': []
+            }, vdom, data = view['e'], refData = view['a'];
+            view['k'] = 0;
+            view['j'] = {};
             vdom = tmpl(data, Q_Create, viewId, Updater_Safeguard, Updater_EncodeURI, refData, Updater_Ref, Updater_EncodeQ, IsArray);
             if (DEBUG) {
                 Updater_CheckInput(view, vdom['a']);
@@ -958,10 +964,6 @@ define('magix5', () => {
             if (tmpl) {
                 view.endUpdate();
             }
-            CallFunction(redigest);
-        }
-        else {
-            redigest();
         }
     };
     let Q_TEXTAREA = 'textarea';
@@ -1010,7 +1012,7 @@ define('magix5', () => {
                 else if (value === true) {
                     props[prop] = value = Empty;
                 }
-                if (prop == 'id') { //如果有id优先使用
+                if (prop == Tag_Prop_Id) { //如果有id优先使用
                     compareKey = value;
                 }
                 else if (prop == MX_View &&
@@ -1019,11 +1021,8 @@ define('magix5', () => {
                     //否则如果是组件,则使用组件的路径做为key
                     compareKey = ParseUri(value)[Path];
                 }
-                else if (prop == Tag_Static_Key) {
-                    if (!compareKey) {
-                        compareKey = value;
-                    }
-                    //newChildren = Empty_Array;
+                else if ((prop == Tag_Static_Key) && !compareKey) {
+                    compareKey = value;
                 }
                 else if (prop == Tag_View_Params_Key) {
                     hasMxv = 1;
@@ -1033,7 +1032,7 @@ define('magix5', () => {
                     innerHTML = value;
                 }
                 else if (!Has(V_SKIP_PROPS, prop)) {
-                    outerHTML += ` ${prop}="${Updater_Encode(value)}"`;
+                    outerHTML += ` ${prop}="${value && Updater_Encode(value)}"`;
                 }
             }
             attrs = outerHTML;
@@ -1129,16 +1128,14 @@ define('magix5', () => {
         }
         return changed;
     };
-    let V_CreateNode = (vnode, owner, ref) => {
+    let V_CreateNode = (vnode, owner) => {
         let tag = vnode['b'], c;
         if (tag == V_TEXT_NODE) {
             c = Doc_Document.createTextNode(vnode['a']);
         }
         else {
             c = Doc_Document.createElementNS(owner.namespaceURI, tag);
-            if (V_SetAttributes(c, 0, vnode, 1)) {
-                ref['b'] = 1;
-            }
+            V_SetAttributes(c, 0, vnode, 1);
             SetInnerHTML(c, vnode['c']);
         }
         return c;
@@ -1185,7 +1182,7 @@ define('magix5', () => {
                             reused[oc['d']]) {
                             oldCount++;
                             ref['b'] = 1;
-                            realNode.insertBefore(V_CreateNode(nc, realNode, ref), nodes[i]);
+                            realNode.insertBefore(V_CreateNode(nc, realNode), nodes[i]);
                             oldVIndex--;
                         }
                         else {
@@ -1197,7 +1194,7 @@ define('magix5', () => {
                             SetInnerHTML(realNode, nc['a']);
                         }
                         else {
-                            realNode.appendChild(V_CreateNode(nc, realNode, ref));
+                            realNode.appendChild(V_CreateNode(nc, realNode));
                         }
                         ref['b'] = 1;
                     }
@@ -1239,14 +1236,14 @@ define('magix5', () => {
         let lastAMap = lastVDOM['g'], newAMap = newVDOM['g'], lastNodeTag = lastVDOM['b'];
         if (lastVDOM['e'] ||
             lastVDOM['a'] != newVDOM['a']) {
-            if (lastNodeTag == newVDOM['b']) {
+            if (lastNodeTag == Spliter) {
+                ref['b'] = 1;
+                SetInnerHTML(oldParent, newVDOM['a']);
+            }
+            else if (lastNodeTag == newVDOM['b']) {
                 if (lastNodeTag == V_TEXT_NODE) {
                     ref['b'] = 1;
                     realNode.nodeValue = newVDOM['a'];
-                }
-                else if (lastNodeTag == Spliter) {
-                    ref['b'] = 1;
-                    SetInnerHTML(oldParent, newVDOM['a']);
                 }
                 else if (!lastAMap[Tag_Static_Key] ||
                     lastAMap[Tag_Static_Key] != newAMap[Tag_Static_Key]) {
@@ -1303,7 +1300,18 @@ define('magix5', () => {
                                 //     query: paramsChanged
                                 // };
                                 //updateAttribute = 1;
-                                if (ToTry(assign, params, /*[params, uri],*/ view)) {
+                                if (DEBUG) {
+                                    let result = ToTry(assign, params, /*[params, uri],*/ view);
+                                    if (result === undefined) {
+                                        console.error(`${uri[Path]} "assign" method must return true or false value`);
+                                    }
+                                    if (result) {
+                                        view['n']++;
+                                        ref['a'].push(view);
+                                    }
+                                }
+                                else if (ToTry(assign, params, /*[params, uri],*/ view)) {
+                                    view['n']++;
                                     ref['a'].push(view);
                                 }
                                 //默认当一个组件有assign方法时，由该方法及该view上的render方法完成当前区域内的节点更新
@@ -1313,6 +1321,11 @@ define('magix5', () => {
                             else {
                                 unmountOld = 1;
                                 updateChildren = 1;
+                                if (DEBUG) {
+                                    if (updateAttribute) {
+                                        console.warn(`There is no "assign" method in ${uri[Path]},so magix remount it when attrs changed`);
+                                    }
+                                }
                             }
                         } // else {
                         // updateAttribute = 1;
@@ -1324,7 +1337,7 @@ define('magix5', () => {
                     }
                     if (unmountOld) {
                         ref['b'] = 1;
-                        oldVf.unmountVframe(0, 1);
+                        oldVf.unmountVframe();
                     }
                     // Update all children (and subchildren).
                     //自闭合标签不再检测子节点
@@ -1335,31 +1348,31 @@ define('magix5', () => {
                 }
             }
             else {
-                if (lastVDOM['b'] == Spliter) {
-                    SetInnerHTML(oldParent, newVDOM['a']);
-                }
-                else {
-                    vframe.unmountZone(realNode);
-                    oldParent.replaceChild(V_CreateNode(newVDOM, oldParent, ref), realNode);
-                }
                 ref['b'] = 1;
+                vframe.unmountZone(realNode);
+                oldParent.replaceChild(V_CreateNode(newVDOM, oldParent), realNode);
             }
         }
     };
     //like 'login<click>' or '$<click>' or '$win<scroll>' or '$win<scroll>&passive,capture'
     let View_EvtMethodReg = /^(\$?)([^<]*)<([^>]+)>(?:&(.+))?$/;
     let View_WrapMethod = (prop, fName, short, fn, me) => {
-        fn = prop[fName];
-        prop[fName] = prop[short] = function (...args) {
-            me = this;
-            if (me['d'] > 0) { //signature
-                me['d']++;
-                ToTry(fn, args, me);
-            }
-        };
+        if (prop[fName] != prop[short]) {
+            fn = prop[fName];
+            prop[fName] = prop[short] = function (...args) {
+                me = this;
+                if (me['n']) {
+                    me['n']--;
+                }
+                if (me['d'] > 0 && !me['n']) { //signature
+                    me['d']++;
+                    ToTry(fn, args, me);
+                }
+            };
+        }
     };
     let View_DelegateEvents = (me, destroy) => {
-        let e, { 'n': eventsObject, 'i': selectorObject, 'o': eventsList, id } = me; //eventsObject
+        let e, { 'o': eventsObject, 'i': selectorObject, 'p': eventsList, id } = me; //eventsObject
         for (e in eventsObject) {
             Body_DOMEventBind(e, selectorObject[e], destroy);
         }
@@ -1436,8 +1449,8 @@ define('magix5', () => {
             }
             //console.log(prop);
             View_WrapMethod(prop, 'render', 'g');
-            prop['n'] = eventsObject;
-            prop['o'] = eventsList;
+            prop['o'] = eventsObject;
+            prop['p'] = eventsList;
             prop['i'] = selectorObject;
             prop['m'] = prop.assign;
         }
@@ -1453,8 +1466,8 @@ define('magix5', () => {
             id
         };
         me['a'] = new Map();
-        me['f'] = [];
         me['j'] = {};
+        me['n'] = 0;
     }
     Assign(View, {
         extend
@@ -1469,14 +1482,9 @@ define('magix5', () => {
                 me.owner.mountZone(node);
             }
         },
-        wrapAsync(fn, context) {
-            let me = this;
-            let sign = me['d'];
-            return (...a) => {
-                if (sign > 0 && sign == me['d']) {
-                    return fn.apply(context || me, a);
-                }
-            };
+        getMarker(update) {
+            let me = this, s = update ? ++me['d'] : me['d'];
+            return () => s > 0 && s == me['d'];
         },
         observeLocation(params, isObservePath) {
             let me = this, loc;
@@ -1513,8 +1521,8 @@ define('magix5', () => {
             me['k'] = changed;
             return me;
         },
-        digest(data, unchanged, resolve) {
-            let me = this.set(data, unchanged), digesting = me['f'];
+        digest(data, unchanged) {
+            let me = this.set(data, unchanged);
             /*
                 view:
                 <div>
@@ -1530,14 +1538,20 @@ define('magix5', () => {
     
                 如果在digest的过程中，多次调用自身的digest，则后续的进行排队。前面的执行完成后，排队中的一次执行完毕
             */
-            if (resolve) {
-                digesting.push(resolve);
-            }
-            if (!digesting['a']) {
-                Updater_Digest(me, digesting);
-            }
-            else if (DEBUG) {
-                console.warn('Avoid redigest while updater is digesting');
+            if (me['k']) {
+                if (DEBUG) {
+                    if (!me['q']) {
+                        me['q'] = 1;
+                        Updater_Digest(me);
+                        me['q'] = 0;
+                    }
+                    else if (DEBUG) {
+                        console.error('Avoid redigest while updater is digesting');
+                    }
+                }
+                else {
+                    Updater_Digest(me);
+                }
             }
         }
     });
@@ -1557,7 +1571,26 @@ define('magix5', () => {
         boot(cfg) {
             Assign(Mx_Cfg, cfg); //先放到配置信息中，供ini文件中使用
             Vframe_Root().mountView(Mx_Cfg.defaultView);
+            if (DEBUG) {
+                let whiteList = {
+                    defaultView: 1,
+                    error: 1,
+                    defaultPath: 1,
+                    recast: 1,
+                    rewrite: 1,
+                    rootId: 1,
+                    routes: 1,
+                    unmatchView: 1,
+                    title: 1
+                };
+                Mx_Cfg = Safeguard(Mx_Cfg, true, (key, value) => {
+                    if (Has(whiteList, key)) {
+                        throw new Error(`avoid write ${key} to magix config!`);
+                    }
+                });
+            }
         },
+        guard: Safeguard,
         type: Type,
         has: Has,
         inside: NodeIn,
@@ -1565,7 +1598,8 @@ define('magix5', () => {
         Cache: MxCache,
         View,
         Vframe,
-        node: GetById
+        node: GetById,
+        task: CallFunction
     };
     Magix.default = Magix;
     return Magix;
