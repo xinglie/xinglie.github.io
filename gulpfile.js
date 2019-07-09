@@ -8,20 +8,42 @@ var watch = require('gulp-watch');
 var fs = require('fs');
 var combineTool = require('../magix-composer/index');
 var del = require('del');
+var ts = require('typescript');
 
 
 combineTool.config({
     debug: true,
     tmplFolder: tmplFolder,
     srcFolder: srcFolder,
-    projectName: 'xl'
+    projectName: 'xl',
+    loaderType: 'module',
+    galleries: {
+        mxRoot: 'gallery/'
+    },
+    scopedCss: [
+        './tmpl/style/index.css',
+        './tmpl/os/theme/index.css'
+    ],
+    compileJSStart(content) {
+        var str = ts.transpileModule(content, {
+            compilerOptions: {
+                lib: ['es7'],
+                target: 'es6',
+                module: ts.ModuleKind.ESNext
+            }
+        });
+        str = str.outputText;
+        return str;
+    }
 });
 
 gulp.task('cleanSrc', function () {
     return del(srcFolder);
 });
 gulp.task('combine', gulp.series('cleanSrc', function () {
-    return combineTool.combine();
+    return combineTool.combine().catch(e => {
+        console.error(e);
+    });
 }));
 gulp.task('watch', gulp.series('combine', function () {
     watch(tmplFolder + '/**/*', function (e) {

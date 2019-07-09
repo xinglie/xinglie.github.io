@@ -1,0 +1,6 @@
+{{each items as item}}
+<div class="icon-grid" style="left:{{=item.left}}px;top:{{=item.top}}px" mx-click="@{open.by.icon}({app:{{@item.app}}})">
+    <div x-html="{{=item.app.icon}}" class="icon-grid-image"></div>
+    <div class="icon-grid-title">{{=item.app.title}}</div>
+</div>
+{{/each}}

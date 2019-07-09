@@ -1,0 +1,57 @@
+<div class="header">
+    <ul class="tabs">
+        {{each tabs as tab}}
+        <li class="tab-item{{if tab.key==active}} tab-item-active{{/if}}" mx-click="{{tab.key!=active}}?@{change.tab}({tab:'{{=tab.key}}'})">{{=tab.name}}</li>
+        {{/each}}
+    </ul>
+    <input class="search" placeholder="搜索" mx-input="@{search}()" value="{{=search}}" />
+</div>
+{{set current=0;}}
+{{if list.length}}
+{{each list as g}}
+<div>
+    <div class="bar">
+        {{=g.letter}}
+    </div>
+    <ul class="books">
+        {{each g.books as book i last}}
+        <li class="book{{if !last}} book-line{{/if}}">
+            {{current++}}
+            {{each displays as d}}
+            {{if book[d]}}
+            <div>{{=keyMap[d]}}：{{=book[d]}}</div>
+            {{/if}}
+            {{/each}}
+            <div>搜索：
+                <a class="link" href="//www.baidu.com/s?wd={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    百度
+                </a>
+                <a class="link" href="//s.taobao.com/search?q={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    淘宝
+                </a>
+                <a class="link" href="//list.tmall.com/search_product.htm?q={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    天猫
+                </a>
+                <a class="link" href="//search.jd.com/Search?keyword={{=uncode(book)}}&enc=utf-8&wq={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    京东
+                </a>
+                <a class="link" href="http://search.dangdang.com/?key={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    当当
+                </a>
+                <a class="link" href="//www.douban.com/search?cat=1001&q={{=uncode(book)}}" target="_blank" rel="noopener noreferrer">
+                    豆瓣
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}}
+{{else}}
+<div class="empty">
+    暂无相关书籍
+</div>
+{{/if}}
+<div class="foot">
+共{{=total}}本，当前列表有<span>{{=current}}</span>本
+</div>

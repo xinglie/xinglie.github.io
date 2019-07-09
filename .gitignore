@@ -1,9 +1,4 @@
-.tmp_*
-.project
-*.idea
 .DS_Store
-node_modules
-README.html
-generic
 src
-build
+node_modules
+temp

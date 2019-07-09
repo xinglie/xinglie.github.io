@@ -1,0 +1,18 @@
+<div class="blogs clearfix">
+    {{each list as a}}
+        <div class="blog-box">
+            <h2 class="title">
+                <a class="blog-box-link" href="{{=a.href}}" target="_blank" rel="noopener noreferrer">
+                    {{=a.title}}
+                </a>
+            </h2>
+            <div class="textinfo">
+                {{=a.desc}}
+            </div>
+            <div class="details">
+                {{=a.date}}
+            </div>
+        </div>
+    {{/each}}
+</div>
+    

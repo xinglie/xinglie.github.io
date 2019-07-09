@@ -1,0 +1,14 @@
+{{if error}}
+    {{=error}}
+{{else}}
+{{each channels as c}}
+    <div class="channel{{if channel==c}} channel-active{{/if}}" mx-click="{{channel!=c}}?@{update.channel}({channel:{{@c}}})">
+        <div class="channel-cover-wrap">
+            <img loading="lazy" class="channel-cover" src="{{=c.cover_small}}"/>
+        </div>
+        <div>
+            {{=c.name}}
+        </div>
+    </div>
+{{/each}}
+{{/if}}

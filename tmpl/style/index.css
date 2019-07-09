@@ -1,0 +1,16 @@
+body,ul,li,h2{
+    padding: 0;
+    margin: 0;
+}
+ul{
+    list-style: none;
+}
+body{
+    font-family: 'helvetica neue', arial, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+img{
+    width: 100%;
+    height:100%;
+}

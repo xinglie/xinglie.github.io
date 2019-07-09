@@ -1,0 +1,28 @@
+:root{
+    /*desktop*/
+    --__global__desktop_background:#555;
+    --__global__desktop_foreground:#fff;
+
+    /*taskbar*/
+    --__global__taskbar_height:30px;
+    --__global__taskbar_background:#222c;
+    --__global__taskbar_active_item:#bbb;
+
+    /* icons */
+    --__global__icon_width:70px;
+    --__global__icon_height:85px;
+    --__global__icon_gap:10px;
+    --__global__icon_border-radius:4px;
+    --__global__icon_title_height:25px;
+    --__global__icon_hover_background:#888;
+
+    --__global__dialog_background:#fff;
+    --__global__dialog_title_background:#777;
+    --__global__dialog_title_foreground:#ccc;
+    --__global__dialog_title_active_background:#222;
+    --__global__dialog_title_active_foreground:#fff;
+    --__global__dialog_title_height:25px;
+    --__global__dialog_content_color:#000;
+
+    --__global__anim_background:#ccc;
+}

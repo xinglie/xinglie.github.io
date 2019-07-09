@@ -1,0 +1,210 @@
+body{
+    background: var(--__global__desktop_background);
+    color:var(--__global__desktop_foreground);
+}
+.icons{
+    height:calc(100vh - var(--__global__taskbar_height));
+    user-select: none;
+}
+.tools{
+    height:calc(100vh - var(--__global__taskbar_height));
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    user-select: none;
+}
+.icon-grid{
+    display: grid;
+    position: absolute;
+    width: var(--__global__icon_width);
+    height: var(--__global__icon_height);
+    grid-template-rows: calc(var(--__global__icon_height) - var(--__global__icon_title_height)) var(--__global__icon_title_height);
+    place-items: center center;
+    overflow: hidden;
+    border-radius: var(--__global__icon_border-radius);
+    transition: all 0.2s;
+}
+.icon-grid-image{
+    width:40px;
+    height:40px;
+}
+.icon-grid-title{
+    height: var(--__global__icon_title_height);
+}
+.icon-grid:hover{
+    background: var(--__global__icon_hover_background);
+}
+.dialog{
+    position: absolute;
+    border-radius: var(--__global__icon_border-radius) var(--__global__icon_border-radius) 0 0;
+    box-shadow: 0 0 0 1px var(--__global__dialog_title_background);
+
+    left:0;
+    top:0;
+    right:0;
+    bottom:var(--__global__taskbar_height);
+    overflow: hidden;
+}
+.dialog-title{
+    padding-left:5px;
+    background: var(--__global__dialog_title_background);
+    height: var(--__global__dialog_title_height);
+    user-select: none;
+    color:var(--__global__dialog_title_foreground);
+    display: flex;
+    align-items: center;
+}
+.dialog-title-icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    filter: grayscale(1);
+}
+.dialog-title-icon-active{
+    filter: none;
+}
+.dialog-ctrls{
+    position: absolute;
+    right:0;
+    top:0;
+    padding: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    height: var(--__global__dialog_title_height);
+}
+
+.dialog-active{
+    box-shadow:0 0 0 1px var(--__global__dialog_title_active_background);
+}
+
+.dialog-active .dialog-title{
+    background: var(--__global__dialog_title_active_background);
+    color:var(--__global__dialog_title_active_foreground);
+}
+
+.dialog-ctrls-btn{
+    width:12px;
+    height:12px;
+    background: #ccc;
+    border-radius: var(--__global__icon_border-radius);
+    display: inline-block;
+    margin:0 3px;
+    position: relative;
+}
+
+.dialog-active .dialog-ctrls-close{
+    background: red;
+}
+.dialog-active .dialog-ctrls-min{
+    background: #f6c308;
+}
+.dialog-active .dialog-ctrls-max{
+    background: #64ca57;
+}
+
+
+.dialog-ctrls-btn::after{
+    position: absolute;
+    left:2px;
+    top:-3px;
+    font-size: 12px;
+}
+.dialog-ctrls-active:hover .dialog-ctrls-close::after{
+    content:'×';
+    top:-4px;
+}
+
+.dialog-ctrls-active:hover .dialog-ctrls-min::after{
+    content:'﹣';
+    left:0;
+    top:-2px;
+}
+.dialog-ctrls-active:hover .dialog-ctrls-max::after{
+    content: '⇗';
+}
+.dialog-ctrls-active:hover .dialog-ctrls-max-state::after{
+    content: '⇙';
+}
+
+.dialog-resizer{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0px;
+    height: 0px;
+    cursor: nw-resize;
+    border-bottom: 10px solid var(--__global__dialog_title_background);
+    border-left: 10px solid #0000;
+}
+.dialog-resizer-active{
+    border-bottom-color: var(--__global__dialog_title_active_background);
+}
+
+.dialog-view{
+    color:var(--__global__dialog_content_color);
+    height:calc(100% - var(--__global__dialog_title_height));
+    background: var(--__global__dialog_background);
+    overflow: hidden;
+    transition: all 0.3s;
+}
+.dialog-view-scroll{
+    overflow: auto;
+}
+.dialog-content-mask{
+    position: absolute;
+    left:0;
+    top:var(--__global__dialog_title_height);
+    right:0;
+    bottom:0;
+    background: #fff8;
+    border-radius: var(--__global__icon_border-radius);
+}
+.dialog-content-transparent-mask{
+    background: #fff0;
+    display: none;
+}
+.min-anim{
+    transition: all 0.3s;
+    position: absolute;
+    opacity: 1;
+    z-index: 10001;
+    background: var(--__global__anim_background);
+    border-radius: var(--__global__icon_border-radius) var(--__global__icon_border-radius) 0 0;
+}
+
+
+.taskbar{
+    height:var(--__global__taskbar_height);
+    position: absolute;
+    left:0;
+    right:0;
+    bottom: 0;
+    background: var(--__global__taskbar_background);
+    display: flex;
+    align-items: center;
+    z-index: 10000;
+}
+
+.taskbar-start{
+    width:20px;
+    float: left;
+    height: 100%;
+}
+
+.taskbar-item{
+    width:22px;
+    height:22px;
+    overflow: hidden;
+    margin:4px;
+}
+.taskbar-item-active{
+    box-shadow: 0 0 0 2px var(--__global__taskbar_active_item);
+}
+
+
+.tool-item{
+    position: absolute;
+    z-index: 1;
+}

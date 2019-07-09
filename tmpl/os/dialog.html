@@ -1,0 +1,23 @@
+<div class="dialog{{if active}} dialog-active{{/if}}" style="{{if !maxState}}left:{{=left}}px;top:{{=top}}px;width:{{=width}}px;height:{{=height}}px;{{/if}}z-index:{{=zIndex}}" id="{{=id}}_d" mx-mousedown="@{mouse.active}()">
+    <div class="dialog-title" mx-mousedown="@{drag}()" id="{{=appId}}_d_t">
+        <div x-html="{{=icon}}" class="dialog-title-icon{{if active}} dialog-title-icon-active{{/if}}"></div>
+        {{=title}}
+    </div>
+    <div class="dialog-ctrls{{if active}} dialog-ctrls-active{{/if}}">
+        {{if min}}
+        <span class="dialog-ctrls-btn dialog-ctrls-min" mx-click="@{min.ui}()"></span>
+        {{/if}}
+        {{if max}}
+        <span class="dialog-ctrls-btn dialog-ctrls-max{{if maxState}} dialog-ctrls-max-state{{/if}}" mx-click="@{toggle.normal}()"></span>
+        {{/if}}
+        {{if close}}
+        <span class="dialog-ctrls-btn dialog-ctrls-close" mx-click="@{close}()"></span>
+        {{/if}}
+    </div>
+    <mx-vframe src="{{=view}}" class="dialog-view{{if scroll}} dialog-view-scroll{{/if}}"/>
+    <div class="dialog-content-mask" style="{{if active}}display:none{{/if}}"></div>
+    <div class="dialog-content-mask dialog-content-transparent-mask" id="{{=id}}_mk"></div>
+    {{if resize&&!maxState}}
+    <div class="dialog-resizer{{if active}} dialog-resizer-active{{/if}}" mx-mousedown="@{start.resize}()"></div>
+    {{/if}}
+</div>

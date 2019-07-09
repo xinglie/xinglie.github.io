@@ -1,0 +1,5 @@
+<div class="taskbar-start"></div>
+{{each list as item}}
+<div class="taskbar-item{{if item.appId==active}} taskbar-item-active{{/if}}" title="{{=item.title}}" mx-click="@{active.item}({id:'{{=item.appId}}'})" id="{{=item.appId}}_tb_i" x-html="{{=item.icon}}">
+</div>
+{{/each}}

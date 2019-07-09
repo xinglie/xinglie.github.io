@@ -1,0 +1,75 @@
+[mx-view$="/game"]{
+    position: relative;
+    padding: 5px;
+}
+.game-table{
+    user-select:none;
+}
+.game-td{
+    text-align: center;
+    width: 60px;
+    height: 60px;
+}
+.game-bg{
+    background: url('//img.alicdn.com/tfs/TB1B3EYXkH0gK0jSZPiXXavapXa-60-60.jpg') no-repeat;
+}
+.game-item{
+    display: inline-block;
+    width:40px;
+    height: 40px;
+}
+.game-normal{
+    background: url(//img.alicdn.com/tfs/TB1KawWXeL2gK0jSZFmXXc7iXXa-40-40.gif) no-repeat;
+}
+.game-active{
+    background: url(//img.alicdn.com/tfs/TB1mJoTXa67gK0jSZFHXXa9jVXa-40-40.gif) no-repeat;
+    position: absolute;
+    left:-100000px;
+}
+.restart{
+    position: absolute;
+    left: 320px;
+    top: 395px;
+    height: 22px;
+    width: 112px;
+}
+.info{
+    position: absolute;
+    left:350px;
+    top:45px;
+    height: 22px;
+}
+.prev{
+    position: absolute;
+    left: 320px;
+    top: 340px;
+    height: 22px;
+}
+.next{
+    position: absolute;
+    left: 384px;
+    top: 340px;
+    height: 22px;
+}
+.succ:before{
+    content:'√';
+    position: absolute;
+    top:0;
+    right: 3px;
+    color: green;
+    font-weight: bold
+}
+.fail:before{
+    content:'x';
+    position: absolute;
+    top:0;
+    right: 3px;
+    color: red;
+}
+.succ,.fail{
+    position: relative;
+}
+.bottom{
+    font-size: 12px;
+    padding:5px 6px;
+}
