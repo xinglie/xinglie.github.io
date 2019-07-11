@@ -1,1 +1,1 @@
-export default[{view:"~xl/plugins/weather/index",dockX:10,dockY:10,width:270,height:25,dockXKey:"right",dockYKey:"bottom"},{view:"~xl/plugins/mplayer/index",dockX:0,dockY:10,dockXKey:"right",dockYKey:"top",width:410,height:256}];
+export default[{view:"~xl/plugins/weather/index",dockX:8,dockY:8,width:260,height:25,dockXKey:"right",dockYKey:"bottom"},{view:"~xl/plugins/mplayer/index",dockX:10,dockY:20,dockXKey:"right",dockYKey:"top",width:610,height:30}];

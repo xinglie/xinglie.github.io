@@ -2,7 +2,6 @@ import Magix, { Magix5 } from '../lib/magix';
 import Apps from '../plugins/app';
 'ref@./theme/index.css';
 import DialogCtrl from './ctrl';
-let Position = 0;
 export default Magix.View.extend({
     tmpl: '@./icon.html',
     init() {
@@ -48,18 +47,7 @@ export default Magix.View.extend({
     },
     '@{open.by.icon}<click>'(e: Magix5.MagixMouseEvent) {
         let { app } = e.params;
-        let options = Object.assign({}, app);
-        let left = options.dockX;
-        let top = options.dockY;
-        if (!left && !top) {
-            left = Position * 30 + 150;
-            top = Position * 30 + 30;
-            Position++;
-            if (Position > 5) Position = 0;
-        }
-        options.left = left;
-        options.top = top;
-        DialogCtrl["@{create}"](this, options);
+        DialogCtrl["@{create}"](this, app);
     },
     '$win<resize>'() {
         this.render();

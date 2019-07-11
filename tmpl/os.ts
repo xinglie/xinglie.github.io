@@ -10,7 +10,10 @@ Magix.config({
 });
 Magix.use('~xl/os/theme/' + theme, () => {
     Magix.boot({
-        rootId: 'app',
-        defaultView: '~xl/os/index'
+        rootId: 'xl',
+        defaultView: '~xl/os/index',
+        error(ex) {
+            console.error(ex);
+        }
     });
 });

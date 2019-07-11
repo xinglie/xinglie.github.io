@@ -1,4 +1,4 @@
-<div class="dialog{{if active}} dialog-active{{/if}}" style="{{if !maxState}}left:{{=left}}px;top:{{=top}}px;width:{{=width}}px;height:{{=height}}px;{{/if}}z-index:{{=zIndex}}" id="{{=id}}_d" mx-mousedown="@{mouse.active}()">
+<div class="dialog dialog-hide{{if show}} dialog-anim-show{{/if}}{{if active}} dialog-active{{/if}}" style="{{if !maxState}}left:{{=left}}px;top:{{=top}}px;width:{{=width}}px;height:{{=height}}px;{{/if}}z-index:{{=zIndex}}" id="{{=id}}_d" mx-mousedown="@{mouse.active}()">
     <div class="dialog-title" mx-mousedown="@{drag}()" id="{{=appId}}_d_t">
         <div x-html="{{=icon}}" class="dialog-title-icon{{if active}} dialog-title-icon-active{{/if}}"></div>
         {{=title}}

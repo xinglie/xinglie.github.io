@@ -9,7 +9,7 @@ let lineReg = /((?:\[[0-9:\.]+\])+)([^\r\n]*)/g;
 let offsetReg = /\[offset\s*:\s*(\d+)\]/i;
 let timeReg = /\[([0-9\.:]+)\]/g;
 let Sort = (a, b) => a.time - b.time;
-let MaxLines = 5;
+let MaxLines = 3;
 // let MetaInfos = {
 //     al: '唱片',
 //     ar: '演唱',
@@ -78,6 +78,9 @@ export default Magix.View.extend({
         });
         Player.on('@{when.song.change}', () => {
             this['@{clear.cache}']();
+        });
+        this.set({
+            topmost: false
         });
     },
     '@{clear.cache}'() {
@@ -151,6 +154,16 @@ export default Magix.View.extend({
     render() {
         this.digest({
             lyrics: NoLyric
+        });
+    },
+    '@{stop}<mousedown>'(e: MouseEvent) {
+        e.stopPropagation();
+    },
+    '@{toggle.topmost}<click>'() {
+        let tm = !this.get('topmost');
+        this.root.style.zIndex = tm ? '60000' : '2';
+        this.digest({
+            topmost: tm
         });
     }
 });

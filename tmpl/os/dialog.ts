@@ -15,11 +15,18 @@ export default Magix.View.extend({
     init(data) {
         this.assign(data);
         let state = data.maxState ? WinMaxState : WinNormalState;
-        state |= WinShowState;
-        console.log(state);
+        state |= WinHideState;
         this['@{state}'] = state;
         Exchange.fire('@{when.dialog.add}', {
             options: data
+        });
+        let root = this.root;
+        this.on('destroy', () => {
+            DialogCtrl["@{remove}"](this.get('appId'));
+            root.parentNode.removeChild(root);
+            Exchange.fire('@{when.dialog.remove}', {
+                id: this.get('appId')
+            });
         });
     },
     assign(data) {
@@ -34,6 +41,9 @@ export default Magix.View.extend({
         if (state & WinHideState) {
             this['@{state}'] = state ^ WinHideState | WinShowState;
             this.root.style.display = '';
+            this.digest({
+                show: true
+            });
         }
     },
     '@{hide.ui}'() {
@@ -44,14 +54,24 @@ export default Magix.View.extend({
             Exchange.fire('@{when.dialog.min}', {
                 id: this.get('appId')
             });
+            this.digest({
+                show: false
+            });
             this.root.style.display = 'none';
         }
     },
     '@{active}'() {
-        this.digest({
-            active: true
-        });
-        this['@{show.ui}']();
+        let show = this.get('show');
+        if (show) {
+            this.digest({
+                active: true
+            });
+        } else {
+            this.set({
+                active: true
+            });
+            this['@{show.ui}']();
+        }
         Exchange.fire('@{when.dialog.active}', {
             id: this.get('appId')
         });
@@ -97,18 +117,13 @@ export default Magix.View.extend({
         this['@{toggle.normal.max.state}']();
     },
     '@{close}<click>'(e: MouseEvent) {
-        DialogCtrl["@{remove}"](this.get('appId'));
-        let root = this.root;
         this.owner.unmountVframe();
-        root.parentNode.removeChild(root);
-        Exchange.fire('@{when.dialog.remove}', {
-            id: this.get('appId')
-        });
     },
     '@{mouse.active}<mousedown>'() {
         DialogCtrl["@{active}"](this.get('appId'));
     },
     '@{drag}<mousedown>'(e: Magix5.MagixMouseEvent) {
+        let state = this['@{state}'];
         let root = getComputedStyle(document.body);
         let taskbarHeight = parseInt(root.getPropertyValue('@scoped.style:--__global__taskbar_height'));
         let viewportWidth = document.body.clientWidth;
@@ -119,6 +134,9 @@ export default Magix.View.extend({
         this['@{show.mask}']();
         this['@{drag.drop}'](e, (ev: MouseEvent) => {
             moved = true;
+            if ((state & WinMaxState) == WinMaxState) {//max state
+                return;
+            }
             let offsetX = ev.pageX - e.pageX;
             let newX = offsetX + left;
             if (newX < MinSize - width) {

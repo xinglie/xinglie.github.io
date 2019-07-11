@@ -1,30 +1,40 @@
 .root{
     position: relative;
     color:#fff;
-    transition: right 0.2s;
-    height: 256px;
-    right: -100%;
+    height: 30px;
+    top:-65px;
+    transition: top 0.2s;
 }
 .channels-root{
     position: absolute;
-    background: #3c4049cc;
-    height: calc(100% - 8px);
-    width: 510px;
-    transition: all 0.3s;
+    background: #0006;
+    height: 460px;
+    width: 650px;
+    transition: all 0.25s;
     overflow:auto;
-    right: 100%;
     padding: 4px;
+    top:52px;
+    border-radius: 4px;
+    right: 0;
+    z-index: 1;
+}
+.channels-fixed-size{
+    height: 460px;
+    width: 650px;
 }
 .root-toggle{
-    right:0;
+    top:0;
 }
 .channels-toggle{
-    right:-108px;
+    top:0;
+    right: 5px;
+    width: 20px;
+    height:22px;
 }
 .channel{
-    width:98px;
+    width:78px;
     float: left;
-    height: 110px;
+    height: 90px;
     text-align: center;
     cursor: pointer;
     border: solid 1px transparent;
@@ -44,8 +54,8 @@
 .channel-cover-wrap{
     display: inline-flex;
     align-items: center;
-    width:88px;
-    height:80px;
+    width:68px;
+    height:60px;
 }
 .channel-cover{
     width: auto;
@@ -54,57 +64,50 @@
 	max-height: 100%;;
 }
 .channel-info-img{
-    width:56px;
-    height:56px;
+    width:50px;
+    height:50px;
     border:solid 1px #fff;
     margin:2px;
     float: left;
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: #aaa;
+    margin-top: -12px;
 }
 .channel-info-img-hole{
     width: 8px;
     height: 8px;
-    background: #555;
+    background: #333;
     border-radius: 50%;
     margin: 50%;
     transform: translate(-4px, -4px);
     box-shadow: 0 0 0px 3px #fffb;
 }
 .player{
-    height:100%;
+    height:30px;
+    line-height: 30px;
     background: #333;
     position: relative;
     z-index: 2;
-    overflow: hidden;
+    width:600px;
+    padding: 0 5px;
+    border-radius: 4px;
 }
-.scroll-title,
-.channel-title{
-    margin:5px 10px 0;
-    float: left;
-    width:130px;
-    overflow: hidden;
-}
-.player-info{
-    display: grid;
-    grid-template-columns: 58% 42%;
-}
-.channel-title{
-    cursor: pointer;
-}
-.channel-title:hover{
-    opacity: 0.6;
-}
-.player-btns{
-    height: 50px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-}
-.player-tip{
+.scroll-title{
     font-size: 12px;
-    margin-left: 10px;
+    float: left;
+    width:100px;
+    overflow: hidden;
+    margin: 0 5px;
+    position: relative;
+}
+
+.player-tip{
+    position: absolute;
+    left:0;
+    top:0;
+    background: #333;
+    width:100px;
 }
 @keyframes rotate{
     from{
@@ -123,24 +126,18 @@
 }
 
 .player-btn{
-    padding: 2px;
     border:solid 1px transparent;
     cursor: pointer;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    float: left;
+    display: block;
+    margin-top: 4px;
 }
 .player-btn:hover{
     opacity: 0.6;
     border-color:#fff;
-}
-
-.player-buffer{
-    animation: rotate 1.8s linear infinite;
-}
-.player-buffer:hover{
-    opacity: 1;
-    border-color:transparent;
 }
 
 .player-btn-disabled{
@@ -150,21 +147,25 @@
 .player-btn-disabled:hover{
     border-color:transparent;
 }
+.player-btn-pressed{
+    border-color:#fff;
+}
 .player-progress{
-    height: 20px;
-    display: flex;
+    height: 30px;
+    display: inline-flex;
     align-items: center;
+    float: left;
 }
 .player-tracker{
-    width:310px;
+    width:240px;
 }
 .r180{
     transform: rotate(180deg);
 }
-.player-v{
-    display: inline-flex;
-    align-items: center;
-}
+// .player-v{
+//     display: inline-flex;
+//     align-items: center;
+// }
 .player-v-text{
     font-size: 12px;
 }
@@ -179,8 +180,17 @@
 
 
 .player-lyric{
-    margin-top: 10px;
     text-align: center;
+    position: absolute;
+    border-radius: 4px;
+    width: 400px;
+    height:60px;
+    left:-405px;
+    top:-15px;
+    background: #0006;
+    overflow: hidden;
+    z-index: 1;
+    cursor: move;
 }
 .lyric-line{
     font-size:12px;
@@ -197,9 +207,14 @@
     opacity: 1;
     color:#fff;
 }
-.player-mode{
-    margin-left: 15px;
+.lyric-pined{
+    position: absolute;
+    right: 5px;
+    top:0;
+    width: 14px;
+    height: 14px;
 }
+
 @keyframes m-left{
     0%{
         transform: translate(0, 0); 
@@ -215,7 +230,7 @@
 }
 .scroll-content{
     white-space: nowrap;
-    min-width: 130px;
+    min-width: 100px;
     display: table-cell;
 }
 

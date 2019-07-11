@@ -1827,9 +1827,19 @@ function View(id, root, owner, ops, me) {
     
     me['c'] = 1; //标识view是否刷新过，对于托管的函数资源，在回调这个函数时，不但要确保view没有销毁，而且要确保view没有刷新过，如果刷新过则不回调
     me['j'] = 1;
+    if(DEBUG){
+        me['d'] = Safeguard({
+            id
+        }, true, key => {
+            if (key == 'id') {
+                throw new Error(`avoid write ${key} to view data!`);
+            }
+        });
+    }else{
     me['d'] = {
         id
     };
+    }
     me['i'] = {};
     me['m'] = 0;
     
@@ -1923,7 +1933,7 @@ Assign(View[Prototype], MxEvent, {
             如果在digest的过程中，多次调用自身的digest，则后续的进行排队。前面的执行完成后，排队中的一次执行完毕
         */
         if (me['j']) {
-            
+            console.time(me.id);
             if (DEBUG) {
                 if (!me['p']) {
                     me['p'] = 1;
@@ -1934,7 +1944,8 @@ Assign(View[Prototype], MxEvent, {
                 }
             } else {
                 Updater_Digest(me);
-            }
+            }console.timeEnd(me.id);
+            console.log(me.owner.path);
             
         }
     }

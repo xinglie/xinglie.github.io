@@ -1,3 +1,6 @@
 {{each lyrics as l}}
     <div class="lyric-line{{if l.active}} lyric-active{{/if}}" title="{{=l.text}}">{{=l.text}}</div>
 {{/each}}
+<span class="player-btn lyric-pined{{if topmost}} player-btn-pressed{{/if}}" mx-click="@{toggle.topmost}()" title="{{if topmost}}窗口已置顶{{else}}点击置顶窗口{{/if}}" mx-mousedown="@{stop}()">
+    <svg viewBox="0 0 1024 1024"><path fill="#fff" d="M511.927 261.389l192.538 192.54H319.388l192.539-192.54zm-76.868 192.588h154.032v231.045H435.059V453.977zM319.535 723.825h385.077v38.51H319.535v-38.51z"/></svg>
+</span>

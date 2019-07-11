@@ -4,6 +4,7 @@ let Prefix = '\x1f';
 let BaseZIndex = 5000;
 let WinMinWidth = 150;
 let WinMinHeight = 100;
+let Position = 0;
 export default {
     '@{add}'(id, zIndex) {
         GlobalDialogs.push(id);
@@ -31,8 +32,8 @@ export default {
         info['@{show}'] = 0;
         this['@{active}']();
     },
-    '@{create}'(view: Magix5.View, options) {
-        let appId = options.appId;
+    '@{create}'(view: Magix5.View, app) {
+        let appId = app.appId;
         if (GlobalDialogs[Prefix + appId]) {
             this['@{active}'](appId);
         } else {
@@ -40,6 +41,24 @@ export default {
                 zIndex = GlobalDialogs.length;
             node.id = appId;
             document.body.append(node);
+            let options = Object.assign({}, app);
+            let left = options.dockX;
+            let top = options.dockY;
+            let updatePos = 0;
+            if (!top) {
+                top = Position * 30 + 30;
+                updatePos = 1;
+            }
+            if (!left) {
+                left = Position * 30 + 150;
+                updatePos = 1;
+            }
+            if (updatePos) {
+                Position++;
+                if (Position > 5) Position = 0;
+            }
+            options.left = left;
+            options.top = top;
             options.zIndex = BaseZIndex + zIndex;
             if (!options.minWidth) options.minWidth = WinMinWidth;
             if (!options.minHeight) options.minHeight = WinMinHeight;

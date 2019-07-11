@@ -1,11 +1,13 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-import Magix from '../../lib/magix';
+import Magix, { Magix5 } from '../../lib/magix';
+import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Player from './player';
 Magix.applyStyle('@index.less');
 export default Magix.View.extend({
     tmpl: '@index.html',
+    mixins: [Dragdrop],
     init() {
         Player.on('@{when.song.end}', () => {
             if (this.get('mode') == 'rdm') {
@@ -100,6 +102,19 @@ export default Magix.View.extend({
             });
         }
     },
+    '@{move.lyric}<mousedown>'(e: Magix5.MagixMouseEvent) {
+        let target = e.eventTarget;
+        let left = parseInt(getComputedStyle(target).left);
+        let top = parseInt(getComputedStyle(target).top);
+        this['@{drag.drop}'](e, (ev: MouseEvent) => {
+            let ox = ev.pageX - e.pageX;
+            let oy = ev.pageY - e.pageY;
+            let newX = left + ox;
+            let newY = top + oy;
+            target.style.left = newX + 'px';
+            target.style.top = newY + 'px';
+        });
+    },
     '$doc<keyup>'(e: KeyboardEvent) {
         if (Player["@{can.operate}"]()) {
             let code = e.keyCode;
@@ -124,11 +139,11 @@ export default Magix.View.extend({
     '$doc<click>'(e) {
         if (Player["@{can.operate}"]() &&
             this.get('cshow')) {
-                if(!Magix.inside(e.target, this.root)){
-                    this.digest({
-                        cshow:false
-                    });
-                }
+            if (!Magix.inside(e.target, this.root)) {
+                this.digest({
+                    cshow: false
+                });
+            }
         }
     }
 });

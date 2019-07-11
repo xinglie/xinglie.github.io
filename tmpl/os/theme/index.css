@@ -158,20 +158,37 @@ body{
     top:var(--__global__dialog_title_height);
     right:0;
     bottom:0;
-    background: #fff8;
+    background: #fff3;
     border-radius: var(--__global__icon_border-radius);
 }
 .dialog-content-transparent-mask{
     background: #fff0;
     display: none;
 }
+
+.dialog-hide{
+    opacity: 0;
+}
+@keyframes dialog-anim-show{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+.dialog-anim-show{
+    animation-name:  dialog-anim-show;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+}
+
 .min-anim{
     transition: all 0.3s;
     position: absolute;
     opacity: 1;
     z-index: 10001;
     background: var(--__global__anim_background);
-    border-radius: var(--__global__icon_border-radius) var(--__global__icon_border-radius) 0 0;
 }
 
 
@@ -194,10 +211,23 @@ body{
 }
 
 .taskbar-item{
-    width:22px;
-    height:22px;
+    height:20px;
+    min-width: 75px;
+    max-width: 75px;
+    line-height: 20px;
     overflow: hidden;
     margin:4px;
+    cursor: default;
+    font-size: 12px;
+    border-radius: 2px;
+    background: #444;
+}
+.taskbar-item-icon{
+    width:16px;
+    height: 16px;
+    margin:2px;
+    display: inline-block;
+    float: left;
 }
 .taskbar-item-active{
     box-shadow: 0 0 0 2px var(--__global__taskbar_active_item);
@@ -206,5 +236,4 @@ body{
 
 .tool-item{
     position: absolute;
-    z-index: 1;
 }

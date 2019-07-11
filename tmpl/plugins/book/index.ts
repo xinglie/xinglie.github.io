@@ -108,7 +108,7 @@ export default Magix.View.extend({
             search: e.eventTarget.value
         });
         clearTimeout(this['@{search.timer}']);
-        let mark=Magix.mark(this,'@{search.key}');
+        let mark = Magix.mark(this, '@{search.key}');
         this['@{search.timer}'] = setTimeout(() => {
             if (mark()) {
                 this.render();

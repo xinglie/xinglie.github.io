@@ -47,7 +47,6 @@ gulp.task('combine', gulp.series('cleanSrc', function () {
 }));
 gulp.task('watch', gulp.series('combine', function () {
     watch(tmplFolder + '/**/*', function (e) {
-        console.log(e.path);
         if (fs.existsSync(e.path)) {
             combineTool.processFile(e.path);
         } else {
