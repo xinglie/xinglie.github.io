@@ -5,18 +5,22 @@ let BaseZIndex = 5000;
 let WinMinWidth = 150;
 let WinMinHeight = 100;
 let Position = 0;
+let TempHiddens = [];
 export default {
-    '@{add}'(id, zIndex) {
-        GlobalDialogs.push(id);
-        GlobalDialogs[Prefix + id] = {
+    '@{add}'(app, zIndex) {
+        GlobalDialogs.push(app);
+        GlobalDialogs[Prefix + app.appId] = {
             '@{zIndex}': BaseZIndex + zIndex,
             '@{show}': 1
         };
     },
+    '@{get.list}'() {
+        return GlobalDialogs;
+    },
     '@{remove}'(id) {
         delete GlobalDialogs[Prefix + id];
         for (let i = GlobalDialogs.length; i--;) {
-            if (GlobalDialogs[i] == id) {
+            if (GlobalDialogs[i].appId == id) {
                 GlobalDialogs.splice(i, 1);
                 break;
             }
@@ -37,6 +41,7 @@ export default {
         if (GlobalDialogs[Prefix + appId]) {
             this['@{active}'](appId);
         } else {
+            TempHiddens.length = 0;
             let node = document.createElement('div'),
                 zIndex = GlobalDialogs.length;
             node.id = appId;
@@ -63,23 +68,22 @@ export default {
             if (!options.minWidth) options.minWidth = WinMinWidth;
             if (!options.minHeight) options.minHeight = WinMinHeight;
             view.owner.mountVframe(node, '@./dialog', options);
-            this['@{add}'](appId, zIndex);
+            this['@{add}'](options, zIndex);
             this['@{active}'](appId);
         }
     },
     '@{adjust}'(id) {
         let temp, move, info;
         for (let i = GlobalDialogs.length; i--;) {
+            temp = GlobalDialogs[i];
             if (id) {
-                if (GlobalDialogs[i] == id) {
+                if (temp.appId == id) {
                     GlobalDialogs.splice(i, 1);
                     move = true;
-                    temp = id;
                     break;
                 }
             } else {
-                temp = GlobalDialogs[i];
-                info = GlobalDialogs[Prefix + temp];
+                info = GlobalDialogs[Prefix + temp.appId];
                 if (info['@{show}']) {
                     GlobalDialogs.splice(i, 1);
                     move = true;
@@ -90,12 +94,11 @@ export default {
         if (move) {
             GlobalDialogs.push(temp);
         }
-        console.log(move, '?');
         return move ? temp : null;
     },
     '@{update.z.index}'() {
         for (let i = GlobalDialogs.length; i--;) {
-            let id = GlobalDialogs[i];
+            let id = GlobalDialogs[i].appId;
             let info = GlobalDialogs[Prefix + id];
             if (info['@{zIndex}'] != BaseZIndex + i) {
                 info['@{zIndex}'] = BaseZIndex + i;
@@ -112,6 +115,7 @@ export default {
         }
     },
     '@{active}'(id?: string, min?: boolean) {
+        TempHiddens.length = 0;
         let node, vf, info;
         if (id == GlobalDialogs['@{focused}']) {
             if (min) {
@@ -138,8 +142,9 @@ export default {
                 }
             }
         }
-        id = this['@{adjust}'](id);
-        if (id) {
+        info = this['@{adjust}'](id);
+        if (info) {
+            id = info.appId;
             info = GlobalDialogs[Prefix + id];
             if (!info['@{actived}']) {
                 info['@{actived}'] = 1;
@@ -156,6 +161,32 @@ export default {
             this['@{update.z.index}']();
         } else {
             GlobalDialogs['@{focused}'] = '';
+        }
+    },
+    '@{toggle.min.all}'() {
+        let count = TempHiddens.length;
+        if (count) {
+            let ids = [];
+            for (let d of TempHiddens) {
+                ids.push(d);
+            }
+            for (let id of ids) {
+                this['@{active}'](id);
+            }
+        } else {
+            let ids = [];
+            for (let e of GlobalDialogs) {
+                let i = GlobalDialogs[Prefix + e.appId];
+                if (i['@{show}']) {
+                    let n = Magix.node(e.appId);
+                    let vf = n && Magix.Vframe.byNode(n);
+                    if (vf) {
+                        vf.invoke('@{hide.ui}');
+                        ids.push(e.appId);
+                    }
+                }
+            }
+            TempHiddens.push(...ids);
         }
     }
 };

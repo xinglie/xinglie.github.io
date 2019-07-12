@@ -1,4 +1,4 @@
-[mx-view*="/blog"]{
+[mx-view^="@./index"]{
     background: #3f3e3c;
 }
 .clearfix::before,

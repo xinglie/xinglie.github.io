@@ -145,13 +145,14 @@ let TranslateData = (data, params) => {
     }
     return params;
 };
-let CacheSort = (a, b) => b['a'] - a['a'] || b['b'] - a['b'];
-function MxCache(max?: number, buffer?: number, remove?: (item: any) => void, me?: any) {
+let CacheSort = (a, b) => b['a'] - a['a'];
+//let CacheCounter = 0;
+function MxCache(max?: number, buffer?: number/*, remove?: (item: any) => void*/, me?: any) {
     me = this;
     me['a'] = [];
     me['b'] = buffer || 5; //buffer先取整，如果为0则再默认5
     me['c'] = me['b'] + (max || 20);
-    me['d'] = remove;
+    //me['d'] = remove;
 }
 
 Assign(MxCache[Prototype], {
@@ -161,7 +162,7 @@ Assign(MxCache[Prototype], {
         let r = c[Spliter + key];
         if (r) {
             r['a']++;
-            r['b'] = Counter++;
+            //r['b'] = CacheCounter++;
             r = r['c'];
         }
         return r;
@@ -190,20 +191,20 @@ Assign(MxCache[Prototype], {
         }
         r['c'] = value;
         r['a'] = 1;
-        r['b'] = Counter++;
+        //r['b'] = CacheCounter++;
     },
     del(k) {
         k = Spliter + k;
         let c = this['a'];
-        let r = c[k],
-            m = this['d'];
+        let r = c[k]/*,
+            m = this['d']*/;
         if (r) {
             r['a'] = -1;
             r['c'] = Empty;
             delete c[k];
-            if (m) {
-                ToTry(m, r['d']);
-            }
+            //if (m) {
+                //ToTry(m, r['d']);
+            //}
         }
     },
     has(k) {
@@ -1827,7 +1828,8 @@ function View(id, root, owner, ops, me) {
     
     me['c'] = 1; //标识view是否刷新过，对于托管的函数资源，在回调这个函数时，不但要确保view没有销毁，而且要确保view没有刷新过，如果刷新过则不回调
     me['j'] = 1;
-    if(DEBUG){
+
+    if (DEBUG) {
         me['d'] = Safeguard({
             id
         }, true, key => {
@@ -1835,10 +1837,10 @@ function View(id, root, owner, ops, me) {
                 throw new Error(`avoid write ${key} to view data!`);
             }
         });
-    }else{
-    me['d'] = {
-        id
-    };
+    } else {
+        me['d'] = {
+            id
+        };
     }
     me['i'] = {};
     me['m'] = 0;
@@ -1933,7 +1935,7 @@ Assign(View[Prototype], MxEvent, {
             如果在digest的过程中，多次调用自身的digest，则后续的进行排队。前面的执行完成后，排队中的一次执行完毕
         */
         if (me['j']) {
-            console.time(me.id);
+            
             if (DEBUG) {
                 if (!me['p']) {
                     me['p'] = 1;
@@ -1944,8 +1946,7 @@ Assign(View[Prototype], MxEvent, {
                 }
             } else {
                 Updater_Digest(me);
-            }console.timeEnd(me.id);
-            console.log(me.owner.path);
+            }
             
         }
     }

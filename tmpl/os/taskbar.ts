@@ -1,6 +1,15 @@
 import Magix, { Magix5 } from '../lib/magix';
 import Exchange from './exchange';
 import DialogCtrl from './ctrl';
+let AddDialogToList = (list, options) => {
+    let added = false;
+    if (!list['\x00' + options.appId]) {
+        list['\x00' + options.appId] = 1;
+        list.push(options);
+        added = true;
+    }
+    return added;
+};
 'ref@./theme/index.css';
 export default Magix.View.extend({
     tmpl: '@./taskbar.html',
@@ -21,13 +30,15 @@ export default Magix.View.extend({
             }, 50);
         };
         Exchange.on('@{when.dialog.add}', e => {
-            list.push(e.options);
-            delayUpdate();
+            if (AddDialogToList(list, e)) {
+                delayUpdate();
+            }
         });
         Exchange.on('@{when.dialog.remove}', e => {
             for (let i = list.length; i--;) {
                 if (list[i].appId == e.id) {
                     list.splice(i, 1);
+                    delete list['\x00' + e.id];
                     delayUpdate();
                     break;
                 }
@@ -44,10 +55,18 @@ export default Magix.View.extend({
         });
     },
     render() {
+        let list = this.get('list');
+        let dialogs = DialogCtrl["@{get.list}"]();
+        for (let d of dialogs) {
+            AddDialogToList(list, d);
+        }
         this.digest();
     },
     '@{active.item}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
         DialogCtrl["@{active}"](id, true);
+    },
+    '@{min.dialogs}<click>'() {
+        DialogCtrl["@{toggle.min.all}"]();
     }
 });

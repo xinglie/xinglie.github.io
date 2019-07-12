@@ -68,6 +68,7 @@ gulp.task('build', gulp.series('cleanBuild', function () {
     return combineTool.combine().then(() => {
         return gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({
+                module:true,
                 compress: {
                     drop_console: true,
                     global_defs: {

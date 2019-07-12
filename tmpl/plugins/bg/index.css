@@ -1,0 +1,35 @@
+.bg-wrap{
+    width:350px;
+    border-radius: 5px;
+    background: #0002;
+    height:60px;
+    padding: 5px 0;
+    overflow: auto;
+}
+.bg-img{
+    width:100px;
+    height:60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    float: left;
+    margin:0 5px;
+    cursor: pointer;
+}
+.scrollable::-webkit-scrollbar{
+    height:0px;
+    width:0px;
+}
+.scrollable:hover::-webkit-scrollbar{
+    height:2px;
+}
+.scrollable::-webkit-scrollbar-corner{
+    height:0px;
+    width:0px;
+}
+.scrollable::-webkit-scrollbar-thumb{
+    background: #fff7;
+    border-radius: 2px;
+}
+.scrollable::-webkit-scrollbar-thumb:hover{
+    background: #fff;
+}

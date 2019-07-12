@@ -7,6 +7,14 @@ export default [{
     dockXKey: 'right',
     dockYKey: 'bottom'
 }, {
+    view: '@./bg/index',
+    dockX: 10,
+    dockY: 50,
+    width: 350,
+    height: 70,
+    dockXKey: 'right',
+    dockYKey: 'bottom'
+}, {
     view: '@./mplayer/index',
     dockX: 10,
     dockY: 20,

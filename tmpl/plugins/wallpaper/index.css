@@ -1,0 +1,32 @@
+.tabs{
+    height:28px;
+    line-height: 28px;
+    padding: 0 26px;
+    background: #ddd;
+    color: #333;
+    position: sticky;
+    top:0;
+}
+.tab-item{
+    float: left;
+    padding: 0 5px;
+    cursor: pointer;
+}
+.tab-item-active{
+    background: #fff;
+}
+
+
+.wallpaper-item{
+    width: 350px;
+    height:200px;
+    float: left;
+    margin:5px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.wallpaper-item:hover{
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.08);
+}

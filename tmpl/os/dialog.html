@@ -14,7 +14,11 @@
         <span class="dialog-ctrls-btn dialog-ctrls-close" mx-click="@{close}()"></span>
         {{/if}}
     </div>
-    <mx-vframe src="{{=view}}" class="dialog-view{{if scroll}} dialog-view-scroll{{/if}}"/>
+    <mx-vframe src="{{=view}}" class="dialog-view{{if scroll}} dialog-view-scroll{{/if}}">
+        <div class="dialog-loading">
+            loading...
+        </div>
+    </mx-vframe>
     <div class="dialog-content-mask" style="{{if active}}display:none{{/if}}"></div>
     <div class="dialog-content-mask dialog-content-transparent-mask" id="{{=id}}_mk"></div>
     {{if resize&&!maxState}}

@@ -1,1 +1,1 @@
-import Magix from"../../lib/magix.js";export default Object.assign({_bs(i){this._bq=i,this.fire("_br")},_bt(){return this._bq}},Magix.Event);
+import t from"../../lib/magix.js";export default Object.assign({_bw(t){this._bu=t,this.fire("_bv")},_bx(){return this._bu}},t.Event);

@@ -123,10 +123,12 @@ export default Magix.View.extend({
     },
     '@{change.category}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
+        this.root.scrollTop = 0;
         this.digest({
             list: [],
             loading: true,
-            active: id
+            active: id,
+            start: 0
         });
         this['@{load.data}']();
     },

@@ -161,7 +161,7 @@ export default Magix.View.extend({
     },
     '@{toggle.topmost}<click>'() {
         let tm = !this.get('topmost');
-        this.root.style.zIndex = tm ? '60000' : '2';
+        this.root.style.zIndex = tm ? '60000' : '';
         this.digest({
             topmost: tm
         });

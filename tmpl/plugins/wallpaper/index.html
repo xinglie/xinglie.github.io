@@ -1,0 +1,17 @@
+{{if error}}
+    {{=error}}
+{{else}}
+    <div class="tabs">
+        {{each cats as cat}}
+        <div class="tab-item{{if cat.id==cId}} tab-item-active{{/if}}" mx-click="{{cat.id!=cId}}?@{change.category}({id:'{{=cat.id}}'})">{{=cat.name}}</div>
+        {{/each}}
+    </div>
+    {{if loading}}
+    <div class="dialog-loading">loading...</div>
+    {{else}}
+        {{each list as img}}
+        {{set url=img.url.replace('bdr/__85','bdr/400_240_80')}}
+        <div class="wallpaper-item" style="background-image:url({{=url}})" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
+        {{/each}}
+    {{/if}}
+{{/if}}

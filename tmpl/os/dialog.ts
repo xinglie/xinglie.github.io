@@ -18,7 +18,9 @@ export default Magix.View.extend({
         state |= WinHideState;
         this['@{state}'] = state;
         Exchange.fire('@{when.dialog.add}', {
-            options: data
+            icon: data.icon,
+            title: data.title,
+            appId: data.appId
         });
         let root = this.root;
         this.on('destroy', () => {

@@ -2,6 +2,7 @@ import Magix, { Magix5 } from '../lib/magix';
 import Apps from '../plugins/app';
 'ref@./theme/index.css';
 import DialogCtrl from './ctrl';
+let AppsMap = Magix.toMap(Apps, 'appId');
 export default Magix.View.extend({
     tmpl: '@./icon.html',
     init() {
@@ -14,6 +15,17 @@ export default Magix.View.extend({
         this['@{icon.height}'] = height;
         this['@{icon.gap}'] = gap;
         this['@{taskbar.height}'] = taskbarHeight;
+
+        let { params } = Magix.parseUrl(location.href);
+        if (params.open) {
+            let opens = params.open.split(',');
+            for (let o of opens) {
+                let i = AppsMap[o];
+                if (i) {
+                    DialogCtrl["@{create}"](this, i);
+                }
+            }
+        }
     },
     '@{set.size}'() {
         let width = this['@{icon.width}'];
