@@ -2,7 +2,7 @@
     width:350px;
     border-radius: 5px;
     background: #0002;
-    height:60px;
+    height:62px;
     padding: 5px 0;
     overflow: auto;
 }
@@ -14,6 +14,11 @@
     float: left;
     margin:0 5px;
     cursor: pointer;
+    background-color:#fff3;
+}
+.scrollable{
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
 }
 .scrollable::-webkit-scrollbar{
     height:0px;

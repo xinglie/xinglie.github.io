@@ -25,6 +25,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
+    background-color: #8881;
 }
 
 .wallpaper-item:hover{

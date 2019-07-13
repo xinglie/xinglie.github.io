@@ -5,11 +5,33 @@
     top:-65px;
     transition: top 0.2s;
 }
+.scrollable{
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+}
+.scrollable::-webkit-scrollbar{
+    height:0px;
+    width:0px;
+}
+.scrollable:hover::-webkit-scrollbar{
+    width:2px;
+}
+.scrollable::-webkit-scrollbar-corner{
+    height:0px;
+    width:0px;
+}
+.scrollable::-webkit-scrollbar-thumb{
+    background: #fff7;
+    border-radius: 2px;
+}
+.scrollable::-webkit-scrollbar-thumb:hover{
+    background: #fff;
+}
 .channels-root{
     position: absolute;
     background: #0006;
-    height: 185px;
-    width: 650px;
+    height: 190px;
+    width: 672px;
     transition: all 0.25s;
     overflow:auto;
     padding: 4px;
@@ -19,8 +41,8 @@
     z-index: 1;
 }
 .channels-fixed-size{
-    height: 460px;
-    width: 650px;
+    height: 480px;
+    width: 672px;
 }
 .root-toggle{
     top:0;
@@ -39,6 +61,7 @@
     cursor: pointer;
     border: solid 1px transparent;
     border-radius: 5px;
+    margin: 2px;
 }
 .channel:hover{
     opacity: 0.6;

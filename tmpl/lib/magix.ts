@@ -540,6 +540,7 @@ let MxEvent = {
 
 let Vframe_RootVframe;
 let Vframe_Vframes = {};
+let Vframe_RootId;
 let Vframe_TranslateQuery = (pId, src, params, pVf?) => {
     if (src.indexOf(Spliter) > 0 &&
         (pVf = Vframe_Vframes[pId])) {
@@ -548,7 +549,7 @@ let Vframe_TranslateQuery = (pId, src, params, pVf?) => {
 };
 let Vframe_Root = (rootId?, e?) => {
     if (!Vframe_RootVframe) {
-        rootId = Mx_Cfg.rootId;
+        rootId = Vframe_RootId = Mx_Cfg.rootId;
         e = GetById(rootId);
         if (!e) {
             if (DEBUG) {
@@ -560,6 +561,12 @@ let Vframe_Root = (rootId?, e?) => {
     }
     return Vframe_RootVframe;
 };
+let Vframe_Unroot = () => {
+    if (Vframe_RootVframe) {
+        Vframe_RootVframe.unmountVframe();
+        Vframe_RootVframe = Null;
+    }
+}
 
 
 let Vframe_AddVframe = (id, vframe) => {
@@ -605,7 +612,7 @@ let Vframe_RunInvokes = (vf, list, o) => {
 };
 
 
-let Vframe_GetVfId = node => node['b'] || (node['b'] = GUID());
+let Vframe_GetVfId = node => node['b'] || (node['b'] = GUID(Vframe_RootId));
 function Vframe(root, pId?) {
     let me = this;
     let vfId = Vframe_GetVfId(root);
@@ -1990,6 +1997,10 @@ let Magix = {
             });
         }
     },
+    unboot() {
+        
+        Vframe_Unroot();
+    },
     toMap: ToMap,
     toTry: ToTry,
     toUrl: ToUri,
@@ -2013,6 +2024,7 @@ let Magix = {
     
     
     mark: Mark,
+    unmark: Unmark,
     node: GetById,
     task: CallFunction
 };
@@ -2865,7 +2877,11 @@ let Magix = {
          * 应用初始化入口
          * @param cfg 配置信息参数对象
          */
-        boot(cfg: Config): void
+        boot(cfg?: Config): void
+        /**
+         * 取消安装
+         */
+        unboot(): void
         /**
          * 把列表转化成hash对象。Magix.toMap([1,2,3,5,6]) => {1:1,2:1,3:1,4:1,5:1,6:1}。Magix.toMap([{id:20},{id:30},{id:40}],'id') => {20:{id:20},30:{id:30},40:{id:40}}
          * @param list 源数组

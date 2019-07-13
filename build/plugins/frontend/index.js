@@ -1,1 +1,1 @@
-let e;import r from"../../lib/magix.js";export default r.View.extend({tmpl:(r,t,i)=>{let l=[];return e?l.push(e):l.push(e=t("iframe",{_:"_",sandbox:"allow-scripts",src:"//xinglie.github.io/frontend/?from=xl",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),t(i,0,l)},render(){this.digest()}});
+import o from"../../lib/magix.js";import i from"https://xinglie.github.io/frontend/build/fe.js";let t=o.guid("_fe_");i.config(t,{logo:0,hash:0,scrollId:t});export default o.View.extend({init(){this.on("destroy",()=>{i.unboot()})},render(){this.root.id=t,i.boot()}});

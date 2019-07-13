@@ -161,6 +161,7 @@ body{
 }
 .dialog-view-scroll{
     overflow: auto;
+    scroll-behavior: smooth;
 }
 .dialog-loading{
     position: absolute;

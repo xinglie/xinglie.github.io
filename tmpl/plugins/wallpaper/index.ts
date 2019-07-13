@@ -2,6 +2,7 @@
     author:xinglie.lkf@alibaba-inc.com
 */
 import Magix, { Magix5 } from '../../lib/magix';
+import Wallpapger from '../../os/wallpaper';
 Magix.applyStyle('@index.css');
 let Categories = null;
 let CategoriesPending = 0;
@@ -84,9 +85,7 @@ export default Magix.View.extend({
     },
     '@{set.url}<click>'(e: Magix5.MagixMouseEvent) {
         let { thumb, src } = e.params;
-        let bg = Magix.node('g_bg');
-        bg.style.backgroundImage = `url(${thumb})`;
-        bg.innerHTML=`<img src="${src}" class="@scoped.style:global-bg"/>`;
+        Wallpapger["@{set.wallpaper}"](thumb, src);
     },
     '$win<scroll>&capture'(e) {
         if (e.target == this.root &&

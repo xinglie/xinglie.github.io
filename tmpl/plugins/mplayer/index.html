@@ -49,6 +49,6 @@
     <mx-vframe src="./lyric" class="player-lyric" mx-mousedown="@{move.lyric}()"/>
     {{/if}}
     <mx-vframe src="./channels"
-        class="channels-root{{if active&&!cshow}} channels-toggle{{/if}}"
+        class="channels-root scrollable{{if active&&!cshow}} channels-toggle{{/if}}"
         mx-change="@{update.channel}()"/>
 </div>
