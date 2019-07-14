@@ -8,7 +8,7 @@ export default Magix.View.extend({
     tmpl: '@index.html',
     async render() {
         try {
-            let start = Math.floor(100 * Math.random());
+            let start = Math.floor(200 * Math.random());
             let raw = await fetch('https://jsonp.afeld.me/?url=http%3A%2F%2Fwallpaper.apc.360.cn%2Findex.php%3Fc%3DWallPaper%26a%3DgetAppsByCategory%26cid%3D9%26start%3D' + start + '%26count%3D20%26from%3D360chrome');
             let data = await raw.json();
             let list = [];

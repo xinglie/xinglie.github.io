@@ -1,8 +1,10 @@
+{{if list&&list.length}}
 <div class="bg-wrap scrollable">
-    <div style="height:100%;width:{{=110*list.length}}px">
-    {{each list as img}}
+    <div style="height:100%;width:{{=105*list.length-5}}px">
+    {{each list as img index last}}
     {{set url=img.url.replace('bdr/__85','bdr/200_120_60')}}
-    <div class="bg-img" style="background-image:url({{=url}})" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
+    <div class="bg-img{{if !last}} bg-img-mr5{{/if}}" style="background-image:url({{=url}})" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
     {{/each}}
     </div>
 </div>
+{{/if}}

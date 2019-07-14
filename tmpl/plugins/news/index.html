@@ -8,6 +8,7 @@
 {{else if error}}
     {{=error}}
 {{else}}
+<div class="list-wrap">
 {{each list as d}}
     <div class="news-wrap" mx-click="@{open.news}({detail:'{{@d}}'})">
         <div class="news-title">
@@ -18,8 +19,10 @@
         </div>
         <div class="news-tip">
             <span class="news-source">来源：{{=d.source}}</span>
-            <span class="news-time">{{=d.ptime}}&emsp;<span class="{{d.commentCount>=500}}?{{if d.commentCount>1000}}news-tip-hot{{else}}news-tip-warm{{/if}}">评论：{{=d.commentCount}}</span></span>
+            <span class="news-time">{{=d.ptime}}&emsp;<span class="{{d.commentCount>=500}}?{{if d.commentCount>1000}}news-tip-hot{{else}}news-tip-warm{{/if}}" mx-click="@{open.comment}({detail:'{{@d}}'})">评论：{{=d.commentCount}}</span></span>
         </div>
     </div>
 {{/each}}
+</div>
+<div class="more">更多加载中...</div>
 {{/if}}

@@ -1,4 +1,9 @@
 export default [{
+    title: 'Magix中的微前端实践',
+    href: '//github.com/xinglie/xinglie.github.io/issues/50',
+    desc: '记录如何把一个大项目拆分并聚合加载它们',
+    date: '2019-7-13'
+}, {
     title: '基于Web音频API的流式音频数据实时分析',
     href: '//github.com/xinglie/xinglie.github.io/issues/49',
     desc: '网页中声音相关的处理API',

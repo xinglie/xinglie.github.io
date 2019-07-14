@@ -1,10 +1,11 @@
 .bg-wrap{
-    width:350px;
-    border-radius: 5px;
-    background: #0002;
+    width:310px;
+    border-radius: 2px;
+    background: #0008;
     height:62px;
-    padding: 5px 0;
+    padding: 2px 0;
     overflow: auto;
+    box-shadow:0 -1px 0 6px #0008;
 }
 .bg-img{
     width:100px;
@@ -12,9 +13,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     float: left;
-    margin:0 5px;
     cursor: pointer;
     background-color:#fff3;
+}
+.bg-img-mr5{
+    margin-right: 5px;
 }
 .scrollable{
     scrollbar-width: thin;

@@ -1,6 +1,46 @@
 .wrap{
-    background: #fffc;
-    height:25px;
-    padding-left:10px;
+    background: #0008;
+    height:20px;
+    padding:2px 5px;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+.sub{
+    display: inline-flex;
+    align-items: flex-end;
+}
+.icon{
+    width:20px;
+    height:20px;
+    margin:0 5px;
+}
+.air{
+    width:30px;
+    margin-left: 10px;
+    height:16px;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 17px;
+    font-weight: bold;
+    color:#fff;
+}
+.air--0{
+    background: #43ce17;
+}
+.air--1{
+    background: #c5b900;
+}
+.air--2{
+    background: #f49103;
+}
+.air--3{
+    background: #e60015;
+}
+.air--4{
+    background: #ac004b;
+}
+.air--5{
+    background: #950a18;
 }

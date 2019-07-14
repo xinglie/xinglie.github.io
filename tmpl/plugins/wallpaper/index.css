@@ -6,6 +6,7 @@
     color: #333;
     position: sticky;
     top:0;
+    z-index: 2;
 }
 .tab-item{
     float: left;
@@ -26,8 +27,19 @@
     background-size: contain;
     cursor: pointer;
     background-color: #8881;
+    transition: all 0.2s;
 }
 
 .wallpaper-item:hover{
     box-shadow: 0 3px 6px 0 rgba(0,0,0,.08);
+    transform: scale(1.05);
+}
+.list-wrap{
+    display: table;
+}
+.more{
+    font-size: 20px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
 }

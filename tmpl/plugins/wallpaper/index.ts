@@ -35,13 +35,28 @@ let GetWallPaper = (cId, start, count) => {
         data: []
     }>;
 };
+let maxWidth = 350,
+    maxHeight = 200;
+let Resize = size => {
+    let parts = size.split('x');
+    let w = parts[0] | 0;
+    let h = parts[1] | 0;
+    let wr = maxWidth / w;
+    let hr = maxHeight / h;
+    let r = wr > hr ? hr : wr;
+    return {
+        width: (w * r) | 0,
+        height: (h * r) | 0
+    };
+};
 export default Magix.View.extend({
     tmpl: '@index.html',
     init() {
         this.set({
             size: 20,
             start: 0,
-            list: []
+            list: [],
+            resize: Resize
         });
     },
     async render() {

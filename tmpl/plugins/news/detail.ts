@@ -11,7 +11,11 @@ export default Magix.View.extend({
     },
     render() {
         let doc = Bridge["@{get.document}"]();
+        let comment = Bridge["@{get.is.comment}"]();
         let url = doc.skipURL || doc.url;
+        if (comment) {
+            url = '//3g.163.com/touch/comment.html?docid=' + doc.docid;
+        }
         url = url.replace(/^https?:/i, '')
         this.digest({
             url

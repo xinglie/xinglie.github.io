@@ -21,6 +21,9 @@ declare global {
         artiList: (data) => void
     }
 }
+interface CommentEvent {
+    fromComment: boolean
+}
 let NeteasePools = {};
 window.artiList = (data) => {
     let script = document.currentScript as HTMLScriptElement;
@@ -70,16 +73,16 @@ let NeteaseJSONP = (id: string,
 let Options = {
     icon: '<svg viewBox="0 0 1039 1024"><path d="M906.589 0H132.688A132.79 132.79 0 0 0 0 132.688v605.318a132.79 132.79 0 0 0 132.688 132.79h220.411l70.828 102.882a116.181 116.181 0 0 0 191.422 0l70.828-102.922H906.59a132.79 132.79 0 0 0 132.79-132.79V132.688A132.79 132.79 0 0 0 906.589 0zm48.458 738.006a48.52 48.52 0 0 1-48.458 48.459H641.866l-95.894 139.409a31.951 31.951 0 0 1-52.667 0l-95.895-139.41H132.688a48.52 48.52 0 0 1-48.458-48.458V132.688a48.52 48.52 0 0 1 48.458-48.458h773.9a48.52 48.52 0 0 1 48.459 48.458z" fill="#1ACAD8"/><path d="M288.665 368.176a63.33 63.33 0 1 0 63.33 63.33 63.33 63.33 0 0 0-63.33-63.33zm230.973 0a63.33 63.33 0 1 0 63.33 63.33 63.33 63.33 0 0 0-63.33-63.33zm230.973 0a63.33 63.33 0 1 0 63.331 63.33 63.33 63.33 0 0 0-63.33-63.33z" fill="#1ACAD8"/></svg>',
     appId: 'aaa',
-    title: '网易新闻详情',
-    width: 450,
+    title: '新闻详情',
+    width: 500,
     height: 650,
     min: true,
     close: true,
     dockY: 30,
     view: '@./detail'
 };
-let OpenSubDialog = (view, doc) => {
-    Bridge["@{save.document}"](doc);
+let OpenSubDialog = (view, doc, comment?: boolean) => {
+    Bridge["@{save.document}"](doc, comment);
     DialogCtrl["@{create}"](view, Options);
 };
 export default Magix.View.extend({
@@ -132,9 +135,16 @@ export default Magix.View.extend({
         });
         this['@{load.data}']();
     },
-    '@{open.news}<click>'(e: Magix5.MagixMouseEvent) {
+    '@{open.news}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
+        if (!e.fromComment) {
+            let { detail } = e.params;
+            OpenSubDialog(this, detail);
+        }
+    },
+    '@{open.comment}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
+        e.fromComment = true;
         let { detail } = e.params;
-        OpenSubDialog(this, detail);
+        OpenSubDialog(this, detail, true);
     },
     '$win<scroll>&capture'(e) {
         if (e.target == this.root &&

@@ -1,1 +1,1 @@
-import t from"../../lib/magix.js";export default Object.assign({_bA(t){this._by=t,this.fire("_bz")},_bB(){return this._by}},t.Event);
+import t from"../../lib/magix.js";export default Object.assign({_bB(t,b){this._by=t,this._bz=b,this.fire("_bA")},_bC(){return this._by},_bD(){return this._bz}},t.Event);

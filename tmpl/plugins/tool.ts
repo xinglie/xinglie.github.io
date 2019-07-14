@@ -2,15 +2,15 @@ export default [{
     view: '@./weather/index',
     dockX: 8,
     dockY: 8,
-    width: 260,
-    height: 25,
+    width: 172,
+    height: 24,
     dockXKey: 'right',
     dockYKey: 'bottom'
 }, {
     view: '@./bg/index',
-    dockX: 10,
-    dockY: 50,
-    width: 350,
+    dockX: 14,
+    dockY: 40,
+    width: 310,
     height: 70,
     dockXKey: 'right',
     dockYKey: 'bottom'
