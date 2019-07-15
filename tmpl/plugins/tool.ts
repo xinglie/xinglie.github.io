@@ -1,7 +1,7 @@
 export default [{
     view: '@./weather/index',
-    dockX: 8,
-    dockY: 8,
+    dockX: 10,
+    dockY: 93,
     width: 172,
     height: 24,
     dockXKey: 'right',
@@ -9,7 +9,7 @@ export default [{
 }, {
     view: '@./bg/index',
     dockX: 14,
-    dockY: 40,
+    dockY: 10,
     width: 310,
     height: 70,
     dockXKey: 'right',

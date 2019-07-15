@@ -3,6 +3,7 @@
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import Wallpapger from '../../os/wallpaper';
+import Fetch from '../../lib/fetch';
 Magix.applyStyle('@index.css');
 let Categories = null;
 let CategoriesPending = 0;
@@ -16,7 +17,7 @@ let GetCategories = () => {
         } else {
             CategoriesPending = 1;
             CategoriesPendingList.push([resolve, reject]);
-            fetch('https://jsonp.afeld.me/?url=http%3A%2F%2Fwallpaper.apc.360.cn%2Findex.php%3Fc%3DWallPaperAndroid%26a%3DgetAllCategories').then(r => r.json()).then(data => {
+            Fetch('https://jsonp.afeld.me/?url=http%3A%2F%2Fwallpaper.apc.360.cn%2Findex.php%3Fc%3DWallPaperAndroid%26a%3DgetAllCategories', 24 * 60 * 60 * 1000).then(data => {
                 CategoriesPending = 0;
                 for (let [resolve] of CategoriesPendingList) {
                     resolve(Categories = data.data);
@@ -73,7 +74,6 @@ export default Magix.View.extend({
             let wrap = await GetWallPaper(cId, start, size);
             if (mark()) {
                 list.push(...wrap.data);
-                delete this['@{data.loading}'];
                 this.digest({
                     cId,
                     loading: false,
@@ -82,17 +82,18 @@ export default Magix.View.extend({
                 });
             }
         } catch (ex) {
-            delete this['@{data.loading}'];
             this.digest({
                 error: ex
             });
         }
+        delete this['@{data.loading}'];
     },
     '@{change.category}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
         this.digest({
             list: [],
             loading: true,
+            start: 0,
             cId: id
         });
         this.root.scrollTop = 0;
@@ -104,6 +105,7 @@ export default Magix.View.extend({
     },
     '$win<scroll>&capture'(e) {
         if (e.target == this.root &&
+            !this.get('loading') &&
             !this['@{data.loading}']) {
             let node = this.root;
             if (node.scrollTop + node.offsetHeight + 200 > node.scrollHeight) {

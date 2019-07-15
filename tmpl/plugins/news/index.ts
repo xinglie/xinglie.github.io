@@ -148,6 +148,7 @@ export default Magix.View.extend({
     },
     '$win<scroll>&capture'(e) {
         if (e.target == this.root &&
+            !this.get('loading') &&
             !this['@{data.loading}']) {
             let node = this.root;
             if (node.scrollTop + node.offsetHeight + 200 > node.scrollHeight) {

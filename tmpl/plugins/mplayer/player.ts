@@ -1,4 +1,5 @@
 import Magix from '../../lib/magix';
+import Fetch from '../../lib/fetch';
 let APIHost = 'https://jirenguapi.applinzi.com/fm';
 let MAX_HISTORY = 50;
 interface SongDesc {
@@ -15,25 +16,16 @@ interface State {
 }
 let RedoList: SongDesc[] = [];
 let UndoList: SongDesc[] = [];
-let SongLyricCache = new Magix.Cache(200, 50);
 export default Object.assign({
     '@{fetch.channels}'() {
-        return fetch(`${APIHost}/getChannels.php`).then(r => r.json());
+        return Fetch(`${APIHost}/getChannels.php`, 24 * 60 * 60 * 1000);
     },
     '@{fetch.random.song}'(channelId) {
         return fetch(`${APIHost}/getSong.php?channel=${channelId}`).then(r => r.json());
     },
     '@{fetch.song.lyric}'(songId) {
         let url = `${APIHost}/getLyric.php?sid=${songId}`;
-        if (SongLyricCache.has(url)) {
-            //console.log('get song lyric from cahce', songId);
-            return Promise.resolve(SongLyricCache.get(url));
-        }
-        return fetch(url).then(r => r.json()).then(j => {
-            //console.log(j);
-            SongLyricCache.set(url, j);
-            return Promise.resolve(j);
-        });
+        return fetch(url).then(r => r.json());
     },
     async '@{get.channels.with.active}'() {
         let { channels } = await this['@{fetch.channels}']();
@@ -113,7 +105,6 @@ export default Object.assign({
             };
             audio.onended = () => {
                 //take a break;
-                console.clear();
                 console.log('song end');
                 clearTimeout(timer);
                 timer = setTimeout(() => {
