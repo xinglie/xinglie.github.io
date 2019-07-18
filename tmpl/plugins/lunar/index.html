@@ -1,0 +1,35 @@
+<div class="root" mx-mousedown="@{move.cal}()">
+    <table class="week">
+        <tbody>
+            <tr>
+                {{each weekText as wt}}
+                    <td class="week-header">{{=wt}}</td>
+                {{/each}}
+            </tr>
+            {{each weeks as weekDays}}
+                <tr>
+                    {{each weekDays as wd}}
+                        <td class="week-day{{if wd.year==year&&wd.month==month&&wd.day==day}} week-day-selected{{/if}}" title="{{!wd.otherMonth}}?{{=`${wd.year}-${wd.month}-${wd.day}`}}">
+                            {{if !wd.otherMonth}}
+                            <div class="week-day-num">
+                                {{=wd.day}}
+                            </div>
+                            <!-- <div class="week-day-text{{if wd.holiday||wd.lunar.festival||wd.lunar.solarTerm}} week-day-hd{{/if}}">
+                                {{if wd.holiday}}
+                                    {{=wd.holiday}}
+                                {{else if wd.lunar.festival}}
+                                    {{=wd.lunar.festival}}
+                                {{else if wd.lunar.solarTerm}}
+                                    {{=wd.lunar.solarTerm}}
+                                {{else}}
+                                    {{=wd.lunar.date}}
+                                {{/if}}
+                            </div> -->
+                            {{/if}}
+                        </td>
+                    {{/each}}
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

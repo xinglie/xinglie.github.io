@@ -18,7 +18,7 @@ let RedoList: SongDesc[] = [];
 let UndoList: SongDesc[] = [];
 export default Object.assign({
     '@{fetch.channels}'() {
-        return Fetch(`${APIHost}/getChannels.php`, 24 * 60 * 60 * 1000);
+        return Fetch(`${APIHost}/getChannels.php`, 30 * 24 * 60 * 60 * 1000);
     },
     '@{fetch.random.song}'(channelId) {
         return fetch(`${APIHost}/getSong.php?channel=${channelId}`).then(r => r.json());

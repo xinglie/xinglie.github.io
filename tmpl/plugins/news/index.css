@@ -20,7 +20,7 @@
     display: inline-grid;
     grid-template-columns: 70% 30%;
     grid-template-rows: 80% 20%;
-    grid-template-areas: "a b" "c c";
+    grid-template-areas: "a b" "comment comment";
     width: 410px;
     height: 120px;
     margin: 10px;
@@ -38,7 +38,7 @@
     padding: 5px;
 }
 .news-tip{
-    grid-area: c;
+    grid-area: comment;
     color:#aaa;
 }
 .news-image-cover{
@@ -57,6 +57,10 @@
     display: inline-block;
     height: 22px;
     line-height: 22px;
+}
+.news-source{
+    max-width: 190px;
+    overflow: hidden;
 }
 .news-time{
     float: right;

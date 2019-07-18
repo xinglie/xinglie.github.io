@@ -21,20 +21,25 @@ let FormatSeconds = s => {
     return r;
 };
 let Scale100 = r => (r * 100).toFixed(0);
+declare global {
+    interface Navigator {
+        getBattery?: () => Promise<any>
+    }
+}
 export default Magix.View.extend({
     tmpl: '@./device.html',
     init() {
         this.set({
-            s100: Scale100
+            s100: Scale100,
+            fs: FormatSeconds
         });
         if (navigator.getBattery) {
             navigator.getBattery().then(b => {
-                let update = (e) => {
-                    console.log(e);
+                let update = (e?) => {
                     this.digest({
                         support: true,
-                        ftime: FormatSeconds(b.chargingTime),
-                        dtime: FormatSeconds(b.dischargingTime),
+                        ftime: b.chargingTime,
+                        dtime: b.dischargingTime,
                         level: b.level,
                         charging: b.charging
                     });

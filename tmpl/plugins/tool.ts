@@ -22,4 +22,12 @@ export default [{
     dockYKey: 'top',
     width: 610,
     height: 30
+}, {
+    view: '@./lunar/index',
+    dockX: 300,
+    dockY: 10,
+    width: 350,
+    height: 250,
+    dockXKey: 'left',
+    dockYKey: 'top'
 }];

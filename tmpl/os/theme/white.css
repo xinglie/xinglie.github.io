@@ -1,11 +1,11 @@
 :root{
     /*desktop*/
-    --__global__desktop_background:#555;
-    --__global__desktop_foreground:#fff;
+    --__global__desktop_background:#aaa;
+    --__global__desktop_foreground:#000;
 
     /*taskbar*/
     --__global__taskbar_height:30px;
-    --__global__taskbar_background:#222c;
+    --__global__taskbar_background:#cccc;
     --__global__taskbar_active_item:#bbb;
 
     /* icons */
@@ -17,12 +17,12 @@
     --__global__icon_hover_background:#8888;
 
     --__global__dialog_background:#fff;
-    --__global__dialog_title_background:#777;
+    --__global__dialog_title_background:#a7a7a7;
     --__global__dialog_title_foreground:#ccc;
-    --__global__dialog_title_active_background:#222;
-    --__global__dialog_title_active_foreground:#fff;
+    --__global__dialog_title_active_background:#ccc;
+    --__global__dialog_title_active_foreground:#000;
     --__global__dialog_title_height:25px;
-    --__global__dialog_content_color:#000;
+    --__global__dialog_content_color:#fff;
 
     --__global__anim_background:#ccc;
 }

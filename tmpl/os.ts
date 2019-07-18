@@ -1,4 +1,9 @@
 import Magix from './lib/magix';
+declare global {
+    interface ImportMeta {
+        url: string
+    }
+}
 let Starter = {
     config(rootId) {
         let url = import.meta.url;

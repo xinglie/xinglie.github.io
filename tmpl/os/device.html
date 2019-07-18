@@ -5,12 +5,12 @@
 {{set color='#fff',
     barH=810*level,
     barT=810*(1-level);}}
-{{if level<=0.1}}
+{{if level<=0.1||dtime<30*60}}
     {{color='#f00'}}
-{{else if level<=0.25}}
+{{else if level<=0.25||dtime<60*60}}
     {{color='#f90'}}
 {{/if}}
-<div class="taskbar-device" title="{{=charging?(level==1?'充满电':`充电中：${s100(level)}%，需要：${ftime}`):`放电中：${s100(level)}%，能用：${dtime}`}}">
+<div class="taskbar-device" title="{{=charging?(level==1?'充满电':`充电中：${s100(level)}%，需要：${fs(ftime)}`):`放电中：${s100(level)}%，能用：${fs(dtime)}`}}">
 <svg viewBox="0 0 1024 1024" class="taskbar-device-icon"><path fill="{{=color}}" d="M330 {{=140+barT}}h350v{{=barH}}H330z"/>{{if charging}}<path fill="#fff" d="M499.712 801.131l97.445-324.376-97.445 12.783V266.735l-93.415 314.798 93.415-29.927zm50.077-772.228h-94.704z" stroke="#000" stroke-width="10px"/>{{/if}}<path fill="#fff" d="M440 0c-47.368 0-47.368 76.338-48.788 76.338h190.86S582.072 0 534.704 0z"/><path fill="#fff" d="M247.742 168.663V919.75c0 99.328 93.712 100.121 93.712 100.121h327.879s93.712 0 93.712-100.12V168.662c0-100.121-93.712-100.121-93.712-100.121H341.454s-93.712 0-93.712 100.12zm427.206-60.45s48.458-.065 48.458 51.234V928.9c0 51.3-48.458 51.3-48.458 51.3H335.84s-48.458 0-48.458-51.3V159.48c0-52.885 48.458-51.3 48.458-51.3h339.11z"/></svg>
 </div>
 {{/if}}

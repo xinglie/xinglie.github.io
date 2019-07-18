@@ -1,0 +1,42 @@
+.root{
+    background: #0002;
+    border-radius: 5px;
+    overflow: hidden;
+    opacity: 0.1;
+    transition: all 0.25s;
+}
+.root:hover{
+    opacity: 0.8
+}
+.week{
+    border-collapse: collapse;
+    width:100%;
+    text-align: center;
+    border-spacing: 0;
+}
+.week-header{
+    background: #0005;
+}
+.week-day-num{
+    font-size: 18px;
+}
+/* .week-day-text{
+    font-size: 12px;
+} */
+.week-day{
+    cursor: pointer;
+    padding: 0;
+    border-radius: 4px;
+    width:50px;
+    height: 30px;
+}
+/* .week-content-day:hover{
+    background: #0001
+} */
+.week-day-selected,
+.week-day-selected:hover{
+    background: #0004;
+}
+/* .week-day-hd{
+    color:#e47b20;
+} */

@@ -1,6 +1,7 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import DialogCtrl from '../../os/ctrl';
 import Bridge from './bridge';
+import Cron from '../../lib/cron';
 Magix.applyStyle('@./index.css');
 let Categories = [{ text: '全部', id: 'BBM54PGA' },
 { text: '娱乐', id: 'BA10TA81' },
@@ -72,7 +73,7 @@ let NeteaseJSONP = (id: string,
 };
 let Options = {
     icon: '<svg viewBox="0 0 1039 1024"><path d="M906.589 0H132.688A132.79 132.79 0 0 0 0 132.688v605.318a132.79 132.79 0 0 0 132.688 132.79h220.411l70.828 102.882a116.181 116.181 0 0 0 191.422 0l70.828-102.922H906.59a132.79 132.79 0 0 0 132.79-132.79V132.688A132.79 132.79 0 0 0 906.589 0zm48.458 738.006a48.52 48.52 0 0 1-48.458 48.459H641.866l-95.894 139.409a31.951 31.951 0 0 1-52.667 0l-95.895-139.41H132.688a48.52 48.52 0 0 1-48.458-48.458V132.688a48.52 48.52 0 0 1 48.458-48.458h773.9a48.52 48.52 0 0 1 48.459 48.458z" fill="#1ACAD8"/><path d="M288.665 368.176a63.33 63.33 0 1 0 63.33 63.33 63.33 63.33 0 0 0-63.33-63.33zm230.973 0a63.33 63.33 0 1 0 63.33 63.33 63.33 63.33 0 0 0-63.33-63.33zm230.973 0a63.33 63.33 0 1 0 63.331 63.33 63.33 63.33 0 0 0-63.33-63.33z" fill="#1ACAD8"/></svg>',
-    appId: 'aaa',
+    appId: 'news_detail',
     title: '新闻详情',
     width: 500,
     height: 650,
@@ -96,6 +97,24 @@ export default Magix.View.extend({
             size: 20,
             loading: true
         });
+
+        let autoUpdate = () => {
+            let start = this.get('start');
+            if (start === 0 ||
+                this.root.scrollTop < 50) {
+                this.set({
+                    list: []
+                });
+                this['@{load.data}']();
+                console.log('news updating');
+            } else {
+                console.log('ignore update news');
+            }
+        };
+        Cron["@{add.task}"](autoUpdate, 10 * 60 * 1000);
+        this.ondestroy = () => {
+            Cron["@{remove.task}"](autoUpdate);
+        };
     },
     async '@{load.data}'() {
         try {

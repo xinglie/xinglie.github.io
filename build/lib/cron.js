@@ -1,0 +1,1 @@
+import o from"./magix.js";let t=window.requestAnimationFrame,e=Date.now,_=[],l=0,r=()=>{for(let t=0;t<_.length;t++){let l=_[t];l._l?(_.splice(t,1),t--):e()-l._m>=l._n&&(l._m=e(),o.toTry(l._o))}_.length?t(r):l=0};export default{_p(m,n,i){_.push({_o:m,_n:n,_m:e()}),i&&o.toTry(m),l||(l=1,t(r))},_q(o){for(let t of _)t._o==o&&(t._l=1)}};
