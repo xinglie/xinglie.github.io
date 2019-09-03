@@ -1,4 +1,14 @@
 export default [{
+    title: '三亚',
+    href: '//github.com/xinglie/xinglie.github.io/issues/52',
+    desc: '带妞妞去三亚度假',
+    date: '2019-8-5'
+}, {
+    title: '小学生生字表',
+    href: '//github.com/xinglie/xinglie.github.io/issues/51',
+    desc: '收集的小学生要学习的生字',
+    date: '2019-7-23'
+}, {
     title: 'Magix中的微前端实践',
     href: '//github.com/xinglie/xinglie.github.io/issues/50',
     desc: '记录如何把一个大项目拆分并聚合加载它们',

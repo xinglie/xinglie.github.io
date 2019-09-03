@@ -13,7 +13,7 @@ export default Magix.View.extend({
     },
     async render() {
         let mark = Magix.mark(this, '@{render}');
-        let [today, list] = await Promise.all([Fetch(`//www.tianqiapi.com/api/?version=v6`, 60 * 60 * 1000), Fetch(`//www.tianqiapi.com/api/?version=v1`, 60 * 60 * 1000)]);
+        let [today, list] = await Promise.all([Fetch(`//www.tianqiapi.com/api/?version=v6&appid=1001&appsecret=5578`, 60 * 60 * 1000), Fetch(`//www.tianqiapi.com/api/?version=v1&appid=1001&appsecret=5578`, 60 * 60 * 1000)]);
         if (mark()) {
             console.log(new Date().toLocaleTimeString() + '请求');
             this.digest({

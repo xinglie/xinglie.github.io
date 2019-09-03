@@ -91,8 +91,12 @@ export default Object.assign({
             let audio = new Audio();
             let timer;
             //audio.crossOrigin = 'anonymous';
-            audio.onprogress = () => {
-                console.log('from propgress');
+            audio.onprogress = (e) => {
+                console.log('from propgress', e);
+                let b = audio.buffered;
+                if (b.length) {
+                    console.log(b.end(0));
+                }
                 this['@{update.time.and.buffer}']();
             };
             audio.onerror = () => {

@@ -5,6 +5,15 @@ import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Player from './player';
 Magix.applyStyle('@index.less');
+
+declare global {
+    interface Navigator {
+        mediaSession: {
+            setActionHandler: (key: string, f: () => void) => void
+            playbackState:string
+        }
+    }
+}
 export default Magix.View.extend({
     tmpl: '@index.html',
     mixins: [Dragdrop],
@@ -43,7 +52,44 @@ export default Magix.View.extend({
                 reset: true,
                 song: e.song
             });
-        })
+        });
+
+        let nms = navigator.mediaSession;
+        if (nms) {
+            nms.setActionHandler('play', () => {
+                if (Player["@{can.operate}"]()) {
+                    console.log('media session play')
+                    Player['@{set.play}']();
+                    nms.playbackState='playing';
+                }
+            });
+            nms.setActionHandler('pause', () => {
+                if (Player["@{can.operate}"]()) {
+                    console.log('media session pause')
+                    Player['@{set.pause}']();
+                    nms.playbackState='paused';
+                }
+            });
+            nms.setActionHandler('seekbackward', () => {
+                console.log('seekbackward');
+            });
+            nms.setActionHandler('seekforward', () => {
+                console.log('seekforward');
+            });
+            nms.setActionHandler('previoustrack', () => {
+                if (Player["@{can.operate}"]()) {
+                    console.log('previoustrack');
+                    Player['@{pre.song}']();
+                }
+            });
+            nms.setActionHandler('nexttrack', () => {
+                if (Player["@{can.operate}"]()) {
+                    console.log('nexttrack');
+                    let active = this.get('active');
+                    Player["@{next.song}"](active.channel_id);
+                }
+            });
+        }
         this.set({
             cshow: false,
             reset: true,

@@ -24,14 +24,9 @@ export default Magix.View.extend({
     mixins: [Dragdrop],
     tmpl: '@index.html',
     init() {
-        let now = new Date();
         this.set({
             weekText: weeks,
-            weekStart: 0,
-            //tip: GetTip,
-            year: now.getFullYear(),
-            month: now.getMonth() + 1,
-            day: now.getDate()
+            weekStart: 0
         });
         let update = this.render.bind(this);
         Cron["@{add.task}"](update, 10 * 60 * 1000);
@@ -40,7 +35,17 @@ export default Magix.View.extend({
         };
     },
     render() {
-        let { year, month, weekStart } = this.get();
+        let now = new Date();
+        let year = now.getFullYear();
+        let month = now.getMonth() + 1;
+        let day = now.getDate();
+        let start = new Date(now.getFullYear(), 0, 1, 0, 0, 0).getTime();
+        let end = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0).getTime();
+        let percent = (now.getTime() - start) / (end - start) * 100;
+        let dayTime = 24 * 60 * 60 * 1000;
+        let totalDays = (end - start) / dayTime;
+        let esDays = (end - now.getTime()) / dayTime;
+        let weekStart = this.get('weekStart');
         let startOffset = (7 - weekStart + new Date(year, month - 1, 1).getDay()) % 7;
         let trs = [],
             tds = [];
@@ -93,6 +98,12 @@ export default Magix.View.extend({
         }
         console.log(trs);
         this.digest({
+            year,
+            month,
+            day,
+            days: totalDays,
+            esDays,
+            percent: percent.toFixed(2),
             weeks: trs
         });
     },

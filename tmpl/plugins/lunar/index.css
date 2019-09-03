@@ -3,10 +3,48 @@
     border-radius: 5px;
     overflow: hidden;
     opacity: 0.1;
-    transition: all 0.25s;
+    transition: all 0.5s;
 }
 .root:hover{
     opacity: 0.8
+}
+.progress{
+    height: 4px;
+    background: #bbb;
+}
+.bar{
+    height:100%;
+    background: #888;
+}
+.days{
+    border-radius: 4px;
+    background: #000a;
+    transform: translate(90px,-40px);
+    position: absolute;
+    left:0;
+    top:0;
+    padding: 4px;
+    font-size: 12px;
+}
+.days::after{
+    content: ' ';
+    width:0;
+    height:0;
+    position: absolute;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #000a #0000 #0000 #0000;
+    left:50%;
+    top:100%;
+}
+.big-month{
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    font-size: 140px;
+    color:#fff2;
+    text-align: center;
 }
 .week{
     border-collapse: collapse;

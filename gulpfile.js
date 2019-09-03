@@ -42,13 +42,15 @@ gulp.task('cleanSrc', function () {
 });
 gulp.task('combine', gulp.series('cleanSrc', function () {
     return combineTool.combine().catch(e => {
-        console.error(e);
+        console.error('combine error', e);
     });
 }));
 gulp.task('watch', gulp.series('combine', function () {
     watch(tmplFolder + '/**/*', function (e) {
         if (fs.existsSync(e.path)) {
-            combineTool.processFile(e.path);
+            combineTool.processFile(e.path).catch(e => {
+                console.log('process file error', e);
+            });
         } else {
             combineTool.removeFile(e.path);
         }
@@ -68,7 +70,7 @@ gulp.task('build', gulp.series('cleanBuild', function () {
     return combineTool.combine().then(() => {
         return gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({
-                module:true,
+                module: true,
                 compress: {
                     drop_console: true,
                     global_defs: {

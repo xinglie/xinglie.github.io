@@ -25,6 +25,7 @@
     line-height: 17px;
     font-weight: bold;
     color:#fff;
+    overflow: hidden;
 }
 .air--0{
     background: #43ce17;

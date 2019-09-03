@@ -25,9 +25,9 @@ export default [{
 }, {
     view: '@./lunar/index',
     dockX: 300,
-    dockY: 10,
+    dockY: 50,
     width: 350,
-    height: 250,
+    height: 200,
     dockXKey: 'left',
     dockYKey: 'top'
 }];

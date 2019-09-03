@@ -1,4 +1,13 @@
 <div class="root" mx-mousedown="@{move.cal}()">
+    <div class="days">
+        今年共{{=days}}天，还有{{=Math.ceil(esDays)}}天
+    </div>
+    <div class="progress">
+        <div class="bar" style="width:{{=percent}}%"></div>
+    </div>
+    <div class="big-month">
+        {{=month}}
+    </div>
     <table class="week">
         <tbody>
             <tr>
