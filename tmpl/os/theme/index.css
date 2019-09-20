@@ -2,6 +2,9 @@ body{
     background: var(--__global__desktop_background);
     color:var(--__global__desktop_foreground);
 }
+body:-webkit-full-screen::backdrop{
+    background: transparent;
+}
 .global-bg{
     position: fixed;
     left:0;

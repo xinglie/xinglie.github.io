@@ -31,7 +31,8 @@ export default Magix.View.extend({
     init() {
         this.set({
             s100: Scale100,
-            fs: FormatSeconds
+            fs: FormatSeconds,
+            full: false
         });
         if (navigator.getBattery) {
             navigator.getBattery().then(b => {
@@ -64,6 +65,26 @@ export default Magix.View.extend({
         this.digest({
             online: navigator.onLine
         });
+    },
+    '$doc<webkitfullscreenchange,mozfullscreenchange,fullscreenchange>'(e) {
+        let doc = document as Document & {
+            fullscreenElement: HTMLElement
+            webkitCurrentFullScreenElement: HTMLElement
+            mozFullScreenElement: HTMLElement
+        };
+        let element = doc.fullscreenElement ||
+            doc.webkitCurrentFullScreenElement ||
+            doc.mozFullScreenElement || null;
+        this.digest({
+            full: !!element
+        });
+    },
+    '@{toggle.fullscreen}<click>'() {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.body.requestFullscreen();
+        }
     },
     '$win<online,offline>'(e) {
         this.render();

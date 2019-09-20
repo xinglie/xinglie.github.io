@@ -93,10 +93,11 @@ let GA = Doc_Body.getAttribute;
 let GetAttribute = (node, attr) => GA.call(node, attr);
 let ApplyStyle = (key, css, node) => {
     if (DEBUG && IsArray(key)) {
+        let result = [];
         for (let i = 0; i < key.length; i += 2) {
-            ApplyStyle(key[i], key[i + 1]);
+            result.push(ApplyStyle(key[i], key[i + 1]));
         }
-        return;
+        return result;
     }
     if (css && !ApplyStyle[key]) {
         ApplyStyle[key] = 1;
@@ -108,10 +109,12 @@ let ApplyStyle = (key, css, node) => {
             node.id = key;
             SetInnerHTML(node, css);
             Header.appendChild(node);
+            
         } else {
             node = Doc_Document.createElement('style');
             SetInnerHTML(node, css);
             Header.appendChild(node);
+            
         }
     }
 };
@@ -201,9 +204,9 @@ Assign(MxCache[Prototype], {
         if (r) {
             r['a'] = -1;
             r['c'] = Empty;
-            delete c[k];
+            c[k] = Null;
             //if (m) {
-                //ToTry(m, r['d']);
+            //ToTry(m, r['d']);
             //}
         }
     },
@@ -252,7 +255,7 @@ let RemoveEventListener = (element, type, cb, viewId?, eventOptions?) => {
         }
     }
 };
-
+let Decode = decodeURIComponent;
 let PathToObject = new MxCache();
 let ParseUri = path => {
     //把形如 /xxx/?a=b&c=d 转换成对象 {path:'/xxx/',params:{a:'b',c:'d'}}
@@ -273,7 +276,7 @@ let ParseUri = path => {
             if (path) {
                 for (q of path.split('&')) {
                     [key, value] = q.split('=');
-                    po[key] = decodeURIComponent(value || Empty);
+                    po[Decode(key)] = Decode(value || Empty);
                 }
             }
         }
@@ -370,7 +373,7 @@ let Async_Require = (name, fn) => {
             if (!MxDefaultViewEntity) {
                 MxDefaultViewEntity = View.extend();
             }
-            fn(MxDefaultViewEntity);
+            CallFunction(fn, [MxDefaultViewEntity]);
         } else {
             if (!IsArray(name)) name = [name];
             let a = [], b = [], paths = Mx_Cfg.paths, f, s, p;
@@ -401,7 +404,7 @@ let Async_Require = (name, fn) => {
             });
         }
     } else {
-        fn();
+        CallFunction(fn);
     }
 };
 function T() { }
@@ -525,8 +528,8 @@ let MxEvent = {
                 }
             }
         } else {
-            delete me[key];
-            delete me[`on${name}`];
+            me[key] = Null;
+            me[`on${name}`] = Null;
         }
         return me;
     }
@@ -541,6 +544,7 @@ let MxEvent = {
 let Vframe_RootVframe;
 let Vframe_Vframes = {};
 let Vframe_RootId;
+
 let Vframe_TranslateQuery = (pId, src, params, pVf?) => {
     if (src.indexOf(Spliter) > 0 &&
         (pVf = Vframe_Vframes[pId])) {
@@ -558,6 +562,7 @@ let Vframe_Root = (rootId?, e?) => {
             e = Doc_Body;
         }
         Vframe_RootVframe = new Vframe(e);
+        
     }
     return Vframe_RootVframe;
 };
@@ -660,55 +665,57 @@ Assign(Vframe[Prototype], {
             me['g'] = view;
             Assign(params, viewInitParams);
             sign = me['d'];
-            Async_Require(view, TView => {
-                if (sign == me['d']) { //有可能在view载入后，vframe已经卸载了
-                    if (!TView) {
-                        return Mx_Cfg.error(Error(`${id} cannot load:${view}`));
-                    }
-                    ctors = View_Prepare(TView);
-                    view = new TView(id, root, me, params, ctors);
-
-                    if (DEBUG) {
-                        let viewProto = TView.prototype;
-                        let importantProps = {
-                            id: 1,
-                            owner: 1,
-                            'a': 1,
-                            'b': 1,
-                            'c': 1,
-                            'd': 1,
-                            'e': 1
-                        };
-                        for (let p in view) {
-                            if (Has(view, p) && viewProto[p]) {
-                                throw new Error(`avoid write ${p} at file ${viewPath}!`);
-                            }
+            
+                Async_Require(view, TView => {
+                    if (sign == me['d']) { //有可能在view载入后，vframe已经卸载了
+                        if (!TView) {
+                            return Mx_Cfg.error(Error(`${id} cannot load:${view}`));
                         }
-                        view = Safeguard(view, true, (key, value) => {
-                            if (Has(viewProto, key) ||
-                                (Has(importantProps, key) &&
-                                    (key != 'c' || !isFinite(value)) &&
-                                    ((key != 'owner' && key != 'root') || value !== Null))) {
-                                throw new Error(`avoid write ${key} at file ${viewPath}!`);
+                        ctors = View_Prepare(TView);
+                        view = new TView(id, root, me, params, ctors);
+
+                        if (DEBUG) {
+                            let viewProto = TView.prototype;
+                            let importantProps = {
+                                id: 1,
+                                owner: 1,
+                                'a': 1,
+                                'b': 1,
+                                'c': 1,
+                                'd': 1,
+                                'e': 1
+                            };
+                            for (let p in view) {
+                                if (Has(view, p) && viewProto[p]) {
+                                    throw new Error(`avoid write ${p} at file ${viewPath}!`);
+                                }
+                            }
+                            view = Safeguard(view, true, (key, value) => {
+                                if (Has(viewProto, key) ||
+                                    (Has(importantProps, key) &&
+                                        (key != 'c' || !isFinite(value)) &&
+                                        ((key != 'owner' && key != 'root') || value !== Null))) {
+                                    throw new Error(`avoid write ${key} at file ${viewPath}!`);
+                                }
+                            });
+                        }
+                        me['h'] = view;
+                        
+                        View_DelegateEvents(view);
+                        ToTry(view.init, params, view);
+                        CallFunction(() => {
+                            view['f']();
+                            if (!view.tmpl) { //无模板
+                                me['e'] = 0; //不会修改节点，因此销毁时不还原
+                                if (!view['g']) {
+                                    view.endUpdate();
+                                }
                             }
                         });
+                        // view['f']();
                     }
-                    me['h'] = view;
-                    
-                    View_DelegateEvents(view);
-                    ToTry(view.init, params, view);
-                    CallFunction(() => {
-                        view['f']();
-                        if (!view.tmpl) { //无模板
-                            me['e'] = 0; //不会修改节点，因此销毁时不还原
-                            if (!view['g']) {
-                                view.endUpdate();
-                            }
-                        }
-                    });
-                    // view['f']();
-                }
-            });
+                });
+                
         }
     },
     /**
@@ -1677,7 +1684,8 @@ let View_DelegateEvents = (me, destroy) => {
 };
 let View_Globals = {
     win: Doc_Window,
-    doc: Doc_Document
+    doc: Doc_Document,
+    body: Doc_Body
 };
 
 let View_MergeMixins = (mixins, proto, ctors) => {
@@ -1960,7 +1968,7 @@ Assign(View[Prototype], MxEvent, {
     
 });
 
-
+let Magix_Booted = 0;
 let Magix = {
     config(cfg, r) {
         r = Mx_Cfg;
@@ -1974,32 +1982,37 @@ let Magix = {
         return r;
     },
     boot(cfg) {
-        Assign(Mx_Cfg, cfg); //先放到配置信息中，供ini文件中使用
-        
-        Vframe_Root().mountView(Mx_Cfg.defaultView);
-        
-        if (DEBUG) {
-            let whiteList = {
-                defaultView: 1,
-                error: 1,
-                defaultPath: 1,
-                recast: 1,
-                rewrite: 1,
-                rootId: 1,
-                routes: 1,
-                unmatchView: 1,
-                title: 1
-            };
-            Mx_Cfg = Safeguard(Mx_Cfg, true, (key, value) => {
-                if (Has(whiteList, key)) {
-                    throw new Error(`avoid write ${key} to magix config!`);
-                }
-            });
+        if (!Magix_Booted) {
+            Magix_Booted = 1;
+            Assign(Mx_Cfg, cfg); //先放到配置信息中，供ini文件中使用
+            
+            Vframe_Root().mountView(Mx_Cfg.defaultView);
+            
+            if (DEBUG) {
+                let whiteList = {
+                    defaultView: 1,
+                    error: 1,
+                    defaultPath: 1,
+                    recast: 1,
+                    rewrite: 1,
+                    rootId: 1,
+                    routes: 1,
+                    unmatchView: 1,
+                    title: 1
+                };
+                Mx_Cfg = Safeguard(Mx_Cfg, true, (key, value) => {
+                    if (Has(whiteList, key)) {
+                        throw new Error(`avoid write ${key} to magix config!`);
+                    }
+                });
+            }
         }
     },
     unboot() {
-        
-        Vframe_Unroot();
+        if (Magix_Booted) {
+            
+            Vframe_Unroot();
+        }
     },
     toMap: ToMap,
     toTry: ToTry,
