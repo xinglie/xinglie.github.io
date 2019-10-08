@@ -49,11 +49,11 @@ export default Magix.View.extend({
             this.digest({
                 list
             });
-            // let rdm = Math.floor(Math.random() * list.length);
-            // let one = list[rdm];
-            // let src = one.url;
-            // let thumb = src.replace('bdr/__85', 'bdr/200_120_60');
-            // Wallpapger["@{set.wallpaper}"](thumb, src);
+            let rdm = Math.floor(Math.random() * list.length);
+            let one = list[rdm];
+            let src = one.url;
+            let thumb = src.replace('bdr/__85', 'bdr/200_120_60');
+            Wallpapger["@{set.wallpaper}"](thumb, src);
         } catch{
             this.digest();
         }

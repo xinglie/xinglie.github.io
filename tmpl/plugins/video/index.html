@@ -1,0 +1,15 @@
+{{set dest=list[si].url}}
+<div class="video-head{{if maxState&&dest}} video-head-max{{/if}}">
+    <div class="video-head-content">
+        <input class="video-input" placeholder="请输入/粘贴播放地址" mx-change="@{update.input}()" value="{{=url}}" />
+        <select class="video-select" mx-change="@{update}()">
+            {{each list as proxy index}}
+            <option value="{{=proxy.url}}" selected="{{index==si}}?">{{=proxy.name}}</option>
+            {{/each}}
+        </select>
+        <button type="button" class="video-button" mx-click="@{play}()">播放</button>
+    </div>
+</div>
+{{if dest}}
+<iframe src="{{=dest}}{{=encodeURIComponent(url)}}" sandbox="allow-scripts allow-same-origin" allowfullscreen class="video-main{{if maxState}} video-max{{/if}}" scrolling="no" frameborder="0"></iframe>
+{{/if}}

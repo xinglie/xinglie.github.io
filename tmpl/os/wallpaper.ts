@@ -29,10 +29,10 @@ export default Magix.View.extend({
         this.digest();
     }
 }, {
-        '@{set.wallpaper}'(thumb, src) {
-            Bridge.fire('@{when.set.wallpapger}', {
-                thumb,
-                src
-            });
-        }
-    });
+    '@{set.wallpaper}'(thumb, src) {
+        Bridge.fire('@{when.set.wallpapger}', {
+            thumb,
+            src
+        });
+    }
+});

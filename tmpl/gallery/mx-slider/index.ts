@@ -7,9 +7,6 @@ Magix.applyStyle('@index.less');
 export default Magix.View.extend({
     tmpl: '@index.html',
     mixins: [Dragdrop],
-    init(data) {
-        this.assign(data);
-    },
     assign(data) {
         if (!this['@{dragging}']) {
             this.set(data);

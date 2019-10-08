@@ -13,7 +13,6 @@ export default Magix.View.extend({
     tmpl: '@./dialog.html',
     mixins: [Dragdrop],
     init(data) {
-        this.assign(data);
         let state = data.maxState ? WinMaxState : WinNormalState;
         state |= WinHideState;
         this['@{state}'] = state;
@@ -100,6 +99,7 @@ export default Magix.View.extend({
     },
     '@{toggle.normal.max.state}'() {
         let state = this['@{state}'];
+        let node = Magix.node('d_' + this.id);
         if (state & WinMaxState) {
             this['@{state}'] = state ^ WinMaxState | WinNormalState;
             this.digest({
