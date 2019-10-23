@@ -57,7 +57,7 @@ gulp.task('watch', gulp.series('combine', function () {
     });
 }));
 
-var uglify = require('../gulp-terser-scoped/index');
+var uglify = require('gulp-terser');
 gulp.task('cleanBuild', function () {
     return del(buildFolder);
 });
@@ -65,8 +65,6 @@ gulp.task('build', gulp.series('cleanBuild', function () {
     combineTool.config({
         debug: false
     });
-
-
     return combineTool.combine().then(() => {
         return gulp.src(srcFolder + '/**/*.js')
             .pipe(uglify({

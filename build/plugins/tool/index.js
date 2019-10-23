@@ -1,1 +1,2 @@
+/*!1.0.2 kooboy_li@163.com*/
 let e;import t from"../../lib/magix.js";export default t.View.extend({tmpl:(t,l,r)=>{let o=[];return e?o.push(e):o.push(e=l("iframe",{_:"_",sandbox:"allow-scripts allow-same-origin allow-popups",src:"//www.qtool.net",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),l(r,0,o)},render(){this.digest()}});

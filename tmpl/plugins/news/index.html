@@ -19,7 +19,7 @@
         </div>
         <div class="news-tip">
             <span class="news-source">来源：{{=d.source}}</span>
-            <span class="news-time">{{=d.ptime}}&emsp;<span class="{{d.commentCount>=500}}?{{if d.commentCount>1000}}news-tip-hot{{else}}news-tip-warm{{/if}}" mx-click="@{open.comment}({detail:'{{@d}}'})">评论：{{=d.commentCount}}</span></span>
+            <span class="news-time">{{=d.ptime}}&emsp;<span style="color:{{=getColor(d.commentCount)}}" mx-click="@{open.comment}({detail:'{{@d}}'})">评论：{{=d.commentCount}}</span></span>
         </div>
     </div>
 {{/each}}

@@ -1,5 +1,5 @@
 import Magix from '../../lib/magix';
-import Fetch from '../../lib/fetch';
+import XAgent from '../../lib/agent';
 import Cron from '../../lib/cron';
 Magix.applyStyle('@index.css');
 //let appId=`&appid=1001&appsecret=5578`;
@@ -20,17 +20,21 @@ export default Magix.View.extend({
         let mark = Magix.mark(this, '@{render}');
         let task = async (index) => {
             let appId = appIds[index];
+            console.log(appId);
             if (appId) {
-                let [today, list] = await Promise.all([Fetch(`//www.tianqiapi.com/api/?version=v6&${appId}`, 60 * 60 * 1000), Fetch(`//www.tianqiapi.com/api/?version=v1&${appId}`, 60 * 60 * 1000)]);
+                let [today, list] = await Promise.all([XAgent.request(`//www.tianqiapi.com/api/?version=v6&${appId}`, 60 * 60 * 1000), XAgent.request(`//www.tianqiapi.com/api/?version=v1&${appId}`, 60 * 60 * 1000)]);
                 if (mark()) {
                     try {
+                        let todayObject = JSON.parse(today);
+                        let listObject = JSON.parse(list);
                         this.digest({
-                            weather: today,
-                            list: list.data.slice(1),
-                            update: list.update_time
+                            weather: todayObject,
+                            list: listObject.data.slice(1),
+                            update: listObject.update_time
                         });
                     } catch{
-                        task(index++);
+                        debugger;
+                        //task(index++);
                     }
                 }
             }

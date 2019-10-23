@@ -1,1 +1,2 @@
+/*!1.0.2 kooboy_li@163.com*/
 let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,r,t)=>{let l=[];return e?l.push(e):l.push(e=r("iframe",{_:"_",sandbox:"allow-scripts allow-same-origin",src:"//baidu.kuaidi100.com/index2.html",frameborder:"no",style:"width:100%;height:100%",scrolling:"no"})),r(t,0,l)},render(){this.digest()}});

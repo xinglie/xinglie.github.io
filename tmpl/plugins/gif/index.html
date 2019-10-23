@@ -1,0 +1,10 @@
+<div class="container">
+    {{each list as image}}
+    <div class="card">
+        <div class="title">{{=image.name}}</div>
+        <div class="image"><img class="image-img" src="{{=image.img}}"/></div>
+        <div class="foot">{{=image.from}} {{=image.date}}</div>
+    </div>
+    {{/each}}
+    <div class="more">更多加载中...</div>
+</div>

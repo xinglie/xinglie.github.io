@@ -11,7 +11,7 @@ let Run = () => {
             i--;
         } else if (Now() - t['@{last.time}'] >= t['@{interval}']) {
             t['@{last.time}'] = Now();
-            Magix.toTry(t['@{task}']);
+            Magix.task(t['@{task}']);
         }
     }
     if (Tasks.length) {
@@ -42,6 +42,13 @@ export default {
         for (let t of Tasks) {
             if (t['@{task}'] == task) {
                 t['@{removed}'] = 1;
+            }
+        }
+    },
+    '@{update.to.now}'(task) {
+        for (let t of Tasks) {
+            if (t['@{task}'] == task) {
+                t['@{last.time}'] = Now();
             }
         }
     }

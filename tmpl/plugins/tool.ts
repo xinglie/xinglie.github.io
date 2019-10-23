@@ -30,4 +30,12 @@ export default [{
     height: 200,
     dockXKey: 'left',
     dockYKey: 'top'
+}, {
+    view: '@./clock/index',
+    dockX: 10,
+    dockY: 283,
+    width: 150,
+    height: 150,
+    dockXKey: 'right',
+    dockYKey: 'bottom'
 }];

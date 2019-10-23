@@ -1,1 +1,2 @@
-import o from"./magix.js";let t=window.requestAnimationFrame,e=Date.now,_=[],l=0,r=()=>{for(let t=0;t<_.length;t++){let l=_[t];l._l?(_.splice(t,1),t--):e()-l._m>=l._n&&(l._m=e(),o.toTry(l._o))}_.length?t(r):l=0};export default{_p(m,n,i){_.push({_o:m,_n:n,_m:e()}),i&&o.toTry(m),l||(l=1,t(r))},_q(o){for(let t of _)t._o==o&&(t._l=1)}};
+/*!1.0.2 kooboy_li@163.com*/
+import o from"./magix.js";let t=window.requestAnimationFrame,_=Date.now,e=[],r=0,l=()=>{for(let t=0;t<e.length;t++){let r=e[t];r._n?(e.splice(t,1),t--):_()-r._o>=r._p&&(r._o=_(),o.task(r._q))}e.length?t(l):r=0};export default{_r(n,f,a){e.push({_q:n,_p:f,_o:_()}),a&&o.toTry(n),r||(r=1,t(l))},_s(o){for(let t of e)t._q==o&&(t._n=1)},_t(o){for(let t of e)t._q==o&&(t._o=_())}};

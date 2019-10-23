@@ -339,9 +339,10 @@ let CallBreakTime = 32;
 let StartCall = () => {
     let last = Date_Now(),
         next;
-    while (1) {
+    while (CallBreakTime) {
         next = CallList[CallIndex - 1];
         if (next) {
+            //ToTry(next, CallList[CallIndex + 1], CallList[CallIndex]);
             next.apply(CallList[CallIndex], CallList[CallIndex + 1]);
             CallIndex += 3;
             if (Date_Now() - last > CallBreakTime &&
@@ -702,7 +703,8 @@ Assign(Vframe[Prototype], {
                         CallFunction(() => {
                             view['g']();
                             if (!view.tmpl) { //无模板
-                                me['e'] = 0; //不会修改节点，因此销毁时不还原
+                                //me['e'] = 0; //不会修改节点，因此销毁时不还原
+                                //me['f'] = Empty;
                                 if (!view['h']) {
                                     view.endUpdate();
                                 }
@@ -1184,13 +1186,14 @@ let Updater_Digest = (view , tmpl) => {
     }
 };
 let Q_TEXTAREA = 'textarea';
-let Q_Create = (tag, props, children, unary) => {
+let Q_Empty_Object = {};
+let Q_Create = (tag, props, children, specials, unary) => {
     //html=tag+to_array(attrs)+children.html
     let token;
     if (tag) {
-        props = props || {};
+        props = props || Q_Empty_Object;
         let compareKey = Empty,
-            hasMxv,
+            hasMxv = specials,
             prop, value, c,
             reused = {},
             outerHTML = '<' + tag,
@@ -1225,6 +1228,7 @@ let Q_Create = (tag, props, children, unary) => {
                 }
             }
         }
+        specials = specials || Q_Empty_Object;
         for (prop in props) {
             value = props[prop];
             //布尔值
@@ -1233,7 +1237,7 @@ let Q_Create = (tag, props, children, unary) => {
                 delete props[prop];
                 continue;
             } else if (value === true) {
-                props[prop] = value = Empty;
+                props[prop] = value = specials[prop] ? value : Empty;
             }
             if (prop == Tag_Prop_Id) {//如果有id优先使用
                 compareKey = value;
@@ -1262,12 +1266,13 @@ let Q_Create = (tag, props, children, unary) => {
             'c': innerHTML,
             'd': compareKey,
             'b': tag,
-            'e': hasMxv || Has(V_SPECIAL_PROPS, tag),
-            'f': attrs,
-            'g': props,
-            'h': newChildren,
-            'i': reused,
-            'j': unary
+            'e': hasMxv,
+            'f': specials,
+            'g': attrs,
+            'h': props,
+            'i': newChildren,
+            'j': reused,
+            'k': unary
         };
     } else {
         token = {
@@ -1277,19 +1282,6 @@ let Q_Create = (tag, props, children, unary) => {
     }
     return token;
 };
-let V_SPECIAL_PROPS = {
-    input: {
-        [Value]: 1,
-        checked: 1
-    },
-    [Q_TEXTAREA]: {
-        [Value]: 1
-    },
-    option: {
-        selected: 1
-    }
-};
-
 let V_SKIP_PROPS = {
     [Tag_Static_Key]: 1,
     [Tag_View_Params_Key]: 1
@@ -1321,39 +1313,38 @@ let V_NSMap = {
     math: `${V_W3C}1998/Math/MathML`
 };
 
-let V_SetAttributes = (oldNode, lastVDOM, newVDOM, common) => {
+let V_SetAttributes = (oldNode, lastVDOM, newVDOM) => {
     let key, value,
         changed = 0,
-        specials = V_SPECIAL_PROPS[lastVDOM['b']],
-        nMap = newVDOM['g'],
-        oMap = lastVDOM['g'];
-    if (common) {
-        if (lastVDOM) {
-            for (key in oMap) {
-                if (!Has(specials, key) &&
-                    !Has(nMap, key)) {//如果旧有新木有
-                    changed = 1;
+        nsMap = newVDOM['f'],
+        osMap = lastVDOM['f'],
+        nMap = newVDOM['h'],
+        oMap = lastVDOM['h'],
+        sValue;
+    if (lastVDOM) {
+        for (key in oMap) {
+            if (!Has(nMap, key)) {//如果旧有新木有
+                changed = 1;
+                if ((sValue = osMap[key])) {
+                    oldNode[sValue] = Empty;
+                } else {
                     oldNode.removeAttribute(key);
                 }
             }
         }
-        for (key in nMap) {
-            if (!Has(specials, key) &&
-                !Has(V_SKIP_PROPS, key)) {
-                value = nMap[key];
-                //旧值与新值不相等
-                if (!lastVDOM || oMap[key] !== value) {
-                    changed = 1;
-                    oldNode.setAttribute(key, value);
-                }
-            }
-        }
     }
-    for (key in specials) {
-        value = Has(nMap, key) ? key != Value || nMap[key] : key == Value && Empty;
-        if (oldNode[key] != value) {
-            changed = 1;
-            oldNode[key] = value;
+    for (key in nMap) {
+        if (!Has(V_SKIP_PROPS, key)) {
+            value = nMap[key];
+            if ((sValue = nsMap[key])) {
+                if (!lastVDOM || oldNode[sValue] != value) {
+                    changed = 1;
+                    oldNode[sValue] = value;
+                }
+            } else if (!lastVDOM || oMap[key] != value) {
+                changed = 1;
+                oldNode.setAttribute(key, value);
+            }
         }
     }
     if (changed) {
@@ -1368,7 +1359,7 @@ let V_CreateNode = (vnode, owner) => {
         c = Doc_Document.createTextNode(vnode['a']);
     } else {
         c = Doc_Document.createElementNS(V_NSMap[tag] || owner.namespaceURI, tag);
-        V_SetAttributes(c, 0, vnode, 1);
+        V_SetAttributes(c, 0, vnode);
         SetInnerHTML(c, vnode['c']);
     }
     return c;
@@ -1378,11 +1369,11 @@ let V_SetChildNodes = (realNode, lastVDOM, newVDOM, ref, vframe, keys) => {
         if (lastVDOM['e'] ||
             lastVDOM['c'] != newVDOM['c']) {
             let i, oi,
-                oldChildren = lastVDOM['h'],
-                newChildren = newVDOM['h'], oc, nc,
+                oldChildren = lastVDOM['i'],
+                newChildren = newVDOM['i'], oc, nc,
                 oldCount = oldChildren.length,
                 newCount = newChildren.length,
-                reused = newVDOM['i'],
+                reused = newVDOM['j'],
                 nodes = realNode.childNodes, compareKey,
                 keyedNodes = {},
                 oldVIndex = 0,
@@ -1501,8 +1492,8 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                 }
             }
         }
-        let lastAMap = lastVDOM['g'],
-            newAMap = newVDOM['g'],
+        let lastAMap = lastVDOM['h'],
+            newAMap = newVDOM['h'],
             lastNodeTag = lastVDOM['b'];
         if (lastVDOM['e'] ||
             lastVDOM['a'] != newVDOM['a']) {
@@ -1517,8 +1508,8 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                     lastAMap[Tag_Static_Key] != newAMap[Tag_Static_Key]) {
                     let newMxView = newAMap[MX_View],
                         newHTML = newVDOM['c'],
-                        commonAttrs = lastVDOM['f'] != newVDOM['f'],
-                        updateAttribute = Has(V_SPECIAL_PROPS, lastNodeTag) || commonAttrs,
+                        commonAttrs = lastVDOM['g'] != newVDOM['g'],
+                        updateAttribute = lastVDOM['f'] || commonAttrs,
                         updateChildren, unmountOld,
                         oldVf = Vframe_Vframes[realNode['b']],
                         assign,
@@ -1539,7 +1530,7 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                         当传递第一份数据时，input显示值xl，这时候用户修改了input的值且使用第二份数据重新渲染这个view，问input该如何显示？
                     */
                     if (updateAttribute) {
-                        updateAttribute = V_SetAttributes(realNode, lastVDOM, newVDOM, commonAttrs);
+                        updateAttribute = V_SetAttributes(realNode, lastVDOM, newVDOM);
                         if (updateAttribute) {
                             ref['b'] = 1;
                         }
@@ -1564,52 +1555,53 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                             htmlChanged ) {
                             assign = view['h'] && view['f'];
                             //如果有assign方法,且有参数或html变化
-                            if (assign) {
-                                params = uri[Params];
-                                //处理引用赋值
-                                Vframe_TranslateQuery(oldVf.pId, newMxView, params);
-                                oldVf[Path] = newMxView;//update ref
-                                //如果需要更新，则进行更新的操作
-                                // uri = {
-                                //     //node: newVDOM,//['h'],
-                                //     //html: newHTML,
-                                //     //mxv: hasMXV,
-                                //     node: realNode,
-                                //     attr: updateAttribute,
-                                //     deep: !view.tmpl,
-                                //     inner: htmlChanged,
-                                //     query: paramsChanged
-                                // };
-                                //updateAttribute = 1;
-                                if (DEBUG) {
-                                    let result = ToTry(assign, params,/*[params, uri],*/ view);
-                                    if (result === undefined) {
-                                        console.error(`${uri[Path]} "assign" method must return true or false value`);
-                                    }
-                                    if (result) {
-                                        
-                                        view['m']++;
-                                        
-                                        ref['a'].push(view);
-                                    }
-                                } else if (ToTry(assign, params,/*[params, uri],*/ view)) {
+                            //if (assign) {
+                            params = uri[Params];
+                            //处理引用赋值
+                            Vframe_TranslateQuery(oldVf.pId, newMxView, params);
+                            oldVf[Path] = newMxView;//update ref
+                            oldVf['f'] = newHTML;
+                            //如果需要更新，则进行更新的操作
+                            // uri = {
+                            //     //node: newVDOM,//['i'],
+                            //     //html: newHTML,
+                            //     //mxv: hasMXV,
+                            //     node: realNode,
+                            //     attr: updateAttribute,
+                            //     deep: !view.tmpl,
+                            //     inner: htmlChanged,
+                            //     query: paramsChanged
+                            // };
+                            //updateAttribute = 1;
+                            if (DEBUG) {
+                                let result = ToTry(assign, params,/*[params, uri],*/ view);
+                                if (result !== true && result !== false) {
+                                    console.error(`${uri[Path]} "assign" method must return true or false value`);
+                                }
+                                if (result) {
                                     
                                     view['m']++;
                                     
                                     ref['a'].push(view);
                                 }
-                                //默认当一个组件有assign方法时，由该方法及该view上的render方法完成当前区域内的节点更新
-                                //而对于不渲染界面的控制类型的组件来讲，它本身更新后，有可能需要继续由magix更新内部的子节点，此时通过deep参数控制
-                                updateChildren = !view.tmpl;//uri.deep;
-                            } else {
-                                unmountOld = 1;
-                                updateChildren = 1;
-                                if (DEBUG) {
-                                    if (updateAttribute) {
-                                        console.warn(`There is no "assign" method in ${uri[Path]},so magix remount it when attrs changed`);
-                                    }
-                                }
+                            } else if (ToTry(assign, params,/*[params, uri],*/ view)) {
+                                
+                                view['m']++;
+                                
+                                ref['a'].push(view);
                             }
+                            //默认当一个组件有assign方法时，由该方法及该view上的render方法完成当前区域内的节点更新
+                            //而对于不渲染界面的控制类型的组件来讲，它本身更新后，有可能需要继续由magix更新内部的子节点，此时通过deep参数控制
+                            updateChildren = !view.tmpl;//uri.deep;
+                            // } else {
+                            //     unmountOld = 1;
+                            //     updateChildren = 1;
+                            //     if (DEBUG) {
+                            //         if (updateAttribute) {
+                            //             console.warn(`There is no "assign" method in ${uri[Path]},so magix remount it when attrs changed`);
+                            //         }
+                            //     }
+                            // }
                         }// else {
                         // updateAttribute = 1;
                         //}
@@ -1624,7 +1616,7 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                     // Update all children (and subchildren).
                     //自闭合标签不再检测子节点
                     if (updateChildren &&
-                        !newVDOM['j']) {
+                        !newVDOM['k']) {
                         V_SetChildNodes(realNode, lastVDOM, newVDOM, ref, vframe, keys);
                     }
                 }
@@ -1701,10 +1693,8 @@ let View_MergeMixins = (mixins, proto, ctors) => {
                 }
             } else if (DEBUG &&
                 exist &&
-                p != 'extend' &&
-                p != Spliter &&
-                p != 'merge') { //只在开发中提示
-                Mx_Cfg.error(Error('merge duplicate:' + p));
+                fn != exist) { //只在开发中提示
+                Mx_Cfg.error(Error('plugins duplicate property:' + p));
             }
             temp[p] = fn;
         }
@@ -2038,7 +2028,9 @@ let Magix = {
     mark: Mark,
     unmark: Unmark,
     node: GetById,
-    task: CallFunction
+    task(fn, args, context) {
+        CallFunction(ToTry, [fn, args, context]);
+    }
 };
  export  declare namespace Magix5 {
     /**

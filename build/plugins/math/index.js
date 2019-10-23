@@ -1,1 +1,2 @@
+/*!1.0.2 kooboy_li@163.com*/
 let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,t,r)=>{let l=[];return e?l.push(e):l.push(e=t("iframe",{_:"_",sandbox:"allow-scripts",src:"//xinglie.github.io/lyy/",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),t(r,0,l)},render(){this.digest()}});

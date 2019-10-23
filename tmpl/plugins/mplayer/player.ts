@@ -1,5 +1,5 @@
 import Magix from '../../lib/magix';
-import Fetch from '../../lib/fetch';
+import XAgent from '../../lib/agent';
 let APIHost = 'https://jirenguapi.applinzi.com/fm';
 let MAX_HISTORY = 50;
 interface SongDesc {
@@ -18,7 +18,7 @@ let RedoList: SongDesc[] = [];
 let UndoList: SongDesc[] = [];
 export default Object.assign({
     '@{fetch.channels}'() {
-        return Fetch(`${APIHost}/getChannels.php`, 30 * 24 * 60 * 60 * 1000);
+        return XAgent.request(`${APIHost}/getChannels.php`, 30 * 24 * 60 * 60 * 1000);
     },
     '@{fetch.random.song}'(channelId) {
         return fetch(`${APIHost}/getSong.php?channel=${channelId}`).then(r => r.json());
@@ -28,7 +28,9 @@ export default Object.assign({
         return fetch(url).then(r => r.json());
     },
     async '@{get.channels.with.active}'() {
-        let { channels } = await this['@{fetch.channels}']();
+        let reponse = await this['@{fetch.channels}']();
+        let data = JSON.parse(reponse);
+        let { channels } = data;
         let active = channels[0];
         return {
             active,

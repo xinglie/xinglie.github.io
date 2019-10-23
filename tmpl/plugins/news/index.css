@@ -65,12 +65,6 @@
 .news-time{
     float: right;
 }
-.news-tip-hot{
-    color:#f00;
-}
-.news-tip-warm{
-    color:#ff8703;
-}
 .list-wrap{
     display: table;
 }

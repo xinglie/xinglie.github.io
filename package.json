@@ -17,6 +17,7 @@
   "dependencies": {
     "del": "",
     "gulp": "",
+    "gulp-terser": "^1.2.0",
     "gulp-watch": "",
     "typescript": "^3.5.2"
   },

@@ -2,6 +2,7 @@ import Magix, { Magix5 } from '../../lib/magix';
 import DialogCtrl from '../../os/ctrl';
 import Bridge from './bridge';
 import Cron from '../../lib/cron';
+import XAgent from '../../lib/agent';
 Magix.applyStyle('@./index.css');
 let Categories = [{ text: '全部', id: 'BBM54PGA' },
 { text: '娱乐', id: 'BA10TA81' },
@@ -17,58 +18,21 @@ let Categories = [{ text: '全部', id: 'BBM54PGA' },
 { text: '健康', id: 'BDC4QSV3' },
 { text: '旅游', id: 'BEO4GINL' }];
 let API = 'https://3g.163.com/touch/reconstruct/article/list/{id}wangning/{start}-{end}.html?_={guid}';
-declare global {
-    interface Window {
-        artiList: (data) => void
-    }
-}
 interface CommentEvent {
     fromComment: boolean
 }
-let NeteasePools = {};
-window.artiList = (data) => {
-    let script = document.currentScript as HTMLScriptElement;
-    let src = script.src;
-    let back = NeteasePools[src];
-    if (back) {
-        back(data);
-        delete NeteasePools[src];
-    }
-};
 let NeteaseJSONP = (id: string,
     start: number,
     end: number) => {
     return new Promise<[]>((resolve, reject) => {
-        let script = document.createElement('script');
-        let called = false;
-        let clean = () => {
-            script.parentNode.removeChild(script);
-        };
         let url = API.replace('{id}', id)
             .replace('{start}', start.toString())
             .replace('{end}', end.toString())
             .replace('{guid}', Magix.guid('thx_'));
-        NeteasePools[url] = data => {
-            if (!called) {
-                let realData = data[id + 'wangning'];
-                called = true;
-                resolve(realData);
-            }
-        };
-        script.onload = () => {
-            setTimeout(() => {
-                clean();
-                if (!called) {
-                    reject(`load ${url} error`);
-                }
-            }, 50);
-        };
-        script.onerror = () => {
-            clean();
-            reject(`load ${url} error`);
-        };
-        script.src = url;
-        document.body.append(script);
+        XAgent.request(url, 0, true).then(r => {
+            let d = JSON.parse(r.slice(9, -1));
+            resolve(d[id + 'wangning']);
+        }).catch(reject);
     });
 };
 let Options = {
@@ -86,6 +50,22 @@ let OpenSubDialog = (view, doc, comment?: boolean) => {
     Bridge["@{save.document}"](doc, comment);
     DialogCtrl["@{create}"](view, Options);
 };
+//let start = '#aaa';
+//let end = '#f00';
+let max = 10000;
+let GetColor = num => {
+    let start = [170, 170, 170];
+    let diffs = [255 - 170, -170, -170];
+    let p = num / max;
+    if (p > 1) p = 1;
+    let end = [];
+    for (let i = 0; i < diffs.length; i++) {
+        let n = (diffs[i] * p + start[i]) | 0;
+        let s = `0${n.toString(16)}`.slice(-2);
+        end.push(s);
+    }
+    return `#${end.join('')}`;
+};
 export default Magix.View.extend({
     tmpl: '@index.html',
     init() {
@@ -95,6 +75,7 @@ export default Magix.View.extend({
             list: [],
             start: 0,
             size: 20,
+            getColor: GetColor,
             loading: true
         });
 
@@ -135,6 +116,7 @@ export default Magix.View.extend({
             }
         } catch (e) {
             this.digest({
+                loading: false,
                 error: e
             });
         }

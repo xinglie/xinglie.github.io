@@ -45,6 +45,7 @@
     font-size: 140px;
     color:#fff2;
     text-align: center;
+    cursor: move;
 }
 .week{
     border-collapse: collapse;

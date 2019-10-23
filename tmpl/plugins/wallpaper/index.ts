@@ -3,13 +3,13 @@
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import Wallpapger from '../../os/wallpaper';
-import Fetch from '../../lib/fetch';
+import XAgent from '../../lib/agent';
 Magix.applyStyle('@index.css');
 let Categories = null;
 let CategoriesPending = 0;
 let CategoriesPendingList = [];
 let GetCategories = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         if (Categories) {
             resolve(Categories);
         } else if (CategoriesPending) {
@@ -17,24 +17,28 @@ let GetCategories = () => {
         } else {
             CategoriesPending = 1;
             CategoriesPendingList.push([resolve, reject]);
-            Fetch('https://jsonp.afeld.me/?url=http%3A%2F%2Fwallpaper.apc.360.cn%2Findex.php%3Fc%3DWallPaperAndroid%26a%3DgetAllCategories', 24 * 60 * 60 * 1000).then(data => {
+            try {
+                let result = await XAgent.request('http://wallpaper.apc.360.cn/index.php?c=WallPaperAndroid&a=getAllCategories', 24 * 60 * 60 * 1000, true);
+                let data = JSON.parse(result);
                 CategoriesPending = 0;
                 for (let [resolve] of CategoriesPendingList) {
                     resolve(Categories = data.data);
                 }
-            }).catch(ex => {
+            } catch (ex) {
                 CategoriesPending = 0;
                 for (let [, reject] of CategoriesPendingList) {
                     reject(ex);
                 }
-            });
+            };
         }
     });
 };
-let GetWallPaper = (cId, start, count) => {
-    return fetch(`https://jsonp.afeld.me/?url=${encodeURIComponent(`http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=${cId}&start=${start}&count=${count}`)}`).then(r => r.json()) as Promise<{
+let GetWallPaper = async (cId, start, count) => {
+    let result = await XAgent.request(`http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=${cId}&start=${start}&count=${count}`, 0, true);
+    let data = JSON.parse(result) as {
         data: []
-    }>;
+    };
+    return data;
 };
 let maxWidth = 350,
     maxHeight = 200;
