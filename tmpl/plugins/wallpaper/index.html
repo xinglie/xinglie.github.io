@@ -9,13 +9,13 @@
     {{if loading}}
     <div class="dialog-loading">loading...</div>
     {{else}}
-            <div class="list-wrap">
-                {{each list as img}}
-                {{set {width,height}=resize(img.resolution)}}
-                {{set url=img.url.replace('bdr/__85',`bdr/${width}_${height}_80`)}}
-                    <div class="wallpaper-item" style="background-image:url({{=url}})" title="{{=img.utag}}" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
-                {{/each}}
-            </div>
-            <div class="more">更多加载中...</div>
+        <div class="list-wrap">
+            {{each list as img}}
+            {{set {width,height}=resize(img.resolution)}}
+            {{set url=img.url.replace('bdr/__85',`bdr/${width}_${height}_80`)}}
+                <div class="wallpaper-item" style="background-image:url({{=url}})" title="{{=img.utag}}" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
+            {{/each}}
+        </div>
+        <mx-more mx-intersect="@{load.more}()"/>
     {{/if}}
 {{/if}}

@@ -34,6 +34,9 @@ export default Magix.View.extend({
             Cron["@{remove.task}"](update);
         };
     },
+    assign(){
+        return false;
+    },
     render() {
         let now = new Date();
         let year = now.getFullYear();

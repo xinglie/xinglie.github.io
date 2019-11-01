@@ -4,14 +4,24 @@
 import Magix from '../../lib/magix';
 import XAgent from '../../lib/agent';
 Magix.applyStyle('@index.less');
+let FindBestPage = (max, requested) => {
+    let current;
+    do {
+        current = Math.ceil(Math.random() * max);
+    } while (requested[current] === 1);
+    requested[current] = 1;
+    return current;
+};
 let Sina = {
     '@{init}'() {
-        this['@{current}'] = 1;
+        this['@{max}'] = 50;
+        this['@{requested}'] = {};
         this['@{dest.url}'] = 'https://interface.sina.cn/tech/gif/album.d.json?format=json&num=20&page=';
     },
     '@{request}'() {
         let dest = this['@{dest.url}'];
-        let current = this['@{current}']++;
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             try {
@@ -36,12 +46,14 @@ let Sina = {
 };
 let Gaoxiao = {
     '@{init}'() {
-        this['@{current}'] = 1;
+        this['@{max}'] = 400;
+        this['@{requested}'] = {};
         this['@{dest.url}'] = 'http://www.gaoxiaogif.com/';
     },
     '@{request}'() {
         let dest = this['@{dest.url}'];
-        let current = this['@{current}']++;
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
         return new Promise(async resolve => {
             let tail = '';
             if (current > 1) {
@@ -69,12 +81,14 @@ let Gaoxiao = {
 };
 let Quicklol = {
     '@{init}'() {
-        this['@{current}'] = 1;
+        this['@{max}'] = 500;
+        this['@{requested}'] = {};
         this['@{dest.url}'] = 'http://quicklol.com/';
     },
     '@{request}'() {
         let dest = this['@{dest.url}'];
-        let current = this['@{current}']++;
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
         return new Promise(async resolve => {
             let tail = '';
             if (current > 1) {
@@ -99,38 +113,217 @@ let Quicklol = {
         });
     }
 };
-// let Giphy = {
-//     '@{init}'() {
-//         this['@{current}'] = 1;
-//         this['@{dest.url}'] = 'https://giphy.com/search/funny/${0}?is=1&json=true';
-//     },
-//     '@{request}'() {
-//         let dest = this['@{dest.url}'];
-//         let current = this['@{current}']++;
-//         return new Promise(async resolve => {
-//             let list = [];
-//             try {
-//                 dest = dest.replace('${0}', current);
-//                 let result = await XAgent.request(dest, 0, true);
-//                 let data = JSON.parse(result);
-//                 if (data.gifs) {
-//                     for (let e of data.gifs) {
-//                         list.push({
-//                             name: e.title,
-//                             img: e.images.original.webp,
-//                             date: e.update_datetime,
-//                             from: 'giphy.com'
-//                         });
-//                     }
-//                 }
-//             } catch{
+let Zol = {
+    '@{init}'() {
+        this['@{max}'] = 102;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'http://xiaohua.zol.com.cn/qutu/${0}.html';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            try {
+                dest = dest.replace('${0}', current);
+                let result = await XAgent.request(dest, 0, true);
+                let reg = /<span\s+class="article-title"><[^>]+>([\s\S]+?)<\/[^>]+><\/span>[\s\S]+?<div\s+class="summary-text">[\s\S]+?src="([^"]+)"/g;
+                result.replace(reg, (m, name, img) => {
+                    img = img.replace(/\/t_s300x2000\//, '/t_s600x5000/');
+                    list.push({
+                        name: '',
+                        img,
+                        date: '',
+                        from: 'xiaohua.zol.com.cn'
+                    });
+                    return '';
+                });
+            } catch{
 
-//             }
-//             resolve(list);
-//         });
-//     }
-// };
-let Pools = [Gaoxiao, Sina, Quicklol];
+            }
+            resolve(list);
+        });
+    }
+};
+let Tuchaojie = {
+    '@{init}'() {
+        this['@{max}'] = 847;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'http://www.tucaojie.com/';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            let tail = '';
+            if (current > 1) {
+                tail = `index_${current}.html`;
+            }
+            try {
+                let result = await XAgent.request(dest + tail, 0, true);
+                let reg = /<img[^>]+?src="[^>]*?\/(d\/file\/[^"]+)"[^>]+alt="([^"]+)"/g;
+                result.replace(reg, (m, img, name) => {
+                    list.push({
+                        name,
+                        img: dest + img,
+                        date: '',
+                        from: '吐槽街'
+                    });
+                    return '';
+                });
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
+let Biedoul = {
+    '@{init}'() {
+        this['@{max}'] = 31099;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'https://www.biedoul.com/index/${0}/';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            dest = dest.replace('${0}', current);
+            try {
+                let result = await XAgent.request(dest, 0, true);
+                let reg = /<DD>[\S\s]+?<STRONG>([\s\S]*?)<\/STRONG>[\S\s]+?<DD>([\s\S]+?)<\/DD>/g;
+                let source = /<img([^>]+?)src="(\/[^>]+)"/gi;
+                result.replace(reg, (m, name, text) => {
+                    text = text.replace(source, (m, prefix, src) => {
+                        return `<img${prefix}src="https://www.biedoul.com${src}"`;
+                    });
+                    list.push({
+                        name,
+                        text,
+                        date: '',
+                        from: '别逗了'
+                    });
+                    return '';
+                });
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
+let Budejie = {
+    '@{init}'() {
+        this['@{max}'] = 50;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'http://www.budejie.com/${0}';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            dest = dest.replace('${0}', current);
+            try {
+                let result = await XAgent.request(dest, 0, true);
+                let reg = /<div class="j-r-list-c-desc">\s*<a[^>]+>([\S\s]+?)<\/a>[\s\S]+?<img[^>]+?data-original="([^"]+)"/g;
+                result.replace(reg, (m, name, img) => {
+                    list.push({
+                        name,
+                        img,
+                        date: '',
+                        from: '百思不得姐'
+                    });
+                    return '';
+                });
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
+let Xiaohua51 = {
+    '@{init}'() {
+        this['@{max}'] = 195;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'http://www.51xiaohua.com/ye${0}.html';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            dest = dest.replace('${0}', current);
+            try {
+                let result = await XAgent.request(dest, 0, true);
+                let reg = /<a href="\/baoxiaoegao\/(\d+)\.html">([\s\S]+?)<\/a>[\s\S]+?<a href="\/baoxiaoegao\/\1\.html"><img\s+src="([^"]+)"/g;
+                result.replace(reg, (m, id, name, img) => {
+                    list.push({
+                        name,
+                        img,
+                        date: '',
+                        from: '51笑话网'
+                    });
+                    return '';
+                });
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
+let Xiaohua = {
+    '@{init}'() {
+        this['@{max}'] = 1072;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'https://www.xiaohua.com/duanzi?page=${0}';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            dest = dest.replace('${0}', current);
+            try {
+                let result = await XAgent.request(dest, 0, true);
+                let reg = /<p class="fonts">\s+<a href="\/detail\/\d+">([\s\S]+?)<\/a>/g;
+                result.replace(reg, (m, text) => {
+                    list.push({
+                        name,
+                        text,
+                        date: '',
+                        from: '笑话网'
+                    });
+                    return '';
+                });
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
+let Pools = [
+    Gaoxiao,
+    Sina,
+    Quicklol,
+    Zol,
+    Tuchaojie,
+    Biedoul,
+    Budejie,
+    Xiaohua51,
+    Xiaohua
+];
 export default Magix.View.extend({
     tmpl: '@index.html',
     init() {
@@ -145,25 +338,54 @@ export default Magix.View.extend({
         return false;
     },
     async render() {
-        let index = Math.floor(Math.random() * Pools.length);
-        let source = Pools[index];
-        let result = await source["@{request}"]() as [];
-        let list = this.get('list');
-        list.push(...result);
-        this.digest({
-            list
-        });
+        let max = Math.min(1 + Math.ceil(Math.random() * Pools.length / 1.5), Pools.length);
+        let sends = [];
+        while (true) {
+            let index = Math.floor(Math.random() * Pools.length);
+            let source = Pools[index];
+            if (!sends.includes(source)) {
+                sends.push(source);
+            }
+            if (sends.length >= max) {
+                break;
+            }
+        }
+        let ps = [];
+        for (let s of sends) {
+            ps.push(s['@{request}']());
+        }
+        let mark = Magix.mark(this, '@{render}');
+        let results = await Promise.all(ps);
+        if (mark()) {
+            let list = this.get('list');
+            if (results.length > 1) {
+                let readyCount = 0;
+                let ready = {};
+                do {
+                    let index = Math.floor(Math.random() * results.length);
+                    let dest = results[index];
+                    if (!dest.length) {
+                        if (ready[index] !== 1) {
+                            ready[index] = 1;
+                            readyCount++;
+                        }
+                    } else {
+                        list.push(dest.pop());
+                    }
+                } while (readyCount != results.length);
+            } else {
+                list.push(...results[0]);
+            }
+            this.digest({
+                list
+            });
+        }
         delete this['@{data.loading}'];
     },
-    '$win<scroll>&capture'(e) {
-        if (e.target == this.root &&
-            !this['@{data.loading}']) {
-            let node = this.root;
-            if (node.scrollTop + node.offsetHeight + 500 > node.scrollHeight) {
-                console.log('loading...');
-                this['@{data.loading}'] = 1;
-                this.render();
-            }
+    '@{load.more}<intersect>'() {
+        if (!this['@{data.loading}']) {
+            this['@{data.loading}'] = 1;
+            this.render();
         }
     }
 });

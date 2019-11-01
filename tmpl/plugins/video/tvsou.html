@@ -1,0 +1,19 @@
+{{each videos as video}}
+<div class="video-card">
+    <div class="video-image">
+        <a href="{{=video.link}}" title="查看{{=video.title}}详情" rel="noopener noreferrer" target="_blank">
+            <img src="{{=video.img}}" loading="lazy"/>
+        </a>
+    </div>
+    <div class="video-text">
+        <div class="fl">{{=video.title}}</div>
+        <div class="fr">{{=video.date}}</div>
+    </div>
+    <div class="video-text">
+        <mx-link class="video-link" rel="noopener noreferrer" title="使用腾讯搜索{{=video.title}}" target="_blank" to="https://v.qq.com/x/search/" *q="{{=video.title}}">腾讯</mx-link>
+        <mx-link class="video-link" rel="noopener noreferrer" title="使用爱奇世搜索{{=video.title}}" target="_blank" to="http://so.iqiyi.com/so/q_{{=encodeURIComponent(video.title)}}">
+            爱奇艺
+        </mx-link>
+    </div>
+</div>
+{{/each}}

@@ -1,0 +1,12 @@
+{{each videos as video index}}
+<div class="video-item">
+    <span class="video-index">{{=index+1}}.</span>
+    <a class="video-link-main" href="{{=video.link}}" rel="noopener noreferrer" target="_blank">{{=video.title}}</a>
+    <mx-link class="video-link" rel="noopener noreferrer" title="使用腾讯搜索{{=video.title}}" target="_blank" to="https://v.qq.com/x/search/" *q="{{=video.title}}">
+        腾讯
+    </mx-link>
+    <mx-link class="video-link" rel="noopener noreferrer" title="使用爱奇世搜索{{=video.title}}" target="_blank" to="http://so.iqiyi.com/so/q_{{=encodeURIComponent(video.title)}}">
+        爱奇艺
+    </mx-link>
+</div>
+{{/each}}

@@ -17,12 +17,12 @@
         <div class="news-image-cover">
             <img loading="lazy" class="news-image" src="{{=d.imgsrc}}" />
         </div>
-        <div class="news-tip">
+        <div class="news-tip" mx-click="@{open.comment}({detail:'{{@d}}'})">
             <span class="news-source">来源：{{=d.source}}</span>
-            <span class="news-time">{{=d.ptime}}&emsp;<span style="color:{{=getColor(d.commentCount)}}" mx-click="@{open.comment}({detail:'{{@d}}'})">评论：{{=d.commentCount}}</span></span>
+            <span class="news-time">{{=d.ptime}}&emsp;<span style="color:{{=getColor(d.commentCount)}}">评论：{{=d.commentCount}}</span></span>
         </div>
     </div>
 {{/each}}
 </div>
-<div class="more">更多加载中...</div>
+<mx-more mx-intersect="@{load.more}()" *placeholder="更多新闻加载中..."/>
 {{/if}}

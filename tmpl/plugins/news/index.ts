@@ -97,6 +97,9 @@ export default Magix.View.extend({
             Cron["@{remove.task}"](autoUpdate);
         };
     },
+    assign() {
+        return false;
+    },
     async '@{load.data}'() {
         try {
             let id = this.get('active');
@@ -147,19 +150,15 @@ export default Magix.View.extend({
         let { detail } = e.params;
         OpenSubDialog(this, detail, true);
     },
-    '$win<scroll>&capture'(e) {
-        if (e.target == this.root &&
-            !this.get('loading') &&
+    '@{load.more}<intersect>'() {
+        if (!this.get('loading') &&
             !this['@{data.loading}']) {
-            let node = this.root;
-            if (node.scrollTop + node.offsetHeight + 200 > node.scrollHeight) {
-                this['@{data.loading}'] = 1;
-                let next = this.get('start') + this.get('size');
-                this.set({
-                    start: next
-                });
-                this['@{load.data}']();
-            }
+            this['@{data.loading}'] = 1;
+            let next = this.get('start') + this.get('size');
+            this.set({
+                start: next
+            });
+            this['@{load.data}']();
         }
     }
 })

@@ -10,9 +10,11 @@ Frontend.config(FE_ID, {
 export default Magix.View.extend({
     init() {
         this.on('destroy', () => {
-            debugger;
             Frontend.unboot();
         });
+    },
+    assign(){
+        return false;
     },
     render() {
         this.root.id = FE_ID;

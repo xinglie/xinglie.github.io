@@ -100,6 +100,9 @@ export default Magix.View.extend({
             }
         });
     },
+    assign(){
+        return false;
+    },
     render() {
         this.digest({
             ptip: Player["@{get.pre.tip}"](),

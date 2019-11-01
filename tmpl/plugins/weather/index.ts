@@ -16,6 +16,9 @@ export default Magix.View.extend({
             Cron["@{remove.task}"](update);
         });
     },
+    assign(){
+        return false;
+    },
     render() {
         let mark = Magix.mark(this, '@{render}');
         let task = async (index) => {

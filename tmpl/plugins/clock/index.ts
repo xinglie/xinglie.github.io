@@ -8,6 +8,9 @@ Magix.applyStyle('@index.less');
 export default Magix.View.extend({
     mixins: [Dragdrop],
     tmpl: '@index.html',
+    assign(){
+        return false;
+    },
     render() {
         this.digest();
         let second = Magix.node('s_' + this.id);

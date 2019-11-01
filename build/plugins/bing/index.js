@@ -1,2 +1,2 @@
 /*!1.0.2 kooboy_li@163.com*/
-let e;import r from"../../lib/magix.js";export default r.View.extend({tmpl:(r,i,t)=>{let l=[];return e?l.push(e):l.push(e=i("iframe",{_:"_",sandbox:"allow-scripts allow-same-origin allow-forms",src:"//cn.bing.com/dict/",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),i(t,0,l)},render(){this.digest()}});
+let e;import s from"../../lib/magix.js";export default s.View.extend({tmpl:(s,i,l)=>{let r=[];return e?r.push(e):r.push(e=i("iframe",{_:"_",sandbox:"allow-scripts allow-same-origin allow-forms allow-popups",src:"//cn.bing.com/dict/",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),i(l,0,r)},assign:()=>!1,render(){this.digest()}});

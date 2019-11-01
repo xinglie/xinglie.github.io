@@ -2,9 +2,16 @@
     {{each list as image}}
     <div class="card">
         <div class="title">{{=image.name}}</div>
-        <div class="image"><img class="image-img" src="{{=image.img}}"/></div>
-        <div class="foot">{{=image.from}} {{=image.date}}</div>
+        <div class="image">
+            {{if image.text}}
+                <div x-html="{{=image.text}}" class="text"></div>
+            {{/if}}
+            {{if image.img}}
+                <img loading="lazy" class="image-img" src="{{=image.img}}"/>
+            {{/if}}
+        </div>
+        <div class="foot">来源:{{=image.from}} {{=image.date}}</div>
     </div>
     {{/each}}
-    <div class="more">更多加载中...</div>
+    <mx-more mx-intersect="@{load.more}()"/>
 </div>

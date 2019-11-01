@@ -706,7 +706,7 @@ Assign(Vframe[Prototype], {
                                 //me['e'] = 0; //不会修改节点，因此销毁时不还原
                                 //me['f'] = Empty;
                                 if (!view['h']) {
-                                    view.endUpdate();
+                                    View_EndUpdate(view);
                                 }
                             }
                         });
@@ -1177,7 +1177,7 @@ let Updater_Digest = (view , tmpl) => {
                     
                 }
                 if (tmpl) {
-                    view.endUpdate();
+                    CallFunction(View_EndUpdate, [view]);
                 }
                 
                 view.fire('domready');
@@ -1576,7 +1576,11 @@ let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys) => {
                             if (DEBUG) {
                                 let result = ToTry(assign, params,/*[params, uri],*/ view);
                                 if (result !== true && result !== false) {
-                                    console.error(`${uri[Path]} "assign" method must return true or false value`);
+                                    if (assign == View.prototype.assign) {
+                                        console.error(`override ${uri[Path]} "assign" method and make sure returned true or false value`);
+                                    } else {
+                                        console.error(`${uri[Path]} "assign" method only allow returned true or false value`);
+                                    }
                                 }
                                 if (result) {
                                     
@@ -1657,6 +1661,22 @@ let View_CheckAssign = view => {
     }
 };
 
+let View_EndUpdate = view => {
+    let o, f;
+    if (view['c']) {
+        
+        f = view['h'];
+        
+        view['h'] = 1;
+        
+        o = view.owner;
+        o.mountZone();
+        if (!f) {
+            Timeout(Vframe_RunInvokes, 0, o);
+        }
+        
+    }
+};
 let View_DelegateEvents = (me, destroy) => {
     let e, { 'n': eventsObject,
         'i': selectorObject,
@@ -1862,23 +1882,6 @@ Assign(View[Prototype], MxEvent, {
     render: Noop,
     assign: Noop,
     
-    endUpdate(node, me, o, f) {
-        me = this;
-        if (me['c']) {
-            
-            f = me['h'];
-            
-            me['h'] = 1;
-            
-            o = me.owner;
-            o.mountZone(node);
-            if (!f) {
-                Timeout(Vframe_RunInvokes, 0, o);
-            }
-            
-        }
-    },
-    
     observeLocation(params, isObservePath) {
         let me = this,
             loc;
@@ -1936,7 +1939,7 @@ Assign(View[Prototype], MxEvent, {
 
             如果在digest的过程中，多次调用自身的digest，则后续的进行排队。前面的执行完成后，排队中的一次执行完毕
         */
-        if (me['k']) {
+        if (me['k'] && me['c']) {
             
             if (DEBUG) {
                 if (!me['p']) {
@@ -2681,16 +2684,6 @@ let Magix = {
          * @param observeObject 参数对象
          */
         observeLocation(observeObject: ViewObserveLocation): void
-        // /**
-        //  * 通知当前view某个节点即将开始进行html的更新
-        //  * @param node 哪块区域需要更新，默认当前view
-        //  */
-        // beginUpdate(node?: HTMLElement): void
-        /**
-         * 通知当前view某个节点结束html的更新
-         * @param node 哪块区域需要更新，默认当前view
-         */
-        endUpdate(node?: HTMLElement): void
         
         /**
          * 获取设置的数据，当key未传递时，返回整个数据对象

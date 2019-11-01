@@ -10,6 +10,20 @@
         <button type="button" class="video-button" mx-click="@{play}()">播放</button>
     </div>
 </div>
-{{if dest}}
+{{if played&&dest&&url}}
 <iframe src="{{=dest}}{{=encodeURIComponent(url)}}" sandbox="allow-scripts allow-same-origin" allowfullscreen class="video-main{{if maxState}} video-max{{/if}}" scrolling="no" frameborder="0"></iframe>
+{{else}}
+{{set current}}
+<div class="tabs">
+    {{each tabs as tab}}
+    <div class="tab-item{{if tab.id==active}}{{current=tab}} tab-item-active{{/if}}" mx-click="{{tab.id!=active}}?@{change.category}({id:'{{=tab.id}}'})">{{=tab.name}}</div>
+    {{/each}}
+</div>
+{{if current}}
+<mx-vframe src="{{=current.view}}" class="video-list">
+    <div class="hot">电影列表加载中...</div>
+</mx-vframe>
+{{else}}
+<div class="hot">请从上方选择查看的电影来源</div>
+{{/if}}
 {{/if}}

@@ -46,6 +46,9 @@ export default Magix.View.extend({
             active: 'py'
         });
     },
+    assign(){
+        return false;
+    },
     render() {
         let list = [];
         let map = {};

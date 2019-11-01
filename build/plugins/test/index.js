@@ -1,0 +1,2 @@
+/*!1.0.2 kooboy_li@163.com*/
+import"../../gallery/mx-more/index.js";import e from"../../lib/magix.js";export default e.View.extend({tmpl:(e,r,t,i,o)=>{let m,l=[],{rnd:d}=e;return l.push(r("div",{"mx-view":"~xl/gallery/mx-more/index?placeholder="+o(d)})),m=[r(0,0,"gogo")],l.push(r("button",{_:"_","mx-click":t+"\x1ego()"},m)),r(t,0,l)},render(){this.digest()},"go<click>"(){this.digest({rnd:Math.random()}),this.owner.unmountVframe()}});

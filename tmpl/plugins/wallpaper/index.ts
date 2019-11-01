@@ -64,6 +64,9 @@ export default Magix.View.extend({
             resize: Resize
         });
     },
+    assign() {
+        return false;
+    },
     async render() {
         try {
             let categories = await GetCategories();
@@ -107,19 +110,15 @@ export default Magix.View.extend({
         let { thumb, src } = e.params;
         Wallpapger["@{set.wallpaper}"](thumb, src);
     },
-    '$win<scroll>&capture'(e) {
-        if (e.target == this.root &&
-            !this.get('loading') &&
+    '@{load.more}<intersect>'() {
+        if (!this.get('loading') &&
             !this['@{data.loading}']) {
-            let node = this.root;
-            if (node.scrollTop + node.offsetHeight + 200 > node.scrollHeight) {
-                this['@{data.loading}'] = 1;
-                let next = this.get('start') + this.get('size');
-                this.set({
-                    start: next
-                });
-                this.render();
-            }
+            this['@{data.loading}'] = 1;
+            let next = this.get('start') + this.get('size');
+            this.set({
+                start: next
+            });
+            this.render();
         }
     }
 });

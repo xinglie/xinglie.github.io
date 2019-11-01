@@ -17,7 +17,7 @@
     top:0;
 }
 .video-input{
-    width:50%;
+    width:calc(~"70% - 110px");
     height: 26px;
     outline: none;
     font-size: 16px;
@@ -55,4 +55,103 @@
     width:100%;
     margin:0;
     height:100%;
+}
+.tabs{
+    height:28px;
+    line-height: 28px;
+    padding: 0 26px;
+    background: #f5f5f5;
+    color: #333;
+    margin-top: 5px;
+}
+.tab-item{
+    float: left;
+    padding: 0 5px;
+    cursor: pointer;
+}
+.tab-item-active{
+    background: #fff;
+}
+.video-list{
+    height:calc(~'100% - 73px');
+    overflow: auto;
+}
+.video-card{
+    margin:10px;
+    padding: 5px 5px 0;
+    background: #fafafa;
+    border-radius: 4px;
+    transition: box-shadow 0.25s;
+    float: left;
+}
+.video-card:hover{
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.08);
+}
+.video-image{
+    width:250px;
+    height: 140px;
+}
+.video-80s-image{
+    width:105px;
+    height: 140px;
+}
+.video-text{
+    height: 25px;
+    line-height: 25px;
+}
+.video-80s-text{
+    width:105px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.fl{
+    float: left;
+    font-weight: bold;
+    color:#333;
+    margin-left: 4px;
+    font-size: 16px;
+}
+.fr{
+    float: right;
+    color: #aaa;
+}
+.video-link,
+.video-link:visited{
+    color:#45b6f7;
+    text-decoration: none;
+    margin:0 4px;
+}
+.video-link:hover,
+.video-link:active{
+    text-decoration: underline;
+    color:#42a5df;
+}
+.video-link-main,
+.video-link-main:visited{
+    color:#1000f9;
+    text-decoration: underline;
+    margin:0 10px;
+}
+.video-link-main:hover,
+.video-link-main:active{
+    text-decoration: none;
+    color:#0b00a4;
+}
+.hot{
+    padding:20px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.video-item{
+    height: 36px;
+    line-height: 36px;
+    padding: 0 30px;
+}
+.video-index{
+    font-size: 16px;
+    font-style: italic;
+    width:30px;
+    display: inline-block;
+    text-align: right;
 }

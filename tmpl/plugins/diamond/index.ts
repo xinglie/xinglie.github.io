@@ -7,6 +7,9 @@ export default Magix.View.extend({
             state: 'desc'
         });
     },
+    assign(){
+        return false;
+    },
     render() {
         this.digest();
     },

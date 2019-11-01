@@ -1,9 +1,9 @@
 let Servers = [{
-    '@{server.url}': 'https://cors-anywhere.herokuapp.com/',
-    '@{url.encode}': 0
-}, {
     '@{server.url}': 'https://api.codetabs.com/v1/proxy?quest=',
     '@{url.encode}': 1
+}, {
+    '@{server.url}': 'https://cors-anywhere.herokuapp.com/',
+    '@{url.encode}': 0
 }, {
     '@{server.url}': 'https://jsonp.afeld.me/?url=',
     '@{url.encode}': 1

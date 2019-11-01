@@ -31,6 +31,9 @@ let GetLast = () => {
 };
 export default Magix.View.extend({
     tmpl: '@index.html',
+    assign() {
+        return false;
+    },
     async render() {
         try {
             let { start, last, exist } = GetLast();
