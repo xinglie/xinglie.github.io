@@ -24,6 +24,22 @@
     width:auto;
     height: auto;
     max-width: 100%;
+    min-height: 50px;
+    position: relative;
+}
+.image-img::before{
+    content: "图片无法显示⊙﹏⊙";
+    position: absolute;
+    display: inline-flex;
+    top: -4px;
+    left: 0;
+    height: calc(100% + 8px);
+    width: calc(100% + 200px);
+    background-color: #ebebeb;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    color: #a2a2a2;
 }
 .text{
     font-size: 18px;

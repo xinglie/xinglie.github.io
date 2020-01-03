@@ -1,0 +1,22 @@
+<div class="dyfm">
+    <div class="discovery" style="background-image:url({{=videoInfo.img}});"></div>
+    <button type="button" class="change-btn video-button" mx-click="@{change}()">{{if loading}}切换中...{{else}}换一换{{/if}}</button>
+    <div class="detail">
+        <div class="info-title">
+            <div class="title">
+                <a class="title-link title-link-main" href="{{=videoInfo.detail}}" rel="noopener noreferrer" target="_blank">{{=videoInfo.name}}</a>
+            </div>
+            <div class="right">
+                <mx-link class="title-link title-link-space title-link-search" rel="noopener noreferrer" title="使用腾讯搜索{{=videoInfo.name}}" target="_blank" to="https://v.qq.com/x/search/" *q="{{=videoInfo.name}}">
+                    腾讯
+                </mx-link>
+                <mx-link class="title-link title-link-space title-link-search" rel="noopener noreferrer" title="使用爱奇世搜索{{=videoInfo.name}}" target="_blank" to="http://so.iqiyi.com/so/q_${q}" *q="{{=videoInfo.name}}">
+                    爱奇艺
+                </mx-link>
+                <a href="{{=videoInfo.dbLink}}" rel="noopener noreferrer" target="_blank" class="title-link title-link-space title-link-score">{{=videoInfo.dbScore}}</a>
+                <a href="{{=videoInfo.imdbLink}}" rel="noopener noreferrer" target="_blank" class="title-link title-link-space title-link-score">{{=videoInfo.imdbScore}}</a>
+            </div>
+        </div>
+        <div x-html="{{=videoInfo.desc}}"></div>
+    </div>
+</div>

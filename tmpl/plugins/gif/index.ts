@@ -12,6 +12,7 @@ let FindBestPage = (max, requested) => {
     requested[current] = 1;
     return current;
 };
+let Sort = (a, b) => a.w - b.w;
 let Sina = {
     '@{init}'() {
         this['@{max}'] = 50;
@@ -61,11 +62,11 @@ let Gaoxiao = {
             }
             let list = [];
             try {
-                let result = await XAgent.request(dest + tail, 0, true);
+                let result = await XAgent.request(dest + tail, 0, true, 'gb2312');
                 let reg = /'pic':'([^']+)','text':'([^']+)'[\s\S]+?<i\s+class="icon-clock"><\/i>([0-9\-]+)/g;
                 result.replace(reg, (m, img, name, date) => {
                     list.push({
-                        name: '',//不支持charset gb2312
+                        name,
                         img,
                         date,
                         from: '搞笑GIF图片集'
@@ -127,12 +128,12 @@ let Zol = {
             let list = [];
             try {
                 dest = dest.replace('${0}', current);
-                let result = await XAgent.request(dest, 0, true);
+                let result = await XAgent.request(dest, 0, true, 'gbk');
                 let reg = /<span\s+class="article-title"><[^>]+>([\s\S]+?)<\/[^>]+><\/span>[\s\S]+?<div\s+class="summary-text">[\s\S]+?src="([^"]+)"/g;
                 result.replace(reg, (m, name, img) => {
                     img = img.replace(/\/t_s300x2000\//, '/t_s600x5000/');
                     list.push({
-                        name: '',
+                        name,
                         img,
                         date: '',
                         from: 'xiaohua.zol.com.cn'
@@ -313,7 +314,42 @@ let Xiaohua = {
         });
     }
 };
+
+let Soogif = {
+    '@{init}'() {
+        this['@{max}'] = 500;
+        this['@{requested}'] = {};
+        this['@{dest.url}'] = 'https://www.soogif.com/hotGif?start=${0}&size=20';
+    },
+    '@{request}'() {
+        let dest = this['@{dest.url}'];
+        let requested = this['@{requested}'];
+        let current = FindBestPage(this['@{max}'], requested);
+        return new Promise(async resolve => {
+            let list = [];
+            dest = dest.replace('${0}', current);
+            try {
+                let result = await XAgent.request(dest, 0, true);
+                let data = JSON.parse(result);
+                if (data.code == 0) {
+                    let collections = data.data.result;
+                    for (let c of collections) {
+                        list.push({
+                            name: c.title,
+                            from: 'soogif.com',
+                            img: c.gifurl
+                        });
+                    }
+                }
+            } catch{
+
+            }
+            resolve(list);
+        });
+    }
+};
 let Pools = [
+    Soogif,
     Gaoxiao,
     Sina,
     Quicklol,
@@ -327,9 +363,15 @@ let Pools = [
 export default Magix.View.extend({
     tmpl: '@index.html',
     init() {
+        let weights = [];
         for (let src of Pools) {
             src['@{init}']();
+            weights.push({
+                s: src,
+                w: 0
+            });
         }
+        this['@{weights}'] = weights;
         this.set({
             list: []
         });
@@ -338,21 +380,14 @@ export default Magix.View.extend({
         return false;
     },
     async render() {
-        let max = Math.min(1 + Math.ceil(Math.random() * Pools.length / 1.5), Pools.length);
-        let sends = [];
-        while (true) {
-            let index = Math.floor(Math.random() * Pools.length);
-            let source = Pools[index];
-            if (!sends.includes(source)) {
-                sends.push(source);
-            }
-            if (sends.length >= max) {
-                break;
-            }
-        }
+        //return this.digest({list:[]});
+        let weights = this['@{weights}'];
+        let max = Math.min(1 + Math.ceil(Math.random() * weights.length / 1.5), weights.length);
+        let sends = weights.sort(Sort).slice(0, max);
         let ps = [];
         for (let s of sends) {
-            ps.push(s['@{request}']());
+            s.w += 1;
+            ps.push(s.s['@{request}']());
         }
         let mark = Magix.mark(this, '@{render}');
         let results = await Promise.all(ps);

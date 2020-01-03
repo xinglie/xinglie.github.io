@@ -59,7 +59,11 @@ export default Magix.View.extend({
     },
     '@{open.by.icon}<click>'(e: Magix5.MagixMouseEvent) {
         let { app } = e.params;
-        DialogCtrl["@{create}"](this, app);
+        if (app.url) {
+            window.open(app.url);
+        } else {
+            DialogCtrl["@{create}"](this, app);
+        }
     },
     '$win<resize>'() {
         this.render();

@@ -184,26 +184,6 @@ export default Object.assign({
                 });
             };
             this['@{core.audio}'] = audio;
-            // setTimeout(() => {
-            //     let ctx = new AudioContext();
-            //     let source = ctx.createMediaElementSource(audio);
-            //     let analyser = ctx.createAnalyser();
-            //     source.connect(analyser);
-            //     analyser.connect(ctx.destination);
-            //     analyser.fftSize = 1024;
-            //     //var bufferLength = analyser.frequencyBinCount;
-            //     //var dataArray = new Uint8Array(bufferLength);
-            //     setInterval(() => {
-            //         var array = new Uint8Array(analyser.frequencyBinCount);
-            //         analyser.getByteFrequencyData(array);
-            //         for (let e of array) {
-            //             if (e != 128 && e != 0) {
-            //                 console.log('ok');
-            //             }
-            //         }
-            //         console.log(array);
-            //     }, 1e3);
-            // }, 5000);
         }
     },
     '@{play.song}'(song: SongDesc) {

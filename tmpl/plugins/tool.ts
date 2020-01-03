@@ -1,5 +1,5 @@
 export default [{
-    view: '@./weather/index',
+    view: '@mx:./weather/index',
     dockX: 10,
     dockY: 93,
     width: 172,
@@ -7,7 +7,7 @@ export default [{
     dockXKey: 'right',
     dockYKey: 'bottom'
 }, {
-    view: '@./bg/index',
+    view: '@mx:./bg/index',
     dockX: 14,
     dockY: 10,
     width: 310,
@@ -15,7 +15,7 @@ export default [{
     dockXKey: 'right',
     dockYKey: 'bottom'
 }, {
-    view: '@./mplayer/index',
+    view: '@mx:./mplayer/index',
     dockX: 10,
     dockY: 20,
     dockXKey: 'right',
@@ -23,7 +23,7 @@ export default [{
     width: 610,
     height: 30
 }, {
-    view: '@./lunar/index',
+    view: '@mx:./lunar/index',
     dockX: 300,
     dockY: 50,
     width: 350,
@@ -31,7 +31,7 @@ export default [{
     dockXKey: 'left',
     dockYKey: 'top'
 }, {
-    view: '@./clock/index',
+    view: '@mx:./clock/index',
     dockX: 10,
     dockY: 283,
     width: 150,

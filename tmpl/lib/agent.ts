@@ -12,23 +12,31 @@ let Servers = [{
     '@{url.encode}': 1
 }];
 
+let readBlobToText = (blob, encoding): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = e => {
+            resolve(e.target.result.toString());
+        };
+        reader.onerror = reject;
+        reader.readAsText(blob, encoding || 'utf-8');
+    });
+};
 export default {
-    request(url, expire?: number, proxy?: boolean) {
+    request(url, expire?: number, proxy?: boolean, encoding?: string) {
         return new Promise<string>((resolve, reject) => {
             let start = 0;
             let request = async () => {
-                let key = [url, expire].join('\x00');
+                let key = [url, proxy, encoding].join('\x00');
                 if (expire) {
                     let data = localStorage.getItem(key);
                     if (data) {
                         let o = JSON.parse(data);
                         if (o.expire > Date.now()) {
-                            console.log(url, 'from cache');
                             return resolve(o.data);
                         }
                     }
                 }
-                console.log('request', url);
                 if (start < Servers.length) {
                     let dest = url;
                     if (proxy) {
@@ -43,7 +51,8 @@ export default {
                     try {
                         let result = await fetch(dest);
                         if (result.ok) {
-                            let text = await result.text();
+                            let blob = await result.blob();
+                            let text = await readBlobToText(blob, encoding);
                             if (expire) {
                                 try {
                                     localStorage.setItem(key, JSON.stringify({
@@ -59,7 +68,8 @@ export default {
                             start++;
                             request();
                         }
-                    } catch{
+                    } catch (e) {
+                        console.error(e);
                         start++;
                         request();
                     }
@@ -70,8 +80,8 @@ export default {
             request();
         });
     },
-    clear(url, expire) {
-        let key = [url, expire].join('\x00');
+    clear(url, proxy, encoding?: string) {
+        let key = [url, proxy, encoding].join('\x00');
         localStorage.removeItem(key);
     }
 };

@@ -12,9 +12,7 @@ Magix.applyStyle('@scoped.style');
 Magix.config({
     paths: {
         '~xl': src
-    }
-});
-Magix.config({
+    },
     theme,
     rootId: 'xl',
     defaultView: '~xl/os/index',

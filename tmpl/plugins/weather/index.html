@@ -44,12 +44,6 @@
                 <use xlink:href="#{{=id}}_{{=w.wea_img}}"/>
             </svg>
             {{=w.tem2}} ~ {{=w.tem1}}
-            {{set level=((w.air_pm25-1)/50)|0}}
-            {{if level<0}}
-                {{level=0}}
-            {{else if level>5}}
-                {{level=5}}
-            {{/if}}
         </div>
     {{/each}}
 </div>

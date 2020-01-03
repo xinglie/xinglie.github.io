@@ -19,7 +19,7 @@
 .days{
     border-radius: 4px;
     background: #000a;
-    transform: translate(90px,-40px);
+    transform: translate(100px,-40px);
     position: absolute;
     left:0;
     top:0;
@@ -68,6 +68,7 @@
     border-radius: 4px;
     width:50px;
     height: 30px;
+    position: relative;
 }
 /* .week-content-day:hover{
     background: #0001
@@ -79,3 +80,33 @@
 /* .week-day-hd{
     color:#e47b20;
 } */
+.day-work{
+    color:red;
+}
+.day-holiday{
+    color:green;
+}
+.day-special{
+    position: absolute;
+    right: 5px;
+    top: -2px;
+    font-size: 12px;
+    transform: scale(0.6);
+}
+.point{
+    position: absolute;
+    right: -3px;
+    bottom:-4px;
+    font-size: 12px;
+    transform: scale(0.6);
+}
+.daughter-birthday{
+    position: absolute;
+    left: 3px;
+    top:-7px;
+    font-size: 12px;
+    transform: scale(0.6);
+}
+.birthday{
+    color:#FFD73A;
+}

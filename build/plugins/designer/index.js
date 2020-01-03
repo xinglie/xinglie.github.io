@@ -1,2 +1,2 @@
-/*!1.0.2 kooboy_li@163.com*/
-let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,l,r)=>{let s=[];return e?s.push(e):s.push(e=l("iframe",{_:"_",sandbox:"allow-scripts allow-same-origin allow-popups",allowfullscreen:!0,src:"//xinglie.github.io/report-designer/iot.html",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),l(r,0,s)},assign:()=>!1,render(){this.digest()}});
+/*!1.0.5 kooboy_li@163.com*/
+let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,l,r)=>{if(!e){let i=[];i.push(l("iframe",{sandbox:"allow-scripts allow-same-origin allow-popups",allowfullscreen:!0,src:"//xinglie.github.io/report-designer/iot.html",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),e=l(r,0,i)}return e},assign:()=>!1,render(){this.digest()}});

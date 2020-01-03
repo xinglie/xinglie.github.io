@@ -37,7 +37,7 @@ export default Magix.View.extend({
     async render() {
         try {
             let { start, last, exist } = GetLast();
-            XAgent.clear(Host + last, ListTime);
+            XAgent.clear(Host + last, true);
             console.log(start, last, exist);
             if (!exist) {
                 localStorage.setItem('ls#bg.random', JSON.stringify({
@@ -70,7 +70,7 @@ export default Magix.View.extend({
                 Wallpapger["@{set.wallpaper}"](thumb, src);
             };
             //1小时自动换一次壁纸
-            Cron["@{add.task}"](work, 6 * 60 * 60 * 1000, true);
+            Cron["@{add.task}"](work, 4 * 60 * 60 * 1000, true);
             this.on('destroy', () => {
                 Cron["@{remove.task}"](work);
             });

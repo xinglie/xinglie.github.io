@@ -4,8 +4,5 @@ export default Magix.View.extend({
     tmpl: '@./index.html',
     render() {
         this.digest();
-    },
-    '$doc<contextmenu>'(e: MouseEvent) {
-        e.preventDefault();
     }
 });

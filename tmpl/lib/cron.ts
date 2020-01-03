@@ -11,7 +11,8 @@ let Run = () => {
             i--;
         } else if (Now() - t['@{last.time}'] >= t['@{interval}']) {
             t['@{last.time}'] = Now();
-            Magix.task(t['@{task}']);
+            //Magix.toTry(t['@{task}']);
+            Magix.task(t['@{task}'], null, null, t['@{task.id}']);
         }
     }
     if (Tasks.length) {
@@ -27,11 +28,12 @@ let Start = () => {
     }
 };
 export default {
-    '@{add.task}'(task, interval, im?: boolean) {
+    '@{add.task}'(task, interval, im?: boolean, id?: string) {
         Tasks.push({
             '@{task}': task,
             '@{interval}': interval,
-            '@{last.time}': Now()
+            '@{last.time}': Now(),
+            '@{task.id}': id
         });
         if (im) {
             Magix.toTry(task);

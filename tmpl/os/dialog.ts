@@ -23,6 +23,7 @@ export default Magix.View.extend({
         });
         let root = this.root;
         this.on('destroy', () => {
+            //console.log(this.id,'destroy',this.get('view'));
             DialogCtrl["@{remove}"](this.get('appId'));
             root.parentNode.removeChild(root);
             Exchange.fire('@{when.dialog.remove}', {
@@ -78,6 +79,7 @@ export default Magix.View.extend({
         });
     },
     '@{deactive}'() {
+        //console.log(this.id,'deactive',this.get('view'));
         this.digest({
             active: false
         });
@@ -99,7 +101,7 @@ export default Magix.View.extend({
     },
     '@{toggle.normal.max.state}'() {
         let state = this['@{state}'];
-        let node = Magix.node('d_' + this.id);
+        //let node = Magix.node('d_' + this.id);
         if (state & WinMaxState) {
             this['@{state}'] = state ^ WinMaxState | WinNormalState;
             this.digest({
@@ -119,6 +121,7 @@ export default Magix.View.extend({
         this['@{toggle.normal.max.state}']();
     },
     '@{close}<click>'(e: MouseEvent) {
+        //console.log(this.id,'close');
         this.owner.unmountVframe();
     },
     '@{mouse.active}<mousedown>'() {

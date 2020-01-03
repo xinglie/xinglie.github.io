@@ -14,7 +14,7 @@
         <span class="dialog-ctrls-btn dialog-ctrls-close" mx-click="@{close}()"></span>
         {{/if}}
     </div>
-    <mx-vframe src="{{=view}}" class="dialog-view{{if scroll}} dialog-view-scroll{{/if}}" *max-state="{{@maxState}}">
+    <mx-vframe src="{{=view}}" class="dialog-view{{if scroll}} dialog-view-scroll{{/if}}" *max-state="{{@maxState}}" *data="{{@data}}">
         <div class="dialog-loading">
             loading...
         </div>

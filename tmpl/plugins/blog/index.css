@@ -1,14 +1,6 @@
 [mx-view^="@./index"]{
     background: #3f3e3c;
 }
-.clearfix::before,
-.clearfix::after {
-    content: " "; 
-    display: table; 
-}
-.clearfix::after{
-  clear: both
-}
 .blogs {
     width: 1080px;
     margin: 0 auto 20px;

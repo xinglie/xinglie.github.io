@@ -9,22 +9,26 @@ let VideoInfoServer = 'https://www.tvsou.com';
 export default Magix.View.extend({
     tmpl: '@tvsou.html',
     async  render() {
-        let mark = Magix.mark(this, '@{render}');
-        let result = await XAgent.request(VideoInfoServer + '/dianying/', 0, true);
-        if (mark()) {
-            let videos = [];
-            result.replace(ExtractReg, (m, link, img, title, date) => {
-                videos.push({
-                    link: VideoInfoServer + link,
-                    img,
-                    title,
-                    date
+        try {
+            let mark = Magix.mark(this, '@{render}');
+            let result = await XAgent.request(VideoInfoServer + '/dianying/', 0, true);
+            if (mark()) {
+                let videos = [];
+                result.replace(ExtractReg, (m, link, img, title, date) => {
+                    videos.push({
+                        link: VideoInfoServer + link,
+                        img,
+                        title,
+                        date
+                    });
+                    return '';
                 });
-                return '';
-            });
-            this.digest({
-                videos
-            });
+                this.digest({
+                    videos
+                });
+            }
+        } catch (ex) {
+            alert(ex);
         }
     }
 });

@@ -9,21 +9,25 @@ let VideoInfoServer = 'http://www.8080s.net';
 export default Magix.View.extend({
     tmpl: '@80s.html',
     async  render() {
-        let mark = Magix.mark(this, '@{render}');
-        let result = await XAgent.request(VideoInfoServer + '/hot', 0, true);
-        if (mark()) {
-            let videos = [];
-            result.replace(ExtractReg, (m, link, title, img) => {
-                videos.push({
-                    link: VideoInfoServer + link,
-                    title,
-                    img
+        try {
+            let mark = Magix.mark(this, '@{render}');
+            let result = await XAgent.request(VideoInfoServer + '/hot', 0, true);
+            if (mark()) {
+                let videos = [];
+                result.replace(ExtractReg, (m, link, title, img) => {
+                    videos.push({
+                        link: VideoInfoServer + link,
+                        title,
+                        img
+                    });
+                    return '';
                 });
-                return '';
-            });
-            this.digest({
-                videos
-            });
+                this.digest({
+                    videos
+                });
+            }
+        } catch (ex) {
+            alert(ex);
         }
     }
 });

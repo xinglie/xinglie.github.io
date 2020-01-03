@@ -1,5 +1,5 @@
 import Magix from '../lib/magix';
-'ref@./theme/index.css';
+'ref@mx:./theme/index.css';
 let FormatSeconds = s => {
     let r = '';
     if (isFinite(s)) {

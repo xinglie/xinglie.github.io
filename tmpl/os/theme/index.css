@@ -5,6 +5,15 @@ body{
 body:-webkit-full-screen::backdrop{
     background: transparent;
 }
+
+.clearfix::before,
+.clearfix::after {
+    content: " "; 
+    display: table; 
+}
+.clearfix::after{
+  clear: both
+}
 .global-bg{
     position: fixed;
     left:0;
@@ -57,6 +66,8 @@ body:-webkit-full-screen::backdrop{
     right:0;
     bottom:var(--__global__taskbar_height);
     overflow: hidden;
+
+    /* backdrop-filter: blur(4px); */
 }
 .dialog-title{
     padding-left:5px;
@@ -146,7 +157,7 @@ body:-webkit-full-screen::backdrop{
     bottom: 0;
     width: 0px;
     height: 0px;
-    cursor: se-resize;
+    cursor: nwse-resize;
     border-bottom: 10px solid var(--__global__dialog_title_background);
     border-left: 10px solid #0000;
 }
@@ -228,6 +239,7 @@ body:-webkit-full-screen::backdrop{
     align-items: center;
     z-index: 10000;
     user-select: none;
+    /* backdrop-filter: blur(4px); */
 }
 
 .taskbar-device{

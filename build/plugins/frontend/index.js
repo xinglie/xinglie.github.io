@@ -1,2 +1,2 @@
-/*!1.0.2 kooboy_li@163.com*/
+/*!1.0.5 kooboy_li@163.com*/
 import o from"../../lib/magix.js";import i from"https://xinglie.github.io/frontend/build/fe.js";let t=o.guid("_fe_");i.config(t,{logo:0,hash:0,scrollId:t});export default o.View.extend({init(){this.on("destroy",()=>{i.unboot()})},assign:()=>!1,render(){this.root.id=t,i.boot()}});

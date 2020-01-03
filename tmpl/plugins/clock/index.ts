@@ -8,7 +8,7 @@ Magix.applyStyle('@index.less');
 export default Magix.View.extend({
     mixins: [Dragdrop],
     tmpl: '@index.html',
-    assign(){
+    assign() {
         return false;
     },
     render() {
@@ -25,7 +25,7 @@ export default Magix.View.extend({
             minute.style.transform = `rotate(${minutes * 6 - 90}deg)`;
             hour.style.transform = `rotate(${hours * 30 - 90}deg)`;
         };
-        Cron["@{add.task}"](work, 0, true);
+        Cron["@{add.task}"](work, 0, true, '@{cron.clock.id}');
         this.on('destroy', () => {
             Cron["@{remove.task}"](work);
         });

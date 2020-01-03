@@ -4,19 +4,23 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import List from './vip';
 Magix.applyStyle('@index.less');
-let Tabs = [{
-    name: '搜视网',
-    id: 'tvsou',
-    view: '@./tvsou'
-}, {
-    name: '全视频',
-    id: 'qsp',
-    view: '@./qsp'
-}, {
-    name: '80s手机电影',
-    id: '80s',
-    view: '@./80s'
-}];
+let Tabs = [/*{
+    name: '随机推荐',
+    id: 'dyfm',
+    view: '@mx:./dyfm'
+},*/ {
+        name: '搜视网',
+        id: 'tvsou',
+        view: '@mx:./tvsou'
+    }, {
+        name: '全视频',
+        id: 'qsp',
+        view: '@mx:./qsp'
+    }, {
+        name: '80s手机电影',
+        id: '80s',
+        view: '@mx:./80s'
+    }];
 export default Magix.View.extend({
     tmpl: '@index.html',
     init(data) {

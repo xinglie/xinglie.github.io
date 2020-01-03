@@ -5,13 +5,14 @@
     border-radius: 50%;
     position: relative;
     cursor: move;
+    // backdrop-filter: blur(1px);
 }
 .second{
     position: absolute;
     height: 2px;
     background: #fff;
     border-radius: 1px;
-    width:80px;
+    width:78px;
     top:calc(~"50% - 1px");
     left:60px;
     transform-origin: 15px center;
@@ -45,4 +46,68 @@
     width:6px;
     top:calc(~"50% - 3px");
     left:calc(~"50% - 3px");;
+}
+.r0,
+.r1,
+.r2,
+.r3,
+.r4,
+.r5{
+    position: absolute;
+    left:0;
+    top:calc(~"50% - 2px");
+    height:4px;
+    width:100%;
+}
+.r0::before,
+.r0::after,
+.r1::before,
+.r1::after,
+.r2::before,
+.r2::after,
+.r3::before,
+.r3::after,
+.r4::before,
+.r4::after,
+.r5::before,
+.r5::after{
+    content: ' ';
+    display: block;
+    position: absolute;
+    top:0;
+    height:100%;
+    width:4px;
+    border-radius: 50%;
+    background: #fff6;
+}
+.r0::before,
+.r1::before,
+.r2::before,
+.r3::before,
+.r4::before,
+.r5::before{
+    left:4px;
+}
+.r0::after,
+.r1::after,
+.r2::after,
+.r3::after,
+.r4::after,
+.r5::after{
+    right: 4px;
+}
+.r1{
+    transform: rotate(30deg);
+}
+.r2{
+    transform: rotate(60deg);
+}
+.r3{
+    transform: rotate(90deg);
+}
+.r4{
+    transform: rotate(120deg);
+}
+.r5{
+    transform: rotate(150deg);
 }

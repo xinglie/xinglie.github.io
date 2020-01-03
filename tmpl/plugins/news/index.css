@@ -19,7 +19,7 @@
 .news-wrap{
     display: inline-grid;
     grid-template-columns: 70% 30%;
-    grid-template-rows: 80% 20%;
+    grid-template-rows: 86%;
     grid-template-areas: "a b" "comment comment";
     width: 410px;
     height: 120px;
@@ -40,6 +40,7 @@
 .news-tip{
     grid-area: comment;
     color:#aaa;
+    font-size: 12px;
 }
 .news-image-cover{
     width:120px;

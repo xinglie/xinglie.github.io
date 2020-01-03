@@ -40,6 +40,13 @@ export default {
         let appId = app.appId;
         if (GlobalDialogs[Prefix + appId]) {
             this['@{active}'](appId);
+            let node = Magix.node(appId);
+            if (node) {
+                let vf = Magix.Vframe.byNode(node);
+                if (vf.invoke('assign', app)) {
+                    vf.invoke('render');
+                }
+            }
         } else {
             TempHiddens.length = 0;
             let node = document.createElement('div'),
@@ -67,9 +74,11 @@ export default {
             options.zIndex = BaseZIndex + zIndex;
             if (!options.minWidth) options.minWidth = WinMinWidth;
             if (!options.minHeight) options.minHeight = WinMinHeight;
-            view.owner.mountVframe(node, '@./dialog', options);
+            view.owner.mountVframe(node, '@mx:./dialog', options);
             this['@{add}'](options, zIndex);
-            this['@{active}'](appId);
+            setTimeout(() => {
+                this['@{active}'](appId);
+            }, 50);
         }
     },
     '@{adjust}'(id) {

@@ -1,2 +1,2 @@
-/*!1.0.2 kooboy_li@163.com*/
-import o from"./magix.js";let t=window.requestAnimationFrame,_=Date.now,e=[],r=0,l=()=>{for(let t=0;t<e.length;t++){let r=e[t];r._n?(e.splice(t,1),t--):_()-r._o>=r._p&&(r._o=_(),o.task(r._q))}e.length?t(l):r=0};export default{_r(n,f,a){e.push({_q:n,_p:f,_o:_()}),a&&o.toTry(n),r||(r=1,t(l))},_s(o){for(let t of e)t._q==o&&(t._n=1)},_t(o){for(let t of e)t._q==o&&(t._o=_())}};
+/*!1.0.5 kooboy_li@163.com*/
+import _ from"./magix.js";let o=window.requestAnimationFrame,t=Date.now,e=[],l=0,r=()=>{for(let o=0;o<e.length;o++){let l=e[o];l._n?(e.splice(o,1),o--):t()-l._o>=l._p&&(l._o=t(),_.task(l._q,null,null,l._r))}e.length?o(r):l=0};export default{_s(n,f,a,i){e.push({_q:n,_p:f,_o:t(),_r:i}),a&&_.toTry(n),l||(l=1,o(r))},_t(_){for(let o of e)o._q==_&&(o._n=1)},_u(_){for(let o of e)o._q==_&&(o._o=t())}};

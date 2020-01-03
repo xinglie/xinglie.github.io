@@ -5,7 +5,7 @@
     <mx-link class="video-link" rel="noopener noreferrer" title="使用腾讯搜索{{=video.title}}" target="_blank" to="https://v.qq.com/x/search/" *q="{{=video.title}}">
         腾讯
     </mx-link>
-    <mx-link class="video-link" rel="noopener noreferrer" title="使用爱奇世搜索{{=video.title}}" target="_blank" to="http://so.iqiyi.com/so/q_{{=encodeURIComponent(video.title)}}">
+    <mx-link class="video-link" rel="noopener noreferrer" title="使用爱奇世搜索{{=video.title}}" target="_blank" to="http://so.iqiyi.com/so/q_${q}" *q="{{=video.title}}">
         爱奇艺
     </mx-link>
 </div>

@@ -1,2 +1,2 @@
-/*!1.0.2 kooboy_li@163.com*/
-import t from"../lib/magix.js";import e from"../plugins/tool.js";export default t.View.extend({tmpl:(t,e,o,i)=>{let l,d=[],{tools:s}=t;for(let t=s.length,o=0;o<t;o++){let t=s[o];l=[e("div",{"mx-view":i(t.view),class:"xl-I",style:i(t.dockXKey)+":"+i(t.dockX)+"px;"+i(t.dockYKey)+":"+i(t.dockY)+"px;width:"+i(t.width)+"px;height:"+i(t.height)+"px;"})],d.push(...l)}return e(o,0,d)},render(){this.digest({tools:e})}});
+/*!1.0.5 kooboy_li@163.com*/
+import t from"../lib/magix.js";import e from"../plugins/tool.js";export default t.View.extend({tmpl:(t,e,o,i)=>{let l,d=[],{tools:s}=t;for(let t=s.length,o=0;o<t;o++){let t=s[o];l=[e("div",{"mx-view":i(t.view),class:"xl-J",style:i(t.dockXKey)+":"+i(t.dockX)+"px;"+i(t.dockYKey)+":"+i(t.dockY)+"px;width:"+i(t.width)+"px;height:"+i(t.height)+"px;"})],d.push(...l)}return e(o,0,d)},render(){this.digest({tools:e})}});

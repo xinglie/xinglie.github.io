@@ -1,30 +1,24 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Cron from '../../lib/cron';
+import Days from './days';
 Magix.applyStyle('@./index.css');
 let weeks = '日一二三四五六'.split('');
 let GetNumOfDays = (year, month) => {
     return 32 - new Date(year, month - 1, 32).getDate();
 };
-// let GetTip = ({ year, month, day, holiday, lunar }) => {
-//     let tip = year + '-' + month + '-' + day;
-//     if (holiday) {
-//         tip += ' ' + holiday;
-//     }
-//     tip += '　农历' + lunar.month + lunar.date;
-//     if (lunar.solarTerm) {
-//         tip += ' 节气：' + lunar.solarTerm;
-//     }
-//     if (lunar.festival) {
-//         tip += ' 节日：' + lunar.festival;
-//     }
-//     return tip;
-// };
+let DaughterBirthday = {
+    year: 2012,
+    month: 12,
+    day: 22,
+    name: '妞妞'
+};
 export default Magix.View.extend({
     mixins: [Dragdrop],
     tmpl: '@index.html',
     init() {
         this.set({
+            birthday: DaughterBirthday,
             weekText: weeks,
             weekStart: 0
         });
@@ -34,20 +28,21 @@ export default Magix.View.extend({
             Cron["@{remove.task}"](update);
         };
     },
-    assign(){
+    assign() {
         return false;
     },
-    render() {
+    async render() {
         let now = new Date();
         let year = now.getFullYear();
         let month = now.getMonth() + 1;
         let day = now.getDate();
-        let start = new Date(now.getFullYear(), 0, 1, 0, 0, 0).getTime();
-        let end = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0).getTime();
-        let percent = (now.getTime() - start) / (end - start) * 100;
+        let start = new Date(year, 0, 1, 0, 0, 0).getTime();
+        let end = new Date(year + 1, 0, 1, 0, 0, 0).getTime();
+        now.setHours(0, 0, 0, 0);
         let dayTime = 24 * 60 * 60 * 1000;
+        let percent = (now.getTime() - start + dayTime) / (end - start) * 100;
         let totalDays = (end - start) / dayTime;
-        let esDays = (end - now.getTime()) / dayTime;
+        let esDays = (end - now.getTime() - dayTime) / dayTime;
         let weekStart = this.get('weekStart');
         let startOffset = (7 - weekStart + new Date(year, month - 1, 1).getDay()) % 7;
         let trs = [],
@@ -99,16 +94,29 @@ export default Magix.View.extend({
                 }
             }
         }
-        console.log(trs);
-        this.digest({
-            year,
-            month,
-            day,
-            days: totalDays,
-            esDays,
-            percent: percent.toFixed(2),
-            weeks: trs
-        });
+        let mark = Magix.mark(this, '@{render}');
+        let { queryWorkAndHolidays, querySolarTerms } = Days;
+        let [solarTerms, {
+            workdays,
+            holidays }
+        ] = await Promise.all<object, {
+            workdays: object,
+            holidays: object
+        }>([querySolarTerms(), queryWorkAndHolidays(now)]);
+        if (mark()) {
+            this.digest({
+                year,
+                holidays,
+                workdays,
+                solarTerms,
+                month,
+                day,
+                days: totalDays,
+                esDays,
+                percent: percent.toFixed(2),
+                weeks: trs
+            });
+        }
     },
     '@{move.cal}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let target = this.root;

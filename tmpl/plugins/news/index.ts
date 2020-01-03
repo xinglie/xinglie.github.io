@@ -44,7 +44,7 @@ let Options = {
     min: true,
     close: true,
     dockY: 30,
-    view: '@./detail'
+    view: '@mx:./detail'
 };
 let OpenSubDialog = (view, doc, comment?: boolean) => {
     Bridge["@{save.document}"](doc, comment);
@@ -83,6 +83,7 @@ export default Magix.View.extend({
             let start = this.get('start');
             if (start === 0 ||
                 this.root.scrollTop < 50) {
+                this.root.scrollTop = 0;
                 this.set({
                     list: []
                 });
@@ -92,7 +93,7 @@ export default Magix.View.extend({
                 console.log('ignore update news');
             }
         };
-        Cron["@{add.task}"](autoUpdate, 10 * 60 * 1000);
+        Cron["@{add.task}"](autoUpdate, 10 * 60 * 1000, false, '@{cron.news}');
         this.ondestroy = () => {
             Cron["@{remove.task}"](autoUpdate);
         };
@@ -111,6 +112,7 @@ export default Magix.View.extend({
                 let list = this.get('list');
                 list.push(...data);
                 this.digest({
+                    error: null,
                     loading: false,
                     list
                 });

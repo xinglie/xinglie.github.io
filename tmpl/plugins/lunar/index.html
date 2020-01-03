@@ -18,22 +18,23 @@
             {{each weeks as weekDays}}
                 <tr>
                     {{each weekDays as wd}}
-                        <td class="week-day{{if wd.year==year&&wd.month==month&&wd.day==day}} week-day-selected{{/if}}" title="{{!wd.otherMonth}}?{{=`${wd.year}-${wd.month}-${wd.day}`}}">
+                        {{set date=`${wd.year}-${wd.month}-${wd.day}`}}
+                        <td class="week-day{{if wd.year==year&&wd.month==month&&wd.day==day}} week-day-selected{{/if}}{{if workdays[date]===1}} day-work{{else if holidays[date]===1}} day-holiday{{/if}}{{if wd.month==birthday.month&&wd.day==birthday.day}} birthday{{/if}}" title="{{!wd.otherMonth}}?{{=date}}{{if workdays[date]===1}} 上班{{else if holidays[date]===1}} 放假{{/if}} {{if solarTerms[date]}}{{=solarTerms[date]}}{{/if}} {{if wd.month==birthday.month&&wd.day==birthday.day}}{{=birthday.name}}生日，今年{{=wd.year-birthday.year}}岁啦～{{/if}}">
                             {{if !wd.otherMonth}}
-                            <div class="week-day-num">
-                                {{=wd.day}}
-                            </div>
-                            <!-- <div class="week-day-text{{if wd.holiday||wd.lunar.festival||wd.lunar.solarTerm}} week-day-hd{{/if}}">
-                                {{if wd.holiday}}
-                                    {{=wd.holiday}}
-                                {{else if wd.lunar.festival}}
-                                    {{=wd.lunar.festival}}
-                                {{else if wd.lunar.solarTerm}}
-                                    {{=wd.lunar.solarTerm}}
-                                {{else}}
-                                    {{=wd.lunar.date}}
+                                <div class="week-day-num">
+                                    {{=wd.day}}
+                                </div>
+                                {{if workdays[date]===1}}
+                                    <div class="day-special">班</div>
+                                {{else if holidays[date]===1}}
+                                    <div class="day-special">假</div>
                                 {{/if}}
-                            </div> -->
+                                {{if solarTerms[date]}}
+                                    <div class="point">{{=solarTerms[date]}}</div>
+                                {{/if}}
+                                {{if wd.month==birthday.month&&wd.day==birthday.day}}
+                                    <div class="daughter-birthday">{{=birthday.name}}</div>
+                                {{/if}}
                             {{/if}}
                         </td>
                     {{/each}}

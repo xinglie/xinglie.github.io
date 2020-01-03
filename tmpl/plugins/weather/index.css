@@ -60,6 +60,7 @@
 }
 .top:hover{
     opacity: 1;
+    /* backdrop-filter: blur(2px); */
 }
 .top-wea{
     display: flex;

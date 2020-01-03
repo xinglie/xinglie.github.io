@@ -1,2 +1,2 @@
-/*!1.0.2 kooboy_li@163.com*/
-let e;import r from"../../lib/magix.js";export default r.View.extend({tmpl:(r,t,s)=>{let i=[];return e?i.push(e):i.push(e=t("iframe",{_:"_",sandbox:"allow-scripts",src:"//wnl.chemdrug.com/",frameborder:"no",style:"width:100%;height:100%",scrolling:"no"})),t(s,0,i)},assign:()=>!1,render(){this.digest()}});
+/*!1.0.5 kooboy_li@163.com*/
+let e;import r from"../../lib/magix.js";export default r.View.extend({tmpl:(r,t,i)=>{if(!e){let r=[];r.push(t("iframe",{sandbox:"allow-scripts",src:"//wnl.chemdrug.com/",frameborder:"no",style:"width:100%;height:100%",scrolling:"no"})),e=t(i,0,r)}return e},assign:()=>!1,render(){this.digest()}});
