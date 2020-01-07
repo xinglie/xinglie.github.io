@@ -1,23 +1,23 @@
 import Magix from '../../lib/magix';
 //import Frontend from 'http://localhost/frontend/src/fe.js';
-import Frontend from 'https://xinglie.github.io/frontend/build/fe.js';
-let FE_ID = Magix.guid('_fe_');
-Frontend.config(FE_ID, {
-    logo: 0,
-    hash: 0,
-    scrollId: FE_ID
-});
+import Frontend from '~frontend';
 export default Magix.View.extend({
+    tmpl: '@mx:./index.html',
     init() {
         this.on('destroy', () => {
-            Frontend.unboot();
+            Frontend.unmount('fe_' + this.id);
         });
     },
-    assign(){
+    assign() {
         return false;
     },
     render() {
-        this.root.id = FE_ID;
-        Frontend.boot();
+        this.digest();
+        this.root.id = Magix.guid('_s_');
+        Frontend.mount('fe_' + this.id, {
+            logo: 0,
+            hash: 0,
+            scrollId: this.root.id
+        });
     }
 })

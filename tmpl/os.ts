@@ -11,7 +11,8 @@ let theme = params.theme || 'black';
 Magix.applyStyle('@scoped.style');
 Magix.config({
     paths: {
-        '~xl': src
+        '~xl': src,
+        '~fe':'https://xinglie.github.io/frontend/build/'
     },
     theme,
     rootId: 'xl',

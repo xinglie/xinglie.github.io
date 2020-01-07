@@ -34,6 +34,11 @@ combineTool.config({
         });
         str = str.outputText;
         return str;
+    },
+    resolveRequire(m) {
+        if (m.mId == '~frontend') {
+            m.mId = 'https://xinglie.github.io/frontend/build/fe.js';
+        }
     }
 });
 
