@@ -1,6 +1,6 @@
 <div class="tabs">
     {{each cats as cat}}
-    <div class="tab-item{{if cat.id==active}} tab-item-active{{/if}}" mx-click="{{cat.id!=active}}?@{change.category}({id:'{{=cat.id}}'})">{{=cat.text}}</div>
+    <div class="tab-item{{if cat.id==active}} tab-item-active{{/if}}" mx-click="{{cat.id!=active}}?@:{change.category}({id:'{{=cat.id}}'})">{{=cat.text}}</div>
     {{/each}}
 </div>
 {{if loading}}
@@ -10,19 +10,19 @@
 {{else}}
 <div class="list-wrap">
 {{each list as d}}
-    <div class="news-wrap" mx-click="@{open.news}({detail:'{{@d}}'})">
+    <div class="news-wrap" mx-click="@:{open.news}({detail:'{{#d}}'})">
         <div class="news-title">
             {{=d.title}}
         </div>
         <div class="news-image-cover">
             <img loading="lazy" class="news-image" src="{{=d.imgsrc}}" />
         </div>
-        <div class="news-tip" mx-click="@{open.comment}({detail:'{{@d}}'})">
+        <div class="news-tip" mx-click="@:{open.comment}({detail:'{{#d}}'})">
             <span class="news-source">来源：{{=d.source}}</span>
             <span class="news-time">{{=d.ptime}}&emsp;<span style="color:{{=getColor(d.commentCount)}}">评论：{{=d.commentCount}}</span></span>
         </div>
     </div>
 {{/each}}
 </div>
-<mx-more mx-intersect="@{load.more}()" *placeholder="更多新闻加载中..."/>
+<mx-more mx-intersect="@:{load.more}()" *placeholder="更多新闻加载中..."/>
 {{/if}}

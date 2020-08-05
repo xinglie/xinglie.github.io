@@ -1,2 +1,2 @@
 import Magix from '../../lib/magix';
-Magix.applyStyle('@./black.css');
+Magix.applyStyle('@:./black.css');

@@ -1,8 +1,8 @@
-<div class="taskbar-device taskbar-start" title="显示桌面" mx-click="@{min.dialogs}()">
+<div class="taskbar-device taskbar-start" title="显示桌面" mx-click="@:{min.dialogs}()">
     <svg class="taskbar-device-icon" viewBox="0 0 1024 1024"><path fill="#fff" d="M846.483 734.991c41.052 0 74.33-33.281 74.33-74.33V214.684c0-41.052-33.277-74.333-74.33-74.333H177.517c-41.052 0-74.33 33.281-74.33 74.333v445.977c0 41.049 33.277 74.33 74.33 74.33h222.989v74.33H136.974c-18.66 0-33.786 15.126-33.786 33.786v6.757c0 18.66 15.126 33.786 33.786 33.786h750.052c18.66 0 33.786-15.126 33.786-33.786v-6.757c0-18.66-15.126-33.786-33.786-33.786H586.33v-74.33h260.153zm-594.636-74.33c-41.052 0-74.33-33.281-74.33-74.333V289.013c0-41.052 33.277-74.33 74.33-74.33h520.307c41.049 0 74.33 33.277 74.33 74.33v297.315c0 41.052-33.281 74.333-74.33 74.333H251.847zm520.306-322.092c0-27.368-25.882-49.555-57.81-49.555H309.66c-31.928 0-57.814 22.187-57.814 49.555V536.78c0 27.364 25.885 49.552 57.814 49.552h404.684c31.928 0 57.81-22.187 57.81-49.552V338.569z"/></svg>
 </div>
 {{each list as item}}
-<div class="taskbar-item{{if item.appId==active}} taskbar-item-active{{/if}}" title="{{=item.title}}" mx-click="@{active.item}({id:'{{=item.appId}}'})" id="{{=item.appId}}_tb_i">
+<div class="taskbar-item{{if item.appId==active}} taskbar-item-active{{/if}}" title="{{=item.title}}" mx-click="@:{active.item}({id:'{{=item.appId}}'})" id="{{=item.appId}}_tb_i">
     <span x-html="{{=item.icon}}" class="taskbar-item-icon"></span>{{=item.title}}
 </div>
 {{/each}}

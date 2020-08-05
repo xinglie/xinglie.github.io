@@ -1,10 +1,10 @@
 <div class="header">
     <ul class="tabs">
         {{each tabs as tab}}
-        <li class="tab-item{{if tab.key==active}} tab-item-active{{/if}}" mx-click="{{tab.key!=active}}?@{change.tab}({tab:'{{=tab.key}}'})">{{=tab.name}}</li>
+        <li class="tab-item{{if tab.key==active}} tab-item-active{{/if}}" mx-click="{{tab.key!=active}}?@:{change.tab}({tab:'{{=tab.key}}'})">{{=tab.name}}</li>
         {{/each}}
     </ul>
-    <input class="search" placeholder="搜索" mx-input="@{search}()" value="{{=search}}" />
+    <input class="search" placeholder="搜索" mx-input="@:{search}()" value="{{=search}}" />
 </div>
 {{set current=0;}}
 {{if list.length}}

@@ -3,7 +3,7 @@
 */
 import Magix from '../../lib/magix';
 import XAgent from '../../lib/agent';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:index.less');
 let FindBestPage = (max, requested) => {
     let current;
     do {
@@ -14,15 +14,15 @@ let FindBestPage = (max, requested) => {
 };
 let Sort = (a, b) => a.w - b.w;
 let Sina = {
-    '@{init}'() {
-        this['@{max}'] = 50;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'https://interface.sina.cn/tech/gif/album.d.json?format=json&num=20&page=';
+    '@:{init}'() {
+        this['@:{max}'] = 50;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'https://interface.sina.cn/tech/gif/album.d.json?format=json&num=20&page=';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             try {
@@ -46,15 +46,15 @@ let Sina = {
     }
 };
 let Gaoxiao = {
-    '@{init}'() {
-        this['@{max}'] = 400;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://www.gaoxiaogif.com/';
+    '@:{init}'() {
+        this['@:{max}'] = 400;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://www.gaoxiaogif.com/';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let tail = '';
             if (current > 1) {
@@ -81,15 +81,15 @@ let Gaoxiao = {
     }
 };
 let Quicklol = {
-    '@{init}'() {
-        this['@{max}'] = 500;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://quicklol.com/';
+    '@:{init}'() {
+        this['@:{max}'] = 500;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://quicklol.com/';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let tail = '';
             if (current > 1) {
@@ -115,15 +115,15 @@ let Quicklol = {
     }
 };
 let Zol = {
-    '@{init}'() {
-        this['@{max}'] = 102;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://xiaohua.zol.com.cn/qutu/${0}.html';
+    '@:{init}'() {
+        this['@:{max}'] = 102;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://xiaohua.zol.com.cn/qutu/${0}.html';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             try {
@@ -148,15 +148,15 @@ let Zol = {
     }
 };
 let Tuchaojie = {
-    '@{init}'() {
-        this['@{max}'] = 847;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://www.tucaojie.com/';
+    '@:{init}'() {
+        this['@:{max}'] = 847;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://www.tucaojie.com/';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             let tail = '';
@@ -183,15 +183,15 @@ let Tuchaojie = {
     }
 };
 let Biedoul = {
-    '@{init}'() {
-        this['@{max}'] = 31099;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'https://www.biedoul.com/index/${0}/';
+    '@:{init}'() {
+        this['@:{max}'] = 31099;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'https://www.biedoul.com/index/${0}/';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             dest = dest.replace('${0}', current);
@@ -219,15 +219,15 @@ let Biedoul = {
     }
 };
 let Budejie = {
-    '@{init}'() {
-        this['@{max}'] = 50;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://www.budejie.com/${0}';
+    '@:{init}'() {
+        this['@:{max}'] = 50;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://www.budejie.com/${0}';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             dest = dest.replace('${0}', current);
@@ -251,15 +251,15 @@ let Budejie = {
     }
 };
 let Xiaohua51 = {
-    '@{init}'() {
-        this['@{max}'] = 195;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'http://www.51xiaohua.com/ye${0}.html';
+    '@:{init}'() {
+        this['@:{max}'] = 195;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'http://www.51xiaohua.com/ye${0}.html';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             dest = dest.replace('${0}', current);
@@ -283,15 +283,15 @@ let Xiaohua51 = {
     }
 };
 let Xiaohua = {
-    '@{init}'() {
-        this['@{max}'] = 1072;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'https://www.xiaohua.com/duanzi?page=${0}';
+    '@:{init}'() {
+        this['@:{max}'] = 1072;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'https://www.xiaohua.com/duanzi?page=${0}';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             dest = dest.replace('${0}', current);
@@ -316,15 +316,15 @@ let Xiaohua = {
 };
 
 let Soogif = {
-    '@{init}'() {
-        this['@{max}'] = 500;
-        this['@{requested}'] = {};
-        this['@{dest.url}'] = 'https://www.soogif.com/hotGif?start=${0}&size=20';
+    '@:{init}'() {
+        this['@:{max}'] = 500;
+        this['@:{requested}'] = {};
+        this['@:{dest.url}'] = 'https://www.soogif.com/hotGif?start=${0}&size=20';
     },
-    '@{request}'() {
-        let dest = this['@{dest.url}'];
-        let requested = this['@{requested}'];
-        let current = FindBestPage(this['@{max}'], requested);
+    '@:{request}'() {
+        let dest = this['@:{dest.url}'];
+        let requested = this['@:{requested}'];
+        let current = FindBestPage(this['@:{max}'], requested);
         return new Promise(async resolve => {
             let list = [];
             dest = dest.replace('${0}', current);
@@ -361,17 +361,17 @@ let Pools = [
     Xiaohua
 ];
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init() {
         let weights = [];
         for (let src of Pools) {
-            src['@{init}']();
+            src['@:{init}']();
             weights.push({
                 s: src,
                 w: 0
             });
         }
-        this['@{weights}'] = weights;
+        this['@:{weights}'] = weights;
         this.set({
             list: []
         });
@@ -381,15 +381,15 @@ export default Magix.View.extend({
     },
     async render() {
         //return this.digest({list:[]});
-        let weights = this['@{weights}'];
+        let weights = this['@:{weights}'];
         let max = Math.min(1 + Math.ceil(Math.random() * weights.length / 1.5), weights.length);
         let sends = weights.sort(Sort).slice(0, max);
         let ps = [];
         for (let s of sends) {
             s.w += 1;
-            ps.push(s.s['@{request}']());
+            ps.push(s.s['@:{request}']());
         }
-        let mark = Magix.mark(this, '@{render}');
+        let mark = Magix.mark(this, '@:{render}');
         let results = await Promise.all(ps);
         if (mark()) {
             let list = this.get('list');
@@ -415,11 +415,11 @@ export default Magix.View.extend({
                 list
             });
         }
-        delete this['@{data.loading}'];
+        delete this['@:{data.loading}'];
     },
-    '@{load.more}<intersect>'() {
-        if (!this['@{data.loading}']) {
-            this['@{data.loading}'] = 1;
+    '@:{load.more}<intersect>'() {
+        if (!this['@:{data.loading}']) {
+            this['@:{data.loading}'] = 1;
             this.render();
         }
     }

@@ -7,9 +7,9 @@
     {{each list as item}}
         <div class="detail-title" title="{{=item.title}}">{{=item.title}}</div>
         {{each item.links as link}}
-            <div class="detail-link" title="{{=link.text}}" mx-click="@{open.detail}({url:'{{=link.url}}'})">{{=link.text}}</div>
+            <div class="detail-link" title="{{=link.text}}" mx-click="@:{open.detail}({url:'{{=link.url}}'})">{{=link.text}}</div>
         {{/each}}
     {{/each}}
 </div>
 {{/if}}
-<mx-vframe class="detail-story{{if showStory}} detail-story-show{{/if}}" src="./story" *url="{{=storyUrl}}" mx-close="@{when.story.close}()"/>
+<mx-vframe class="detail-story{{if showStory}} detail-story-show{{/if}}" src="./story" *url="{{=storyUrl}}" mx-close="@:{when.story.close}()"/>

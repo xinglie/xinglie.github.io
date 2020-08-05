@@ -3,26 +3,26 @@
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import List from './vip';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:index.less');
 let Tabs = [/*{
     name: '随机推荐',
     id: 'dyfm',
-    view: '@mx:./dyfm'
+    view: '@:./dyfm'
 },*/ {
         name: '搜视网',
         id: 'tvsou',
-        view: '@mx:./tvsou'
+        view: '@:./tvsou'
     }, {
         name: '全视频',
         id: 'qsp',
-        view: '@mx:./qsp'
+        view: '@:./qsp'
     }, {
         name: '80s手机电影',
         id: '80s',
-        view: '@mx:./80s'
+        view: '@:./80s'
     }];
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init(data) {
         this.assign(data);
         this.set({
@@ -41,26 +41,26 @@ export default Magix.View.extend({
             list: List
         });
     },
-    '@{update}<change>'(e: Magix5.MagixMouseEvent) {
+    '@:{update}<change>'(e: Magix5.MagixMouseEvent) {
         let target = e.eventTarget as HTMLSelectElement;
         let si = target.selectedIndex;
         this.set({
             si
         });
     },
-    '@{update.input}<change>'(e) {
+    '@:{update.input}<change>'(e) {
         let target = e.eventTarget as HTMLInputElement;
         let url = target.value;
         this.set({
             url
         });
     },
-    '@{play}<click>'() {
+    '@:{play}<click>'() {
         this.digest({
             played: true
         });
     },
-    '@{change.category}<click>'(e) {
+    '@:{change.category}<click>'(e) {
         this.digest({
             active: e.params.id
         });

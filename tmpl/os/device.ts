@@ -1,5 +1,5 @@
 import Magix from '../lib/magix';
-'ref@mx:./theme/index.css';
+'ref@:./theme/index.css';
 let FormatSeconds = s => {
     let r = '';
     if (isFinite(s)) {
@@ -27,7 +27,7 @@ declare global {
     }
 }
 export default Magix.View.extend({
-    tmpl: '@./device.html',
+    tmpl: '@:./device.html',
     init() {
         this.set({
             s100: Scale100,
@@ -79,7 +79,7 @@ export default Magix.View.extend({
             full: !!element
         });
     },
-    '@{toggle.fullscreen}<click>'() {
+    '@:{toggle.fullscreen}<click>'() {
         if (document.fullscreenElement) {
             document.exitFullscreen();
         } else {

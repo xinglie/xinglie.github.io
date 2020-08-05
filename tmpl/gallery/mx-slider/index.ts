@@ -3,12 +3,11 @@
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../mx-dragdrop/index';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:index.less');
 export default Magix.View.extend({
-    tmpl: '@index.html',
-    mixins: [Dragdrop],
+    tmpl: '@:index.html',
     assign(data) {
-        if (!this['@{dragging}']) {
+        if (!this['@:{dragging}']) {
             this.set(data);
             return true;
         }
@@ -18,7 +17,7 @@ export default Magix.View.extend({
     render() {
         this.digest();
     },
-    '@{update.range}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{update.range}<click>'(e: Magix5.MagixMouseEvent) {
         let bound = e.eventTarget.getBoundingClientRect();
         let p = (e.pageX - bound.left) / bound.width;
         this.digest({
@@ -28,11 +27,11 @@ export default Magix.View.extend({
             percent: p
         });
     },
-    '@{start.drag}<mousedown>'(e: Magix5.MagixMouseEvent) {
+    '@:{start.drag}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let bound = Magix.node('t_' + this.id).getBoundingClientRect();
         let v = this.get('value') || 0;
-        this['@{dragging}'] = 1;
-        this['@{drag.drop}'](e, (ev) => {
+        this['@:{dragging}'] = 1;
+        this['@:{drag.drop}'](e, (ev) => {
             let diff = ev.pageX - e.pageX;
             let p = diff / bound.width + v;
             if (p > 1) p = 1;
@@ -47,7 +46,7 @@ export default Magix.View.extend({
             Magix.dispatch(this.root, 'change', {
                 percent: this.get('value')
             });
-            delete this['@{dragging}'];
+            delete this['@:{dragging}'];
         });
     }
-});
+}).merge(Dragdrop);

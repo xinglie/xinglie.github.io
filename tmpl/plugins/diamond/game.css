@@ -1,4 +1,4 @@
-[mx-view^="@./game"]{
+[mx-view^="@:./game"]{
     padding: 5px;
 }
 .game-table{

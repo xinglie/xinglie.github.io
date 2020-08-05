@@ -7,17 +7,17 @@ let WinMinHeight = 100;
 let Position = 0;
 let TempHiddens = [];
 export default {
-    '@{add}'(app, zIndex) {
+    '@:{add}'(app, zIndex) {
         GlobalDialogs.push(app);
         GlobalDialogs[Prefix + app.appId] = {
-            '@{zIndex}': BaseZIndex + zIndex,
-            '@{show}': 1
+            '@:{zIndex}': BaseZIndex + zIndex,
+            '@:{show}': 1
         };
     },
-    '@{get.list}'() {
+    '@:{get.list}'() {
         return GlobalDialogs;
     },
-    '@{remove}'(id) {
+    '@:{remove}'(id) {
         delete GlobalDialogs[Prefix + id];
         for (let i = GlobalDialogs.length; i--;) {
             if (GlobalDialogs[i].appId == id) {
@@ -25,21 +25,21 @@ export default {
                 break;
             }
         }
-        this['@{active}']();
+        this['@:{active}']();
     },
-    '@{show}'(id) {
+    '@:{show}'(id) {
         let info = GlobalDialogs[Prefix + id];
-        info['@{show}'] = 1;
+        info['@:{show}'] = 1;
     },
-    '@{hide}'(id) {
+    '@:{hide}'(id) {
         let info = GlobalDialogs[Prefix + id];
-        info['@{show}'] = 0;
-        this['@{active}']();
+        info['@:{show}'] = 0;
+        this['@:{active}']();
     },
-    '@{create}'(view: Magix5.View, app) {
+    '@:{create}'(view: Magix5.View, app) {
         let appId = app.appId;
         if (GlobalDialogs[Prefix + appId]) {
-            this['@{active}'](appId);
+            this['@:{active}'](appId);
             let node = Magix.node(appId);
             if (node) {
                 let vf = Magix.Vframe.byNode(node);
@@ -74,14 +74,14 @@ export default {
             options.zIndex = BaseZIndex + zIndex;
             if (!options.minWidth) options.minWidth = WinMinWidth;
             if (!options.minHeight) options.minHeight = WinMinHeight;
-            view.owner.mountVframe(node, '@mx:./dialog', options);
-            this['@{add}'](options, zIndex);
+            view.owner.mountVframe(node, '@:./dialog', options);
+            this['@:{add}'](options, zIndex);
             setTimeout(() => {
-                this['@{active}'](appId);
+                this['@:{active}'](appId);
             }, 50);
         }
     },
-    '@{adjust}'(id) {
+    '@:{adjust}'(id) {
         let temp, move, info;
         for (let i = GlobalDialogs.length; i--;) {
             temp = GlobalDialogs[i];
@@ -93,7 +93,7 @@ export default {
                 }
             } else {
                 info = GlobalDialogs[Prefix + temp.appId];
-                if (info['@{show}']) {
+                if (info['@:{show}']) {
                     GlobalDialogs.splice(i, 1);
                     move = true;
                     break;
@@ -105,12 +105,12 @@ export default {
         }
         return move ? temp : null;
     },
-    '@{update.z.index}'() {
+    '@:{update.z.index}'() {
         for (let i = GlobalDialogs.length; i--;) {
             let id = GlobalDialogs[i].appId;
             let info = GlobalDialogs[Prefix + id];
-            if (info['@{zIndex}'] != BaseZIndex + i) {
-                info['@{zIndex}'] = BaseZIndex + i;
+            if (info['@:{zIndex}'] != BaseZIndex + i) {
+                info['@:{zIndex}'] = BaseZIndex + i;
                 let n = Magix.node(id);
                 let vf = Magix.Vframe.byNode(n);
                 if (vf) {
@@ -123,56 +123,56 @@ export default {
             }
         }
     },
-    '@{active}'(id?: string, min?: boolean) {
+    '@:{active}'(id?: string, min?: boolean) {
         TempHiddens.length = 0;
         let node, vf, info;
-        if (id == GlobalDialogs['@{focused}']) {
+        if (id == GlobalDialogs['@:{focused}']) {
             if (min) {
                 node = Magix.node(id);
                 if (node) {
                     vf = Magix.Vframe.byNode(node);
                     if (vf) {
-                        vf.invoke('@{hide.ui}');
+                        vf.invoke('@:{hide.ui}');
                         info = GlobalDialogs[Prefix + id];
-                        info['@{show}'] = 0;
+                        info['@:{show}'] = 0;
                     }
                 }
             }
             return;
         }
-        info = GlobalDialogs[Prefix + GlobalDialogs['@{focused}']];
-        if (info && info['@{actived}']) {
-            info['@{actived}'] = 0;
-            node = Magix.node(GlobalDialogs['@{focused}']);
+        info = GlobalDialogs[Prefix + GlobalDialogs['@:{focused}']];
+        if (info && info['@:{actived}']) {
+            info['@:{actived}'] = 0;
+            node = Magix.node(GlobalDialogs['@:{focused}']);
             if (node) {
                 vf = Magix.Vframe.byNode(node);
                 if (vf) {
-                    vf.invoke('@{deactive}');
+                    vf.invoke('@:{deactive}');
                 }
             }
         }
-        info = this['@{adjust}'](id);
+        info = this['@:{adjust}'](id);
         if (info) {
             id = info.appId;
             info = GlobalDialogs[Prefix + id];
-            if (!info['@{actived}']) {
-                info['@{actived}'] = 1;
-                info['@{show}'] = 1;
+            if (!info['@:{actived}']) {
+                info['@:{actived}'] = 1;
+                info['@:{show}'] = 1;
                 node = Magix.node(id);
                 if (node) {
                     vf = Magix.Vframe.byNode(node);
                     if (vf) {
-                        vf.invoke('@{active}');
+                        vf.invoke('@:{active}');
                     }
                 }
-                GlobalDialogs['@{focused}'] = id;
+                GlobalDialogs['@:{focused}'] = id;
             }
-            this['@{update.z.index}']();
+            this['@:{update.z.index}']();
         } else {
-            GlobalDialogs['@{focused}'] = '';
+            GlobalDialogs['@:{focused}'] = '';
         }
     },
-    '@{toggle.min.all}'() {
+    '@:{toggle.min.all}'() {
         let count = TempHiddens.length;
         if (count) {
             let ids = [];
@@ -180,17 +180,17 @@ export default {
                 ids.push(d);
             }
             for (let id of ids) {
-                this['@{active}'](id);
+                this['@:{active}'](id);
             }
         } else {
             let ids = [];
             for (let e of GlobalDialogs) {
                 let i = GlobalDialogs[Prefix + e.appId];
-                if (i['@{show}']) {
+                if (i['@:{show}']) {
                     let n = Magix.node(e.appId);
                     let vf = n && Magix.Vframe.byNode(n);
                     if (vf) {
-                        vf.invoke('@{hide.ui}');
+                        vf.invoke('@:{hide.ui}');
                         ids.push(e.appId);
                     }
                 }

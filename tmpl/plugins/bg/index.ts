@@ -5,7 +5,7 @@ import Magix, { Magix5 } from '../../lib/magix';
 import Wallpapger from '../../os/wallpaper';
 import XAgent from '../../lib/agent';
 import Cron from '../../lib/cron';
-Magix.applyStyle('@index.css');
+Magix.applyStyle('@:index.css');
 let Host = 'http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=9&count=40&from=360chrome&start=';
 let StartTime = 30 * 60 * 1000;
 let ListTime = 1 * 60 * 60 * 1000;
@@ -16,11 +16,11 @@ let GetLast = () => {
         exist = 0;
     if (cache) {
         let o = JSON.parse(cache);
-        if (o['@{expire}'] > Date.now()) {
-            start = o['@{start}'];
+        if (o['@:{expire}'] > Date.now()) {
+            start = o['@:{start}'];
             exist = 1;
         } else {
-            last = o['@{start}'];
+            last = o['@:{start}'];
         }
     }
     return {
@@ -30,7 +30,7 @@ let GetLast = () => {
     }
 };
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     assign() {
         return false;
     },
@@ -41,8 +41,8 @@ export default Magix.View.extend({
             console.log(start, last, exist);
             if (!exist) {
                 localStorage.setItem('ls#bg.random', JSON.stringify({
-                    '@{expire}': StartTime + Date.now(),
-                    '@{start}': start
+                    '@:{expire}': StartTime + Date.now(),
+                    '@:{start}': start
                 }));
             }
             let result = await XAgent.request(Host + start, ListTime, true);
@@ -54,30 +54,30 @@ export default Magix.View.extend({
             this.digest({
                 list
             });
-            this['@{start.random}'](list);
+            this['@:{start.random}'](list);
         } catch{
             this.digest();
         }
     },
-    '@{start.random}'(list) {
-        if (!this['@{random.started}']) {
-            this['@{random.started}'] = 1;
+    '@:{start.random}'(list) {
+        if (!this['@:{random.started}']) {
+            this['@:{random.started}'] = 1;
             let work = () => {
                 let rdm = Math.floor(Math.random() * list.length);
                 let one = list[rdm];
                 let src = one.url;
                 let thumb = src.replace('bdr/__85', 'bdr/200_120_60');
-                Wallpapger["@{set.wallpaper}"](thumb, src);
+                Wallpapger["@:{set.wallpaper}"](thumb, src);
             };
             //1小时自动换一次壁纸
-            Cron["@{add.task}"](work, 4 * 60 * 60 * 1000, true);
+            Cron["@:{add.task}"](work, 4 * 60 * 60 * 1000, true);
             this.on('destroy', () => {
-                Cron["@{remove.task}"](work);
+                Cron["@:{remove.task}"](work);
             });
         }
     },
-    '@{set.url}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{set.url}<click>'(e: Magix5.MagixMouseEvent) {
         let { thumb, src } = e.params;
-        Wallpapger["@{set.wallpaper}"](thumb, src);
+        Wallpapger["@:{set.wallpaper}"](thumb, src);
     }
 });

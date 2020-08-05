@@ -5,19 +5,19 @@ let RAF = requestAnimationFrame;
 let Next = cb => RAF(() => RAF(cb));
 
 let StopAnim = id => {
-    clearTimeout(StopAnim['@{timer}' + id]);
+    clearTimeout(StopAnim['@:{timer}' + id]);
     let node = Magix.node('a_' + id);
     if (node) {
         node.parentNode.removeChild(node);
     }
 };
-Exchange.on('@{when.dialog.active}', e => {
+Exchange.on('@:{when.dialog.active}', e => {
     StopAnim(e.id);
 });
-Exchange.on('@{when.dialog.min}', e => {
+Exchange.on('@:{when.dialog.min}', e => {
     let node = Magix.node('a_' + e.id);
     if (!node) {
-        Body.insertAdjacentHTML('beforeend', `<div id="a_${e.id}" class="@./theme/index.css:min-anim"></div>`);
+        Body.insertAdjacentHTML('beforeend', `<div id="a_${e.id}" class="@:./theme/index.css:min-anim"></div>`);
         node = Magix.node('a_' + e.id);
     }
     let start = Magix.node(e.id + '_d_t');
@@ -35,7 +35,7 @@ Exchange.on('@{when.dialog.min}', e => {
             style.top = destBound.top + 'px';
             style.width = destBound.width + 'px';
             style.height = destBound.height + 'px';
-            StopAnim['@{timer}' + e.id] = setTimeout(() => {
+            StopAnim['@:{timer}' + e.id] = setTimeout(() => {
                 StopAnim(e.id)
             }, 300);
         });

@@ -4,7 +4,7 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import Wallpapger from '../../os/wallpaper';
 import XAgent from '../../lib/agent';
-Magix.applyStyle('@index.css');
+Magix.applyStyle('@:index.css');
 let Categories = null;
 let CategoriesPending = 0;
 let CategoriesPendingList = [];
@@ -55,7 +55,7 @@ let Resize = size => {
     };
 };
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init() {
         this.set({
             size: 20,
@@ -71,7 +71,7 @@ export default Magix.View.extend({
         try {
             let categories = await GetCategories();
             let cId = this.get('cId');
-            let mark = Magix.mark(this, '@{render}');
+            let mark = Magix.mark(this, '@:{render}');
             if (!cId) {
                 cId = categories[0].id;
             }
@@ -93,9 +93,9 @@ export default Magix.View.extend({
                 error: ex
             });
         }
-        delete this['@{data.loading}'];
+        delete this['@:{data.loading}'];
     },
-    '@{change.category}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{change.category}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
         this.digest({
             list: [],
@@ -106,14 +106,14 @@ export default Magix.View.extend({
         this.root.scrollTop = 0;
         this.render();
     },
-    '@{set.url}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{set.url}<click>'(e: Magix5.MagixMouseEvent) {
         let { thumb, src } = e.params;
-        Wallpapger["@{set.wallpaper}"](thumb, src);
+        Wallpapger["@:{set.wallpaper}"](thumb, src);
     },
-    '@{load.more}<intersect>'() {
+    '@:{load.more}<intersect>'() {
         if (!this.get('loading') &&
-            !this['@{data.loading}']) {
-            this['@{data.loading}'] = 1;
+            !this['@:{data.loading}']) {
+            this['@:{data.loading}'] = 1;
             let next = this.get('start') + this.get('size');
             this.set({
                 start: next

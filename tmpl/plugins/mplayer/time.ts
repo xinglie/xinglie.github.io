@@ -1,7 +1,7 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.less';
+'ref@:./index.less';
 import Magix, { Magix5 } from '../../lib/magix';
 import Player from './player';
 let FastStep = 5;
@@ -18,7 +18,7 @@ let FormatTime = time => {
     return r;
 };
 export default Magix.View.extend({
-    tmpl: '@time.html',
+    tmpl: '@:time.html',
     init() {
         this.set({
             duration: 0,
@@ -26,7 +26,7 @@ export default Magix.View.extend({
             buffered: 0,
             format: FormatTime
         });
-        Player.on('@{when.song.time.update}', e => {
+        Player.on('@:{when.song.time.update}', e => {
             if (!this.get('stop')) {
                 let { duration, current } = e;
                 let percent = 0;
@@ -45,18 +45,18 @@ export default Magix.View.extend({
     render() {
         this.digest();
     },
-    '@{stop.update}<update>'(e) {
+    '@:{stop.update}<update>'(e) {
         this.digest({
             stop: true,
             current: this.get('duration') * e.percent
         });
     },
-    '@{update.time}<change>'(e) {
+    '@:{update.time}<change>'(e) {
         this.set({
             stop: false
         });
         let time = this.get('duration') * e.percent;
-        Player["@{seek.time}"](time);
+        Player["@:{seek.time}"](time);
     },
     '$doc<keydown>'(e: KeyboardEvent) {
         //37 left  39 right
@@ -72,7 +72,7 @@ export default Magix.View.extend({
             }
             if (current < 0) current = 0;
             else if (current > duration) current = duration;
-            Player["@{seek.time}"](current);
+            Player["@:{seek.time}"](current);
         }
     }
 });

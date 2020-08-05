@@ -1,17 +1,17 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.less';
+'ref@:./index.less';
 import Magix, { Magix5 } from '../../lib/magix';
 import Player from './player';
 export default Magix.View.extend({
-    tmpl: '@volume.html',
+    tmpl: '@:volume.html',
     init() {
         this.set({
             volume: 1,
             mute: false
         });
-        Player.on('@{when.volume.change}', e => {
+        Player.on('@:{when.volume.change}', e => {
             this.digest({
                 volume: e.volume
             });
@@ -20,19 +20,19 @@ export default Magix.View.extend({
     render() {
         this.digest();
     },
-    '@{update.volume}<update,change>'(e) {
-        Player["@{set.volume}"](e.percent);
+    '@:{update.volume}<update,change>'(e) {
+        Player["@:{set.volume}"](e.percent);
     },
-    '@{toggle.mute}<click>'() {
+    '@:{toggle.mute}<click>'() {
         this.digest({
-            mute: Player["@{set.mute}"]()
+            mute: Player["@:{set.mute}"]()
         });
     },
     '$doc<keyup>'(e: Magix5.MagixKeyboardEvent) {
-        if (Player["@{can.operate}"]()) {
+        if (Player["@:{can.operate}"]()) {
             if (e.keyCode == 77) {//m
                 this.digest({
-                    mute: Player["@{set.mute}"]()
+                    mute: Player["@:{set.mute}"]()
                 });
             }
         }

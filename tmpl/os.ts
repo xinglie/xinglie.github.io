@@ -8,11 +8,11 @@ let url = import.meta.url;
 let { params, path } = Magix.parseUrl(url);
 let src = path.replace(/[^/]+$/, '');
 let theme = params.theme || 'black';
-Magix.applyStyle('@scoped.style');
+Magix.applyStyle('@:scoped.style');
 Magix.config({
     paths: {
         '~xl': src,
-        '~fe':'https://xinglie.github.io/frontend/build/'
+        '~fe': `@:~fe`,
     },
     theme,
     rootId: 'xl',

@@ -6,7 +6,7 @@
         {{if(size[i][a]!=-1)}}
         <td class="game-td game-bg" id="main_{{=a}}_{{=i}}">
             {{if size[i][a]===1}}
-            <span class="game-item game-normal" x="{{=a}}" y="{{=i}}" mx-mousedown="@{drag.it}()"></span>
+            <span class="game-item game-normal" x="{{=a}}" y="{{=i}}" mx-mousedown="@:{drag.it}()"></span>
             {{/if}}
         </td>
         {{else}}
@@ -24,7 +24,7 @@
     <div>{{=tip}}</div>
     <div>{{=desc}}</div>
 </div>
-<span class="game-item game-active" id="{{=id}}_active"></span>
-<button class="btn prev" mx-click="@{prev}()">上一关</button>
-<button class="btn next" mx-click="@{next}()">下一关</button>
-<button class="restart btn" mx-click="@{restart}()">重新开始</button>
+<span class="game-item game-active" id="{{=$viewId}}_active"></span>
+<button class="btn prev" mx-click="@:{prev}()">上一关</button>
+<button class="btn next" mx-click="@:{next}()">下一关</button>
+<button class="restart btn" mx-click="@:{restart}()">重新开始</button>

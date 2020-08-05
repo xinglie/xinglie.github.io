@@ -1,15 +1,15 @@
 let Servers = [{
-    '@{server.url}': 'https://api.codetabs.com/v1/proxy?quest=',
-    '@{url.encode}': 1
+    '@:{server.url}': 'https://api.codetabs.com/v1/proxy?quest=',
+    '@:{url.encode}': 1
 }, {
-    '@{server.url}': 'https://cors-anywhere.herokuapp.com/',
-    '@{url.encode}': 0
+    '@:{server.url}': 'https://cors-anywhere.herokuapp.com/',
+    '@:{url.encode}': 0
 }, {
-    '@{server.url}': 'https://jsonp.afeld.me/?url=',
-    '@{url.encode}': 1
+    '@:{server.url}': 'https://jsonp.afeld.me/?url=',
+    '@:{url.encode}': 1
 }, {
-    '@{server.url}': 'https://proxy.hackeryou.com/?reqUrl=',
-    '@{url.encode}': 1
+    '@:{server.url}': 'https://proxy.hackeryou.com/?reqUrl=',
+    '@:{url.encode}': 1
 }];
 
 let readBlobToText = (blob, encoding): Promise<string> => {
@@ -41,8 +41,8 @@ export default {
                     let dest = url;
                     if (proxy) {
                         let proxy = Servers[start];
-                        dest = proxy["@{server.url}"];
-                        if (proxy["@{url.encode}"]) {
+                        dest = proxy["@:{server.url}"];
+                        if (proxy["@:{url.encode}"]) {
                             dest += encodeURIComponent(url);
                         } else {
                             dest += url;

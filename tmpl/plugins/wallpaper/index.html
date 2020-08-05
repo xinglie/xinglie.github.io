@@ -3,7 +3,7 @@
 {{else}}
     <div class="tabs">
         {{each cats as cat}}
-        <div class="tab-item{{if cat.id==cId}} tab-item-active{{/if}}" mx-click="{{cat.id!=cId}}?@{change.category}({id:'{{=cat.id}}'})">{{=cat.name}}</div>
+        <div class="tab-item{{if cat.id==cId}} tab-item-active{{/if}}" mx-click="{{cat.id!=cId}}?@:{change.category}({id:'{{=cat.id}}'})">{{=cat.name}}</div>
         {{/each}}
     </div>
     {{if loading}}
@@ -13,9 +13,9 @@
             {{each list as img}}
             {{set {width,height}=resize(img.resolution)}}
             {{set url=img.url.replace('bdr/__85',`bdr/${width}_${height}_80`)}}
-                <div class="wallpaper-item" style="background-image:url({{=url}})" title="{{=img.utag}}" mx-click="@{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
+                <div class="wallpaper-item" style="background-image:url({{=url}})" title="{{=img.utag}}" mx-click="@:{set.url}({thumb:'{{=url}}',src:'{{=img.url}}'})"></div>
             {{/each}}
         </div>
-        <mx-more mx-intersect="@{load.more}()"/>
+        <mx-more mx-intersect="@:{load.more}()"/>
     {{/if}}
 {{/if}}

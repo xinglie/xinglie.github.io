@@ -1,7 +1,7 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.css';
+'ref@:./index.css';
 import Magix from '../../lib/magix';
 import Agent from '../../lib/agent';
 let extractTitleRegexp = /<h1>([\s\S]+?)<\/h1>/;
@@ -10,7 +10,7 @@ let extractSourceRegexp = /<span id="media_name">([\s\S]+?)<\/span>/;
 let extractContentRegexp = /<div class="blkContainerSblkCon">([\S\s]+?)<\/div>/;
 let stripContentRegexp = /<div class="contentAd">[\S\s]+?<\/div>/;
 export default Magix.View.extend({
-    tmpl: '@story.html',
+    tmpl: '@:story.html',
     assign(data) {
         this.set(data).set({
             loading: true
@@ -20,7 +20,7 @@ export default Magix.View.extend({
     async render() {
         this.digest();
         try {
-            let mark = Magix.mark(this, '@{render}');
+            let mark = Magix.mark(this, '@:{render}');
             let url = this.get('url');
             if (url && mark()) {
                 let result = await Agent.request(url, 0, true);
@@ -57,7 +57,7 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{story.close}<click>'() {
+    '@:{story.close}<click>'() {
         Magix.dispatch(this.root, 'close');
     }
 });

@@ -4,37 +4,39 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import Cron from '../../lib/cron';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:index.less');
 export default Magix.View.extend({
-    mixins: [Dragdrop],
-    tmpl: '@index.html',
+    tmpl: '@:./index.html',
     assign() {
         return false;
     },
-    render() {
-        this.digest();
-        let second = Magix.node('s_' + this.id);
-        let minute = Magix.node('m_' + this.id);
-        let hour = Magix.node('h_' + this.id);
-        let work = () => {
-            let now = new Date();
-            let seconds = (now.getSeconds() * 1000 + now.getMilliseconds()) / 1000;
-            let minutes = (now.getMinutes() * 60 + seconds) / 60;
-            let hours = (now.getHours() * 60 + minutes) / 60;
-            second.style.transform = `rotate(${seconds * 6 - 90}deg)`;
-            minute.style.transform = `rotate(${minutes * 6 - 90}deg)`;
-            hour.style.transform = `rotate(${hours * 30 - 90}deg)`;
-        };
-        Cron["@{add.task}"](work, 0, true, '@{cron.clock.id}');
-        this.on('destroy', () => {
-            Cron["@{remove.task}"](work);
-        });
+    async render() {
+        let mark = Magix.mark(this, '@{render}');
+        await this.digest();
+        if (mark()) {
+            let second = Magix.node('s_' + this.id);
+            let minute = Magix.node('m_' + this.id);
+            let hour = Magix.node('h_' + this.id);
+            let work = () => {
+                let now = new Date();
+                let seconds = (now.getSeconds() * 1000 + now.getMilliseconds()) / 1000;
+                let minutes = (now.getMinutes() * 60 + seconds) / 60;
+                let hours = (now.getHours() * 60 + minutes) / 60;
+                second.style.transform = `rotate(${seconds * 6 - 90}deg)`;
+                minute.style.transform = `rotate(${minutes * 6 - 90}deg)`;
+                hour.style.transform = `rotate(${hours * 30 - 90}deg)`;
+            };
+            Cron["@:{add.task}"](work, 0, true, '@:{cron.clock.id}');
+            this.on('destroy', () => {
+                Cron["@:{remove.task}"](work);
+            });
+        }
     },
-    '@{move.clock}<mousedown>'(e: Magix5.MagixMouseEvent) {
+    '@:{move.clock}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let target = this.root;
         let right = parseInt(getComputedStyle(target).right);
         let bottom = parseInt(getComputedStyle(target).bottom);
-        this['@{drag.drop}'](e, (ev: MouseEvent) => {
+        this['@:{drag.drop}'](e, (ev: MouseEvent) => {
             let ox = e.pageX - ev.pageX;
             let oy = e.pageY - ev.pageY;
             let newX = right + ox;
@@ -43,4 +45,4 @@ export default Magix.View.extend({
             target.style.bottom = newY + 'px';
         });
     }
-});
+}).merge(Dragdrop);

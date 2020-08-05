@@ -17,6 +17,7 @@ combineTool.config({
     srcFolder: srcFolder,
     projectName: 'xl',
     loaderType: 'module',
+    addProjectNameAsVirtualRoot: true,
     galleries: {
         mxRoot: 'gallery/'
     },
@@ -39,7 +40,15 @@ combineTool.config({
         if (m.mId == '~frontend') {
             m.mId = 'https://xinglie.github.io/frontend/build/fe.js';
         }
-    }
+    },
+    resolveVirtual(p) {
+        if (p == '~fe') {
+            return 'https://xinglie.github.io/frontend/build/';
+        }
+    },
+    progress({ completed, file, total }) {
+        console.log(file, completed + '/' + total);
+    },
 });
 
 gulp.task('cleanSrc', function () {

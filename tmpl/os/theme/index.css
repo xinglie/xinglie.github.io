@@ -176,6 +176,7 @@ body:-webkit-full-screen::backdrop{
 .dialog-view-scroll{
     overflow: auto;
     scroll-behavior: smooth;
+    overscroll-behavior: contain;
 }
 .dialog-loading{
     position: absolute;
@@ -286,4 +287,11 @@ body:-webkit-full-screen::backdrop{
     margin-left: auto;
     margin-right: 5px;
     height:100%;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

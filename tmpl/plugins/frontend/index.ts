@@ -2,7 +2,7 @@ import Magix from '../../lib/magix';
 //import Frontend from 'http://localhost/frontend/src/fe.js';
 import Frontend from '~frontend';
 export default Magix.View.extend({
-    tmpl: '@mx:./index.html',
+    tmpl: '@:./index.html',
     init() {
         this.on('destroy', () => {
             Frontend.unmount('fe_' + this.id);

@@ -1,10 +1,10 @@
 /*
     author:xinglie.lkf@taobao.com
  */
-'ref@./index.css';
+'ref@:./index.css';
 import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
-Magix.applyStyle('@game.css');
+Magix.applyStyle('@:game.css');
 let GameLevels = [
     [[-1, -1, 0, 0, 0, -1, -1],
     [-1, -1, 0, 1, 0, -1, -1],
@@ -101,23 +101,22 @@ let GameResultLevel = {
 let StartResult = `鼠标拖动任意青蛙开始，拖动过程中会有相应的提示<br/>您需要拖动青蛙跳过其它青蛙，跳过的被吃掉，剩余青蛙越少越好<br/>当只剩一个青蛙，且在正中位置时，则是最终的胜利`;
 let PlayResult = `游戏结束，没有可以移动的青蛙了～<br/>您的成绩是：{score}<br/>单击上下一关或重新开始新的游戏`;
 export default Magix.View.extend({
-    tmpl: '@game.html',
-    mixins: [Dragdrop],
+    tmpl: '@:game.html',
     init() {
-        this['@{level}'] = 0;
+        this['@:{level}'] = 0;
         this.set({
             result: StartResult
         });
     },
     render() {
         let me = this;
-        let level = me['@{level}'];
+        let level = me['@:{level}'];
         let map = GameLevels[level];
         let cloned = [];
         for (let i = 0; i < map.length; i++) {
             cloned.push(map[i].slice());
         }
-        me['@{map}'] = cloned;
+        me['@:{map}'] = cloned;
         me.digest({
             size: cloned,
             desc: GameLevelsDesc[level],
@@ -129,13 +128,13 @@ export default Magix.View.extend({
             me = this,
             set;
         if (toNext) {
-            if (me['@{level}'] < total) {
-                me['@{level}']++;
+            if (me['@:{level}'] < total) {
+                me['@:{level}']++;
                 set = 1;
             }
         } else {
-            if (me['@{level}'] > 0) {
-                me['@{level}']--;
+            if (me['@:{level}'] > 0) {
+                me['@:{level}']--;
                 set = 1;
             }
         }
@@ -143,9 +142,9 @@ export default Magix.View.extend({
             me.render();
         }
     },
-    '@{is.over.or.pass}'() {
+    '@:{is.over.or.pass}'() {
         let t = this,
-            map = t['@{map}'],
+            map = t['@:{map}'],
             result = {},
             chess = 0,
             isEnd = true;
@@ -202,12 +201,12 @@ export default Magix.View.extend({
             }
             if (!isEnd) break;
         }
-        result['@{is.over}'] = isEnd;
-        result['@{is.pass}'] = (isEnd && chess == 1 && map[3][3] == 1);
-        result['@{chess.count}'] = chess;
+        result['@:{is.over}'] = isEnd;
+        result['@:{is.pass}'] = (isEnd && chess == 1 && map[3][3] == 1);
+        result['@:{chess.count}'] = chess;
         return result;
     },
-    '@{find.drag.drop}'(pos, igr) {
+    '@:{find.drag.drop}'(pos, igr) {
         let result = null;
         let me = this;
         let node = me.root;
@@ -216,7 +215,7 @@ export default Magix.View.extend({
         let ty = pos.y - offset.top;
         let cdx = (tx / 60) | 0;
         let cdy = (ty / 60) | 0;
-        let map = me['@{map}'];
+        let map = me['@:{map}'];
         if ((cdx < map[0].length &&
             cdy < map.length) &&
             (!igr || igr.x != cdx || igr.y != cdy)) {
@@ -227,7 +226,7 @@ export default Magix.View.extend({
         }
         return result;
     },
-    '@{find.eat.list}'(startPos, endPos) {
+    '@:{find.eat.list}'(startPos, endPos) {
         let me = this,
             result = {
                 can: false,
@@ -236,7 +235,7 @@ export default Magix.View.extend({
             flag = true,
             tempList = [],
             bad = false;
-        let map = me['@{map}'];
+        let map = me['@:{map}'];
         if (map[endPos.y][endPos.x]) return result;
         startPos = {
             x: startPos.x,
@@ -301,7 +300,7 @@ export default Magix.View.extend({
         }
         return result;
     },
-    '@{drag.it}<mousedown>'(e: Magix5.MagixMouseEvent) {
+    '@:{drag.it}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let me = this;
         let target = e.eventTarget;
         let offset = target.getBoundingClientRect();
@@ -320,14 +319,14 @@ export default Magix.View.extend({
             y: dragCDY
         };
         let lastNode, lastPos;
-        this['@{drag.drop}'](e, (ev: MouseEvent) => {
+        this['@:{drag.drop}'](e, (ev: MouseEvent) => {
             ev.preventDefault();
             currentX = ev.pageX - e.pageX + initX;
             currentY = ev.pageY - e.pageY + initY;
             active.style.left = currentX + 'px';
             active.style.top = currentY + 'px';
 
-            let p = me['@{find.drag.drop}']({
+            let p = me['@:{find.drag.drop}']({
                 x: ev.pageX,
                 y: ev.pageY
             }, dragPos);
@@ -339,46 +338,46 @@ export default Magix.View.extend({
                 lastPos = p;
                 if (lastNode) {
                     lastNode.style.opacity = 1;
-                    lastNode.classList.remove('@game.css:succ');
-                    lastNode.classList.remove('@game.css:fail');
+                    lastNode.classList.remove('@:./game.css:succ');
+                    lastNode.classList.remove('@:./game.css:fail');
                 }
                 if (p) {
                     lastNode = Magix.node('main_' + p.x + '_' + p.y);
                     if (lastNode) {
                         lastNode.style.opacity = 0.7;
-                        let s = me['@{find.eat.list}'](dragPos, p);
+                        let s = me['@:{find.eat.list}'](dragPos, p);
                         if (s.can) {
-                            lastNode.classList.add('@game.css:succ');
+                            lastNode.classList.add('@:./game.css:succ');
                         } else {
-                            lastNode.classList.add('@game.css:fail');
+                            lastNode.classList.add('@:./game.css:fail');
                         }
                     }
                 }
             }
         }, (ev: MouseEvent) => {
-            let pos = me['@{find.drag.drop}']({
+            let pos = me['@:{find.drag.drop}']({
                 x: ev.pageX,
                 y: ev.pageY
             }, dragPos), refresh = false;
             if (pos) {
-                let s = me['@{find.eat.list}'](dragPos, pos);
+                let s = me['@:{find.eat.list}'](dragPos, pos);
                 if (s.can) {
-                    let map = me['@{map}'];
+                    let map = me['@:{map}'];
                     map[dragPos.y][dragPos.x] = 0;
                     map[pos.y][pos.x] = 1;
                     for (let i = 0, j = s.eatList.length, item; i < j; i++) {
                         item = s.eatList[i];
                         map[item.y][item.x] = 0;
                     }
-                    s = me['@{is.over.or.pass}']();
-                    if (s['@{is.over}']) {
+                    s = me['@:{is.over.or.pass}']();
+                    if (s['@:{is.over}']) {
                         let score;
-                        if (s['@{is.pass}']) {
+                        if (s['@:{is.pass}']) {
                             score = '天才！';
-                        } else if (GameResultLevel[s['@{chess.count}']]) {
-                            score = GameResultLevel[s['@{chess.count}']] + '，还有' + s['@{chess.count}'] + '个青蛙';
+                        } else if (GameResultLevel[s['@:{chess.count}']]) {
+                            score = GameResultLevel[s['@:{chess.count}']] + '，还有' + s['@:{chess.count}'] + '个青蛙';
                         } else {
-                            score = '一般' + '，还有' + s['@{chess.count}'] + '个青蛙';
+                            score = '一般' + '，还有' + s['@:{chess.count}'] + '个青蛙';
                         }
                         this.set({
                             result: PlayResult.replace('{score}', score)
@@ -394,23 +393,23 @@ export default Magix.View.extend({
             active.style.left = '-10000px';
             if (lastNode) {
                 lastNode.style.opacity = 1;
-                lastNode.classList.remove('@game.css:succ');
-                lastNode.classList.remove('@game.css:fail');
+                lastNode.classList.remove('@:./game.css:succ');
+                lastNode.classList.remove('@:./game.css:fail');
             }
             if (refresh) {
                 this.digest({
-                    size: this['@{map}']
+                    size: this['@:{map}']
                 });
             }
         });
     },
-    '@{next}<click>': function () {
+    '@:{next}<click>': function () {
         this['{change.level}'](true);
     },
-    '@{prev}<click>': function () {
+    '@:{prev}<click>': function () {
         this['{change.level}']();
     },
-    '@{restart}<click>': function () {
+    '@:{restart}<click>': function () {
         this.render();
     }
-});
+}).merge(Dragdrop);

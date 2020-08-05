@@ -10,9 +10,9 @@ let AddDialogToList = (list, options) => {
     }
     return added;
 };
-'ref@./theme/index.css';
+'ref@:./theme/index.css';
 export default Magix.View.extend({
-    tmpl: '@./taskbar.html',
+    tmpl: '@:./taskbar.html',
     init() {
         let list = [], timer;
         let delayUpdate = (updateActive?: boolean, activeId?: string) => {
@@ -29,12 +29,12 @@ export default Magix.View.extend({
                 });
             }, 50);
         };
-        Exchange.on('@{when.dialog.add}', e => {
+        Exchange.on('@:{when.dialog.add}', e => {
             if (AddDialogToList(list, e)) {
                 delayUpdate();
             }
         });
-        Exchange.on('@{when.dialog.remove}', e => {
+        Exchange.on('@:{when.dialog.remove}', e => {
             for (let i = list.length; i--;) {
                 if (list[i].appId == e.id) {
                     list.splice(i, 1);
@@ -44,10 +44,10 @@ export default Magix.View.extend({
                 }
             }
         });
-        Exchange.on('@{when.dialog.active}', e => {
+        Exchange.on('@:{when.dialog.active}', e => {
             delayUpdate(true, e.id);
         });
-        Exchange.on('@{when.dialog.deactive}', () => {
+        Exchange.on('@:{when.dialog.deactive}', () => {
             delayUpdate(true);
         });
         this.set({
@@ -56,17 +56,17 @@ export default Magix.View.extend({
     },
     render() {
         let list = this.get('list');
-        let dialogs = DialogCtrl["@{get.list}"]();
+        let dialogs = DialogCtrl["@:{get.list}"]();
         for (let d of dialogs) {
             AddDialogToList(list, d);
         }
         this.digest();
     },
-    '@{active.item}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{active.item}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
-        DialogCtrl["@{active}"](id, true);
+        DialogCtrl["@:{active}"](id, true);
     },
-    '@{min.dialogs}<click>'() {
-        DialogCtrl["@{toggle.min.all}"]();
+    '@:{min.dialogs}<click>'() {
+        DialogCtrl["@:{toggle.min.all}"]();
     }
 });

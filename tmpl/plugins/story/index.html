@@ -8,10 +8,10 @@
         {{links=book.links}}
         {{title=book.title}}
     {{/if}}
-    <div class="tab-item{{if book.id==selected}} tab-item-active{{/if}}" mx-click="{{book.id!=selected}}?@{change.category}({id:'{{=book.id}}'})">{{=book.title}}</div>
+    <div class="tab-item{{if book.id==selected}} tab-item-active{{/if}}" mx-click="{{book.id!=selected}}?@:{change.category}({id:'{{=book.id}}'})">{{=book.title}}</div>
     {{/each}}
 </div>
 {{each links as link}}
-<div class="story-link" mx-click="@mx:{open.details}({link:'{{=link.link}}',title:'{{=title}}-{{=link.text}}'})">{{=link.text}}</div>
+<div class="story-link" mx-click="@:{open.details}({link:'{{=link.link}}',title:'{{=title}}-{{=link.text}}'})">{{=link.text}}</div>
 {{/each}}
 {{/if}}

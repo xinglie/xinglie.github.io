@@ -3,7 +3,7 @@ import DialogCtrl from '../../os/ctrl';
 import Bridge from './bridge';
 import Cron from '../../lib/cron';
 import XAgent from '../../lib/agent';
-Magix.applyStyle('@./index.css');
+Magix.applyStyle('@:./index.css');
 let Categories = [{ text: '全部', id: 'BBM54PGA' },
 { text: '娱乐', id: 'BA10TA81' },
 { text: '体育', id: 'BA8E6OEO' },
@@ -44,11 +44,11 @@ let Options = {
     min: true,
     close: true,
     dockY: 30,
-    view: '@mx:./detail'
+    view: '@:./detail'
 };
 let OpenSubDialog = (view, doc, comment?: boolean) => {
-    Bridge["@{save.document}"](doc, comment);
-    DialogCtrl["@{create}"](view, Options);
+    Bridge["@:{save.document}"](doc, comment);
+    DialogCtrl["@:{create}"](view, Options);
 };
 //let start = '#aaa';
 //let end = '#f00';
@@ -67,7 +67,7 @@ let GetColor = num => {
     return `#${end.join('')}`;
 };
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init() {
         this.set({
             active: Categories[0].id,
@@ -87,26 +87,26 @@ export default Magix.View.extend({
                 this.set({
                     list: []
                 });
-                this['@{load.data}']();
+                this['@:{load.data}']();
                 console.log('news updating');
             } else {
                 console.log('ignore update news');
             }
         };
-        Cron["@{add.task}"](autoUpdate, 10 * 60 * 1000, false, '@{cron.news}');
+        Cron["@:{add.task}"](autoUpdate, 10 * 60 * 1000, false, '@:{cron.news}');
         this.ondestroy = () => {
-            Cron["@{remove.task}"](autoUpdate);
+            Cron["@:{remove.task}"](autoUpdate);
         };
     },
     assign() {
         return false;
     },
-    async '@{load.data}'() {
+    async '@:{load.data}'() {
         try {
             let id = this.get('active');
             let start = this.get('start');
             let size = this.get('size');
-            let mark = Magix.mark(this, '@{get.news.list}');
+            let mark = Magix.mark(this, '@:{get.news.list}');
             let data = await NeteaseJSONP(id, start, size);
             if (mark()) {
                 let list = this.get('list');
@@ -125,12 +125,12 @@ export default Magix.View.extend({
                 error: e
             });
         }
-        delete this['@{data.loading}'];
+        delete this['@:{data.loading}'];
     },
     render() {
-        this['@{load.data}']();
+        this['@:{load.data}']();
     },
-    '@{change.category}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{change.category}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
         this.root.scrollTop = 0;
         this.digest({
@@ -139,28 +139,28 @@ export default Magix.View.extend({
             active: id,
             start: 0
         });
-        this['@{load.data}']();
+        this['@:{load.data}']();
     },
-    '@{open.news}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
+    '@:{open.news}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
         if (!e.fromComment) {
             let { detail } = e.params;
             OpenSubDialog(this, detail);
         }
     },
-    '@{open.comment}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
+    '@:{open.comment}<click>'(e: Magix5.MagixMouseEvent & CommentEvent) {
         e.fromComment = true;
         let { detail } = e.params;
         OpenSubDialog(this, detail, true);
     },
-    '@{load.more}<intersect>'() {
+    '@:{load.more}<intersect>'() {
         if (!this.get('loading') &&
-            !this['@{data.loading}']) {
-            this['@{data.loading}'] = 1;
+            !this['@:{data.loading}']) {
+            this['@:{data.loading}'] = 1;
             let next = this.get('start') + this.get('size');
             this.set({
                 start: next
             });
-            this['@{load.data}']();
+            this['@:{load.data}']();
         }
     }
 })

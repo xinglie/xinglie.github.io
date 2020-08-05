@@ -1,17 +1,17 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.less';
+'ref@:./index.less';
 import Magix from '../../lib/magix';
 import XAgent from '../../lib/agent';
 let ExtractReg = /\.fm-discovery\{[\s\S]+?url\(([^()]+)\)[\s\S]+?<a\s+href="\/([^"]+)"\s+class="q"\s+data-toggle="tooltip"\s+title="[^"]+"\s+data-placement="top">([\S\s]+?)<\/a>[\s\S]+<a[^>]+?rel="nofollow"\s+href="([^"]+)">\s*(豆瓣[\S\s]+?)<\/a>[\s\S]+<a[^>]+?rel="nofollow"\s+href="([^"]+)">\s*(IMDB[\S\s]+?)<\/a>[\s\S]+<p\s+class="x-kankan-desc">([\s\S]+?)<\/p>/;
 let FullDescReg = /<div\s+class="x-kankan-full-desc"\s+style="display:\s*none;">([\s\S]+?)<\/div>/;
 let VideoInfoServer = 'http://dianying.fm/';
 export default Magix.View.extend({
-    tmpl: '@dyfm.html',
+    tmpl: '@:dyfm.html',
     async  render() {
         try {
-            let mark = Magix.mark(this, '@{render}');
+            let mark = Magix.mark(this, '@:{render}');
             let result = await XAgent.request(VideoInfoServer, 0, true);
             if (mark()) {
                 let videoInfo = {
@@ -51,7 +51,7 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{change}<click>'() {
+    '@:{change}<click>'() {
         let loading = this.get('loading');
         if (loading) return;
         this.digest({

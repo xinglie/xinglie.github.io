@@ -1,7 +1,7 @@
-<div class="tracker" id="t_{{=id}}" mx-click="@{update.range}()">
+<div class="tracker" id="t_{{=$viewId}}" mx-click="@:{update.range}()">
     {{if buffer}}
     <div class="buffer" style="width:{{=bufferValue*100}}%"></div>
     {{/if}}
     <div class="passed" style="width:{{=value*100}}%"></div>
 </div>
-<div class="pointer" style="left:{{=value*100}}%" mx-mousedown="@{start.drag}()"></div>
+<div class="pointer" style="left:{{=value*100}}%" mx-mousedown="@:{start.drag}()"></div>

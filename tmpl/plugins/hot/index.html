@@ -1,0 +1,5 @@
+<div class="root scrollable{{if !news.length}} hide{{/if}}" id="s_{{=$viewId}}">
+    {{each news as n i}}
+    <div class="news ellipsis" title="{{=n.title}}&#10;来源：{{=n.source}}&#13;日期：{{=n.ctime}}" mx-click="@:{open.news}({n:{{# n }},i:{{=i}}})" mx-mousedown="@:{drag.to.remove}({i:{{=i}}})">{{=n.title}}</div>
+    {{/each}}
+</div>

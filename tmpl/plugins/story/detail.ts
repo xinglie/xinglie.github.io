@@ -1,13 +1,13 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.css';
+'ref@:./index.css';
 import Magix, { Magix5 } from '../../lib/magix';
 import Agent from '../../lib/agent';
 let extractPeriodRegexp = /<dt>\s*<span>([\s\S]+?)<\/span>\s*<\/dt>\s*([\s\S]+?)<\/dl>/g;
 let extractDetailRegexp = /<dd>\s*<span\s*class="maglisttitle">\s*<a[^>]*?href="([^"]+)"[^>]*?>([\s\S]+?)<\/a>\s*<\/span>\s*<\/dd>/g;
 export default Magix.View.extend({
-    tmpl: '@detail.html',
+    tmpl: '@:detail.html',
     init() {
         this.set({
             showStory: false,
@@ -24,7 +24,7 @@ export default Magix.View.extend({
     async render() {
         this.digest();
         try {
-            let mark = Magix.mark(this, '@{render}');
+            let mark = Magix.mark(this, '@:{render}');
             let url = this.get('data');
             let lastSlash = url.lastIndexOf('/');
             let base = url.substring(0, lastSlash + 1);
@@ -58,13 +58,13 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{open.detail}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{open.detail}<click>'(e: Magix5.MagixMouseEvent) {
         this.digest({
             showStory: true,
             storyUrl: e.params.url
         });
     },
-    '@{when.story.close}<close>'() {
+    '@:{when.story.close}<close>'() {
         this.digest({
             showStory: false
         });

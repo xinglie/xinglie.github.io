@@ -6,13 +6,13 @@ let Workstart = 0;
 let Run = () => {
     for (let i = 0; i < Tasks.length; i++) {
         let t = Tasks[i];
-        if (t['@{removed}']) {
+        if (t['@:{removed}']) {
             Tasks.splice(i, 1);
             i--;
-        } else if (Now() - t['@{last.time}'] >= t['@{interval}']) {
-            t['@{last.time}'] = Now();
-            //Magix.toTry(t['@{task}']);
-            Magix.task(t['@{task}'], null, null, t['@{task.id}']);
+        } else if (Now() - t['@:{last.time}'] >= t['@:{interval}']) {
+            t['@:{last.time}'] = Now();
+            //Magix.toTry(t['@:{task}']);
+            Magix.task(t['@:{task}'], null, null, t['@:{task.id}']);
         }
     }
     if (Tasks.length) {
@@ -28,29 +28,29 @@ let Start = () => {
     }
 };
 export default {
-    '@{add.task}'(task, interval, im?: boolean, id?: string) {
+    '@:{add.task}'(task, interval, im?: boolean, id?: string) {
         Tasks.push({
-            '@{task}': task,
-            '@{interval}': interval,
-            '@{last.time}': Now(),
-            '@{task.id}': id
+            '@:{task}': task,
+            '@:{interval}': interval,
+            '@:{last.time}': Now(),
+            '@:{task.id}': id
         });
         if (im) {
             Magix.toTry(task);
         }
         Start();
     },
-    '@{remove.task}'(task) {
+    '@:{remove.task}'(task) {
         for (let t of Tasks) {
-            if (t['@{task}'] == task) {
-                t['@{removed}'] = 1;
+            if (t['@:{task}'] == task) {
+                t['@:{removed}'] = 1;
             }
         }
     },
-    '@{update.to.now}'(task) {
+    '@:{update.to.now}'(task) {
         for (let t of Tasks) {
-            if (t['@{task}'] == task) {
-                t['@{last.time}'] = Now();
+            if (t['@:{task}'] == task) {
+                t['@:{last.time}'] = Now();
             }
         }
     }

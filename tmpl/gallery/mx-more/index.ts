@@ -2,9 +2,9 @@
     author:xinglie.lkf@alibaba-inc.com
 */
 import Magix from '../../lib/magix';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:./index.less');
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:./index.html',
     init() {
         let observer = new IntersectionObserver(entries => {
             let entry = entries[0];

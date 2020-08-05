@@ -4,7 +4,7 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Player from './player';
-Magix.applyStyle('@index.less');
+Magix.applyStyle('@:index.less');
 
 declare global {
     interface Navigator {
@@ -15,18 +15,17 @@ declare global {
     }
 }
 export default Magix.View.extend({
-    tmpl: '@index.html',
-    mixins: [Dragdrop],
+    tmpl: '@:index.html',
     init() {
-        Player.on('@{when.song.end}', () => {
+        Player.on('@:{when.song.end}', () => {
             if (this.get('mode') == 'rdm') {
                 let active = this.get('active');
-                Player["@{next.song}"](active.channel_id);
+                Player["@:{next.song}"](active.channel_id);
             } else {
-                Player["@{replay}"]();
+                Player["@:{replay}"]();
             }
         });
-        Player.on('@{when.status.change}', (e) => {
+        Player.on('@:{when.status.change}', (e) => {
             let state = {} as {
                 play: boolean
                 buffer: boolean,
@@ -40,13 +39,13 @@ export default Magix.View.extend({
             }
             this.digest(state);
         });
-        Player.on('@{when.history.change}', () => {
+        Player.on('@:{when.history.change}', () => {
             this.set({
                 reset: false
             });
             this.render();
         });
-        Player.on('@{when.song.change}', e => {
+        Player.on('@:{when.song.change}', e => {
             console.log('song change', e.song);
             this.digest({
                 reset: true,
@@ -57,16 +56,16 @@ export default Magix.View.extend({
         let nms = navigator.mediaSession;
         if (nms) {
             nms.setActionHandler('play', () => {
-                if (Player["@{can.operate}"]()) {
+                if (Player["@:{can.operate}"]()) {
                     console.log('media session play')
-                    Player['@{set.play}']();
+                    Player['@:{set.play}']();
                     nms.playbackState='playing';
                 }
             });
             nms.setActionHandler('pause', () => {
-                if (Player["@{can.operate}"]()) {
+                if (Player["@:{can.operate}"]()) {
                     console.log('media session pause')
-                    Player['@{set.pause}']();
+                    Player['@:{set.pause}']();
                     nms.playbackState='paused';
                 }
             });
@@ -77,16 +76,16 @@ export default Magix.View.extend({
                 console.log('seekforward');
             });
             nms.setActionHandler('previoustrack', () => {
-                if (Player["@{can.operate}"]()) {
+                if (Player["@:{can.operate}"]()) {
                     console.log('previoustrack');
-                    Player['@{pre.song}']();
+                    Player['@:{pre.song}']();
                 }
             });
             nms.setActionHandler('nexttrack', () => {
-                if (Player["@{can.operate}"]()) {
+                if (Player["@:{can.operate}"]()) {
                     console.log('nexttrack');
                     let active = this.get('active');
-                    Player["@{next.song}"](active.channel_id);
+                    Player["@:{next.song}"](active.channel_id);
                 }
             });
         }
@@ -105,41 +104,41 @@ export default Magix.View.extend({
     },
     render() {
         this.digest({
-            ptip: Player["@{get.pre.tip}"](),
-            ntip: Player["@{get.next.tip}"](),
-            undo: Player["@{can.undo}"]()
+            ptip: Player["@:{get.pre.tip}"](),
+            ntip: Player["@:{get.next.tip}"](),
+            undo: Player["@:{can.undo}"]()
         });
     },
-    '@{toggle.play.state}'() {
+    '@:{toggle.play.state}'() {
         let play = this.get('play');
         if (play) {
-            Player["@{set.pause}"]();
+            Player["@:{set.pause}"]();
         } else {
-            Player["@{set.play}"]();
+            Player["@:{set.play}"]();
         }
     },
-    '@{update.channel}<change>'(e) {
+    '@:{update.channel}<change>'(e) {
         this.digest({
             active: e.channel
         });
-        Player["@{next.song}"](e.channel.channel_id, true);
+        Player["@:{next.song}"](e.channel.channel_id, true);
     },
-    '@{update.status}<click>'() {
-        this['@{toggle.play.state}']();
+    '@:{update.status}<click>'() {
+        this['@:{toggle.play.state}']();
     },
-    '@{toggle.channels}<click>'() {
+    '@:{toggle.channels}<click>'() {
         this.digest({
             cshow: !this.get('cshow')
         });
     },
-    '@{next.song}<click>'() {
+    '@:{next.song}<click>'() {
         let active = this.get('active');
-        Player["@{next.song}"](active.channel_id);
+        Player["@:{next.song}"](active.channel_id);
     },
-    '@{pre.song}<click>'() {
-        Player["@{pre.song}"]();
+    '@:{pre.song}<click>'() {
+        Player["@:{pre.song}"]();
     },
-    '@{update.mode}<click>'() {
+    '@:{update.mode}<click>'() {
         let mode = this.get('mode');
         if (mode == 'rdm') {
             this.digest({
@@ -151,11 +150,11 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{move.lyric}<mousedown>'(e: Magix5.MagixMouseEvent) {
+    '@:{move.lyric}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let target = e.eventTarget;
         let left = parseInt(getComputedStyle(target).left);
         let top = parseInt(getComputedStyle(target).top);
-        this['@{drag.drop}'](e, (ev: MouseEvent) => {
+        this['@:{drag.drop}'](e, (ev: MouseEvent) => {
             let ox = ev.pageX - e.pageX;
             let oy = ev.pageY - e.pageY;
             let newX = left + ox;
@@ -165,16 +164,16 @@ export default Magix.View.extend({
         });
     },
     '$doc<keyup>'(e: KeyboardEvent) {
-        if (Player["@{can.operate}"]()) {
+        if (Player["@:{can.operate}"]()) {
             let code = e.keyCode;
             if (code == 13 ||//enter
                 code == 32) {//space
-                this['@{toggle.play.state}']();
+                this['@:{toggle.play.state}']();
             } else if (code == 80) {//p
-                Player["@{pre.song}"]();
+                Player["@:{pre.song}"]();
             } else if (code == 78) {//n
                 let active = this.get('active');
-                Player["@{next.song}"](active.channel_id);
+                Player["@:{next.song}"](active.channel_id);
             } else if (code == 67) {//c
                 this.digest({
                     cshow: !this.get('cshow')
@@ -183,10 +182,10 @@ export default Magix.View.extend({
         }
     },
     '$doc<visibilitychange>'() {
-        Player["@{set.eco}"](document.hidden);
+        Player["@:{set.eco}"](document.hidden);
     },
     '$doc<click>'(e) {
-        if (Player["@{can.operate}"]() &&
+        if (Player["@:{can.operate}"]() &&
             this.get('cshow')) {
             if (!Magix.inside(e.target, this.root)) {
                 this.digest({
@@ -195,4 +194,4 @@ export default Magix.View.extend({
             }
         }
     }
-});
+}).merge(Dragdrop);

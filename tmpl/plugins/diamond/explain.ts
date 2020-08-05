@@ -1,11 +1,11 @@
 /*
     author:xinglie.lkf@taobao.com
  */
-'ref@./index.css';
+'ref@:./index.css';
 import Magix from '../../lib/magix';
-Magix.applyStyle('@explain.css');
+Magix.applyStyle('@:explain.css');
 export default Magix.View.extend({
-    tmpl: '@explain.html',
+    tmpl: '@:explain.html',
     render() {
         let me = this;
         me.digest();

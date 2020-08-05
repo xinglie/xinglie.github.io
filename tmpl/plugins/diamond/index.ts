@@ -1,7 +1,7 @@
 import Magix from '../../lib/magix';
-Magix.applyStyle('@./index.css');
+Magix.applyStyle('@:./index.css');
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init() {
         this.set({
             state: 'desc'
@@ -13,7 +13,7 @@ export default Magix.View.extend({
     render() {
         this.digest();
     },
-    '@{game}<start>'(e) {
+    '@:{game}<start>'(e) {
         this.digest({
             state: 'start'
         });

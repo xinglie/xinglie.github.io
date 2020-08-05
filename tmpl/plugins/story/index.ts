@@ -4,7 +4,7 @@
 import Magix, { Magix5 } from '../../lib/magix';
 import Agent from '../../lib/agent';
 import DialogCtrl from '../../os/ctrl';
-Magix.applyStyle('@mx:./index.css');
+Magix.applyStyle('@:./index.css');
 let extractBooksRegexp = /<h1\s+class="tcleft title">([\s\S]+?)<\/h1>\s*<table class='booklist'>([\S\s]+?)<\/table>/g;
 let extractTitleReg = /《([^》]+)》/;
 let extractListReg = /<td class="time"><a href="([^"]+)" target="_blank">([\s\S]+?)<\/a><\/td>/g;
@@ -39,13 +39,13 @@ let Options = {
     height: 650,
     min: true,
     close: true,
-    view: '@mx:./detail'
+    view: '@:./detail'
 };
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     async render() {
         try {
-            let mark = Magix.mark(this, '@{render}');
+            let mark = Magix.mark(this, '@:{render}');
             if (mark()) {
                 let books = await GetCatetoriesAndList();
                 this.digest({
@@ -59,19 +59,19 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{change.category}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{change.category}<click>'(e: Magix5.MagixMouseEvent) {
         let { id } = e.params;
         this.digest({
             selected: id
         });
     },
-    '@mx:{open.details}<click>'(e: Magix5.MagixMouseEvent) {
+    '@:{open.details}<click>'(e: Magix5.MagixMouseEvent) {
         let { link, title } = e.params;
         let options = {
             ...Options,
             data: link,
             title
         };
-        DialogCtrl["@{create}"](this, options);
+        DialogCtrl["@:{create}"](this, options);
     }
 });

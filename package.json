@@ -19,7 +19,7 @@
     "gulp": "",
     "gulp-terser": "^1.2.0",
     "gulp-watch": "",
-    "typescript": "^3.5.2"
+    "typescript": "^3.8.3"
   },
   "bugs": {
     "url": "https://github.com/xinglie/xinglie.github.io/issues"

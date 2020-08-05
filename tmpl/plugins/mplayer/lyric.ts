@@ -1,8 +1,8 @@
 /*
     author:xinglie.lkf@alibaba-inc.com
 */
-'ref@./index.less';
-import Magix from '../../lib/magix';
+'ref@:./index.less';
+import Magix, { Magix5 } from '../../lib/magix';
 import Player from './player';
 let lineReg = /((?:\[[0-9:\.]+\])+)([^\r\n]*)/g;
 //let timeSpaceReg = /\][\r\n\s]*\[/g;
@@ -68,42 +68,42 @@ let ParseLyric = lyric => {
     return lyrics;
 };
 export default Magix.View.extend({
-    tmpl: '@lyric.html',
+    tmpl: '@:lyric.html',
     init() {
-        Player.on('@{when.history.change}', e => {
-            this['@{update.lyric}'](e.song.sid);
+        Player.on('@:{when.history.change}', e => {
+            this['@:{update.lyric}'](e.song);
         });
-        Player.on('@{when.song.time.update}', e => {
-            this['@{scroll.lyric}'](e.current);
+        Player.on('@:{when.song.time.update}', e => {
+            this['@:{scroll.lyric}'](e.current);
         });
-        Player.on('@{when.song.change}', () => {
-            this['@{clear.cache}']();
+        Player.on('@:{when.song.change}', () => {
+            this['@:{clear.cache}']();
         });
         this.set({
             topmost: false
         });
     },
-    '@{clear.cache}'() {
-        delete this['@{lyrics}'];
-        delete this['@{lyric.start}'];
-        delete this['@{lyric.end}'];
-        delete this['@{lyric.active}'];
-        delete this['@{lyric.is.error}'];
-        this['@{scroll.lyric}'](0);
+    '@:{clear.cache}'() {
+        delete this['@:{lyrics}'];
+        delete this['@:{lyric.start}'];
+        delete this['@:{lyric.end}'];
+        delete this['@:{lyric.active}'];
+        delete this['@:{lyric.is.error}'];
+        this['@:{scroll.lyric}'](0);
     },
-    async '@{update.lyric}'(sId) {
-        let marker = Magix.mark(this, '@{update.lyric}');
+    async '@:{update.lyric}'(song) {
+        let marker = Magix.mark(this, '@:{update.lyric}');
         try {
-            let { lyric } = await Player["@{fetch.song.lyric}"](sId);
+            let { lyric } = await Player["@:{fetch.song.lyric}"](song);
             if (marker()) {
-                this['@{lyrics}'] = ParseLyric(lyric);
+                this['@:{lyrics}'] = ParseLyric(lyric);
             }
         } catch{
-            this['@{lyric.is.error}'] = true;
+            this['@:{lyric.is.error}'] = true;
         }
     },
-    '@{scroll.lyric}'(time) {
-        let lyrics = this['@{lyrics}'];
+    '@:{scroll.lyric}'(time) {
+        let lyrics = this['@:{lyrics}'];
         if (lyrics) {
             let idx = 0;
             let lines = [];
@@ -129,12 +129,12 @@ export default Magix.View.extend({
             }
             idx -= 1;
             if (idx < 0) idx = 0;
-            if (this['@{lyric.end}'] != end ||
-                this['@{lyric.start}'] != start ||
-                this['@{lyric.active}'] != idx) {
-                this['@{lyric.end}'] = end;
-                this['@{lyric.start}'] = start;
-                this['@{lyric.active}'] = idx;
+            if (this['@:{lyric.end}'] != end ||
+                this['@:{lyric.start}'] != start ||
+                this['@:{lyric.active}'] != idx) {
+                this['@:{lyric.end}'] = end;
+                this['@:{lyric.start}'] = start;
+                this['@:{lyric.active}'] = idx;
                 for (let i = start; i < end; i++) {
                     lines.push({
                         text: lyrics[i].text,
@@ -147,7 +147,7 @@ export default Magix.View.extend({
             }
         } else {
             this.digest({
-                lyrics: this['@{lyric.is.error}'] ? ErrorLyric : NoLyric
+                lyrics: this['@:{lyric.is.error}'] ? ErrorLyric : NoLyric
             });
         }
     },
@@ -156,10 +156,10 @@ export default Magix.View.extend({
             lyrics: NoLyric
         });
     },
-    '@{stop}<mousedown>'(e: MouseEvent) {
+    '@:{stop}<mousedown>'(e: MouseEvent) {
         e.stopPropagation();
     },
-    '@{toggle.topmost}<click>'() {
+    '@:{toggle.topmost}<click>'() {
         let tm = !this.get('topmost');
         this.root.style.zIndex = tm ? '60000' : '';
         this.digest({

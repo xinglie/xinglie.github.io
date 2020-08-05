@@ -2,7 +2,7 @@ import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Cron from '../../lib/cron';
 import Days from './days';
-Magix.applyStyle('@./index.css');
+Magix.applyStyle('@:./index.css');
 let weeks = '日一二三四五六'.split('');
 let GetNumOfDays = (year, month) => {
     return 32 - new Date(year, month - 1, 32).getDate();
@@ -14,8 +14,7 @@ let DaughterBirthday = {
     name: '妞妞'
 };
 export default Magix.View.extend({
-    mixins: [Dragdrop],
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     init() {
         this.set({
             birthday: DaughterBirthday,
@@ -23,9 +22,9 @@ export default Magix.View.extend({
             weekStart: 0
         });
         let update = this.render.bind(this);
-        Cron["@{add.task}"](update, 10 * 60 * 1000);
+        Cron["@:{add.task}"](update, 10 * 60 * 1000);
         this.ondestroy = () => {
-            Cron["@{remove.task}"](update);
+            Cron["@:{remove.task}"](update);
         };
     },
     assign() {
@@ -94,7 +93,7 @@ export default Magix.View.extend({
                 }
             }
         }
-        let mark = Magix.mark(this, '@{render}');
+        let mark = Magix.mark(this, '@:{render}');
         let { queryWorkAndHolidays, querySolarTerms } = Days;
         let [solarTerms, {
             workdays,
@@ -118,11 +117,11 @@ export default Magix.View.extend({
             });
         }
     },
-    '@{move.cal}<mousedown>'(e: Magix5.MagixMouseEvent) {
+    '@:{move.cal}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let target = this.root;
         let left = parseInt(getComputedStyle(target).left);
         let top = parseInt(getComputedStyle(target).top);
-        this['@{drag.drop}'](e, (ev: MouseEvent) => {
+        this['@:{drag.drop}'](e, (ev: MouseEvent) => {
             let ox = ev.pageX - e.pageX;
             let oy = ev.pageY - e.pageY;
             let newX = left + ox;
@@ -131,4 +130,4 @@ export default Magix.View.extend({
             target.style.top = newY + 'px';
         });
     },
-})
+}).merge(Dragdrop);

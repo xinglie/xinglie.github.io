@@ -1,6 +1,6 @@
 import Magix from '../../lib/magix';
 import Data from './db';
-Magix.applyStyle('@index.css');
+Magix.applyStyle('@:index.css');
 let Sort = (a, b) => a.py.localeCompare(b.py);
 let Tabs = [{
     name: '书名',
@@ -39,7 +39,7 @@ let uncode = book => {
 //     return encodeURIComponent(uncode(book));
 // };
 export default Magix.View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     ctor() {
         this.set({
             uncode,
@@ -100,19 +100,19 @@ export default Magix.View.extend({
             keyMap: IdMap
         });
     },
-    '@{change.tab}<click>'(e) {
+    '@:{change.tab}<click>'(e) {
         this.set({
             active: e.params.tab
         });
         this.render();
     },
-    '@{search}<input>'(e) {
+    '@:{search}<input>'(e) {
         this.set({
             search: e.eventTarget.value
         });
-        clearTimeout(this['@{search.timer}']);
-        let mark = Magix.mark(this, '@{search.key}');
-        this['@{search.timer}'] = setTimeout(() => {
+        clearTimeout(this['@:{search.timer}']);
+        let mark = Magix.mark(this, '@:{search.key}');
+        this['@:{search.timer}'] = setTimeout(() => {
             if (mark()) {
                 this.render();
             }

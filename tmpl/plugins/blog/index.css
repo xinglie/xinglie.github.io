@@ -1,4 +1,4 @@
-[mx-view^="@./index"]{
+[mx-view^="@:./index"]{
     background: #3f3e3c;
 }
 .blogs {
