@@ -1,2 +1,1 @@
-/*!1.1.0 kooboy_li@163.com*/
-import t from"../../lib/magix.js";export default t.View.extend({tmpl:"@index.html",render(){this.digest()},"go<click>"(){this.digest({rnd:Math.random()}),this.owner.unmountVframe()}});
+import t from"../../lib/magix.js";export default t.View.extend({tmpl:"@index.html",render(){this.digest()},"go<click>"(){this.digest({rnd:Math.random()}),this.owner.unmount()}});

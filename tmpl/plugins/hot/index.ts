@@ -62,6 +62,7 @@ export default Magix.View.extend({
                     }
                 }
                 news = news.sort(sort);
+                news.splice(50, 100);
                 await this.digest({
                     news
                 });

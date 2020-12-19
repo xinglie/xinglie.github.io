@@ -121,7 +121,7 @@ export default Magix.View.extend({
     },
     '@:{close}<click>'(e: MouseEvent) {
         //console.log(this.id,'close');
-        this.owner.unmountVframe();
+        this.owner.unmount();
     },
     '@:{mouse.active}<mousedown>'() {
         DialogCtrl["@:{active}"](this.get('appId'));

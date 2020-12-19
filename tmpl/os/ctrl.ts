@@ -74,7 +74,7 @@ export default {
             options.zIndex = BaseZIndex + zIndex;
             if (!options.minWidth) options.minWidth = WinMinWidth;
             if (!options.minHeight) options.minHeight = WinMinHeight;
-            view.owner.mountVframe(node, '@:./dialog', options);
+            view.owner.mount(node, '@:./dialog', options);
             this['@:{add}'](options, zIndex);
             setTimeout(() => {
                 this['@:{active}'](appId);

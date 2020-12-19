@@ -1,2 +1,1 @@
-/*!1.1.0 kooboy_li@163.com*/
 let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,l,r)=>{if(!e){let i=[];i.push(l("iframe",{sandbox:"allow-scripts allow-same-origin allow-popups",allowfullscreen:!0,src:"//xinglie.github.io/report-designer/iot.html",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),e=l(r,0,i)}return e},assign:()=>!1,render(){this.digest()}});

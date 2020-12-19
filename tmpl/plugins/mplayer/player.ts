@@ -276,6 +276,7 @@ export default Object.assign({
         }, delay);
     },
     async '@:{next.song}'(channelId, forceRandom?: boolean) {
+        clearTimeout(this['@:{next.song.timer}']);
         this['@:{set.pause}']();
         this['@:{update.state}']({
             buffer: true
@@ -288,7 +289,7 @@ export default Object.assign({
                 let isLast = Magix.mark(this, '@:{next.song}');
                 let { song } = await this["@:{fetch.random.song}"](channelId);
                 if (isLast()) {
-                    console.log('isLast');
+                    console.log('isLast', channelId);
                     let single = song[0] as SongDesc;
                     if (single &&
                         single.url) {

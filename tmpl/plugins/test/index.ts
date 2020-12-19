@@ -11,6 +11,6 @@ export default Magix.View.extend({
         this.digest({
             rnd:Math.random()
         });
-        this.owner.unmountVframe();
+        this.owner.unmount();
     }
 });
