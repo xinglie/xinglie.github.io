@@ -7,10 +7,10 @@ export default Magix.View.extend({
     tmpl: '@:./icon.html',
     init() {
         let root = getComputedStyle(document.body);
-        let width = parseInt(root.getPropertyValue('@:scoped.style:--__global__icon_width'), 10);
-        let height = parseInt(root.getPropertyValue('@:scoped.style:--__global__icon_height'), 10);
-        let gap = parseInt(root.getPropertyValue('@:scoped.style:--__global__icon_gap'), 10);
-        let taskbarHeight = parseInt(root.getPropertyValue('@:scoped.style:--__global__taskbar_height'));
+        let width = parseInt(root.getPropertyValue('@:scoped.style:--scoped-icon_width'), 10);
+        let height = parseInt(root.getPropertyValue('@:scoped.style:--scoped-icon_height'), 10);
+        let gap = parseInt(root.getPropertyValue('@:scoped.style:--scoped-icon_gap'), 10);
+        let taskbarHeight = parseInt(root.getPropertyValue('@:scoped.style:--scoped-taskbar_height'));
         this['@:{icon.width}'] = width;
         this['@:{icon.height}'] = height;
         this['@:{icon.gap}'] = gap;

@@ -129,7 +129,7 @@ export default Magix.View.extend({
     '@:{drag}<mousedown>'(e: Magix5.MagixMouseEvent) {
         let state = this['@:{state}'];
         let root = getComputedStyle(document.body);
-        let taskbarHeight = parseInt(root.getPropertyValue('@:scoped.style:--__global__taskbar_height'));
+        let taskbarHeight = parseInt(root.getPropertyValue('@:scoped.style:--scoped-taskbar_height'));
         let viewportWidth = document.body.clientWidth;
         let viewportHeight = document.body.clientHeight - taskbarHeight;
         let rootStyle = Magix.node(this.id + '_d').style;

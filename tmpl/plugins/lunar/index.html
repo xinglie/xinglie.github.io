@@ -1,6 +1,12 @@
 <div class="root" mx-mousedown="@:{move.cal}()">
     <div class="days">
-        今年共{{=days}}天，还有{{=Math.ceil(esDays)}}天
+        {{set rest=Math.ceil(esDays)}}
+        今年共{{=days}}天，
+        {{if rest==0}}
+            今天是最后一天
+        {{else}}
+            还有{{=rest}}天
+        {{/if}}
     </div>
     <div class="progress">
         <div class="bar" style="width:{{=percent}}%"></div>
