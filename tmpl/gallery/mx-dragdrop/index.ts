@@ -1,5 +1,5 @@
 /*
-    author:xinglie.lkf@taobao.com
+    author:https://github.com/xinglie
  */
 let IsW3C = window.getComputedStyle;
 let ClearSelection = (t?: () => Selection) => {

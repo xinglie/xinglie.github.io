@@ -1,5 +1,5 @@
 /*
-    author:xinglie.lkf@alibaba-inc.com
+    author:https://github.com/xinglie
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import Cron from '../../lib/cron';
@@ -14,9 +14,9 @@ export default Magix.View.extend({
         let mark = Magix.mark(this, '@{render}');
         await this.digest();
         if (mark()) {
-            let second = Magix.node('s_' + this.id);
-            let minute = Magix.node('m_' + this.id);
-            let hour = Magix.node('h_' + this.id);
+            let second = Magix.node<HTMLDivElement>('s_' + this.id);
+            let minute = Magix.node<HTMLDivElement>('m_' + this.id);
+            let hour = Magix.node<HTMLDivElement>('h_' + this.id);
             let work = () => {
                 let now = new Date();
                 let seconds = (now.getSeconds() * 1000 + now.getMilliseconds()) / 1000;

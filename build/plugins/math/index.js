@@ -1,1 +1,1 @@
-let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,t,r)=>{if(!e){let i=[];i.push(t("iframe",{sandbox:"allow-scripts",src:"//xinglie.github.io/lyy/",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})),e=t(r,0,i)}return e},render(){this.digest()}});
+let e;import i from"../../lib/magix.js";export default i.View.extend({tmpl:(i,t,r)=>{if(!e){let i;i=[t("iframe",{sandbox:"allow-scripts",src:"//xinglie.github.io/lyy/",frameborder:"no",style:"width:100%;height:100%",scrolling:"yes"})],e=t(r,0,i)}return e},render(){this.digest()}});

@@ -107,7 +107,7 @@ export default [{
     maxState: true,
     resize: true,
 
-    minWidth: 1200,
+    minWidth: 1350,
     minHeight: 400,
     appId: 'designer',
     view: '@:./designer/index'

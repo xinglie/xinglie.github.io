@@ -1,5 +1,5 @@
 /*
-    author:xinglie.lkf@alibaba-inc.com
+    author:https://github.com/xinglie
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import List from './vip';

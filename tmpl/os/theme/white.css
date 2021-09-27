@@ -1,28 +1,24 @@
-:root{
+:root {
     /*desktop*/
-    --scoped-desktop_background:#aaa;
-    --scoped-desktop_foreground:#000;
-
+    --scoped-desktop_background: #aaa;
+    --scoped-desktop_foreground: #000;
     /*taskbar*/
-    --scoped-taskbar_height:30px;
-    --scoped-taskbar_background:#cccc;
-    --scoped-taskbar_active_item:#bbb;
-
+    --scoped-taskbar_height: 30px;
+    --scoped-taskbar_background: #cccc;
+    --scoped-taskbar_active_item: #bbb;
     /* icons */
-    --scoped-icon_width:70px;
-    --scoped-icon_height:85px;
-    --scoped-icon_gap:10px;
-    --scoped-icon_border-radius:4px;
-    --scoped-icon_title_height:25px;
-    --scoped-icon_hover_background:#8888;
-
-    --scoped-dialog_background:#fff;
-    --scoped-dialog_title_background:#a7a7a7;
-    --scoped-dialog_title_foreground:#ccc;
-    --scoped-dialog_title_active_background:#ccc;
-    --scoped-dialog_title_active_foreground:#000;
-    --scoped-dialog_title_height:25px;
-    --scoped-dialog_content_color:#fff;
-
-    --scoped-anim_background:#ccc;
+    --scoped-icon_width: 70px;
+    --scoped-icon_height: 85px;
+    --scoped-icon_gap: 10px;
+    --scoped-icon_border-radius: 4px;
+    --scoped-icon_title_height: 25px;
+    --scoped-icon_hover_background: #8888;
+    --scoped-dialog_background: #fff;
+    --scoped-dialog_title_background: #a7a7a7;
+    --scoped-dialog_title_foreground: #ccc;
+    --scoped-dialog_title_active_background: #ccc;
+    --scoped-dialog_title_active_foreground: #000;
+    --scoped-dialog_title_height: 25px;
+    --scoped-dialog_content_color: #fff;
+    --scoped-anim_background: #ccc;
 }

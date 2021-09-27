@@ -1,5 +1,5 @@
 /*
-    author:xinglie.lkf@alibaba-inc.com
+    author:https://github.com/xinglie
 */
 'ref@:./index.css';
 import Magix from '../../lib/magix';

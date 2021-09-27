@@ -1,6 +1,6 @@
 import Magix from '../../lib/magix';
 import XAgent from '../../lib/agent';
-let APIHost = 'https://jirenguapi.applinzi.com/fm/v2';
+let APIHost = '//api2.jirengu.com/fm/v2';
 let MAX_HISTORY = 50;
 interface SongDesc {
     artist: string
@@ -60,7 +60,8 @@ export default Object.assign({
                         url: r.data.url,
                         title: r.data.name,
                         picture: r.data.picurl,
-                        sid: 'netease'
+                        sid: Magix.guid('ns_'),
+                        from: 'netease'
                     }]
                 };
             });
@@ -68,7 +69,7 @@ export default Object.assign({
         return fetch(`${APIHost}/getSong.php?channel=${channelId}`).then(r => r.json());
     },
     '@:{fetch.song.lyric}'(song) {
-        if (song.sid == 'netease') {
+        if (song.from == 'netease') {
             let extractIdReg = /id=([^.]+)/;
             let sid;
             song.url.replace(extractIdReg, (_, id) => sid = id);
@@ -148,11 +149,11 @@ export default Object.assign({
             let timer;
             //audio.crossOrigin = 'anonymous';
             audio.onprogress = (e) => {
-                console.log('from propgress', e);
-                let b = audio.buffered;
-                if (b.length) {
-                    console.log(b.end(0));
-                }
+                //console.log('from propgress', e);
+                //let b = audio.buffered;
+                // if (b.length) {
+                //     console.log(b.end(0));
+                // }
                 this['@:{update.time.and.buffer}']();
             };
             audio.onerror = () => {

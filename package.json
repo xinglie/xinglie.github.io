@@ -15,19 +15,14 @@
   "author": "xinglie.lkf@taobao.com",
   "license": "MIT",
   "dependencies": {
-    "del": "",
-    "gulp": "",
-    "gulp-terser": "^1.2.0",
-    "gulp-watch": "",
-    "typescript": "^3.8.3"
+    "del": "6.0.0",
+    "gulp": "4.0.2",
+    "gulp-terser": "2.0.1",
+    "gulp-watch": "5.0.1",
+    "typescript": "4.4.3"
   },
   "bugs": {
     "url": "https://github.com/xinglie/xinglie.github.io/issues"
   },
-  "homepage": "https://github.com/xinglie/xinglie.github.io#readme",
-  "scripts": {
-    "combine": "npm install;gulp combine",
-    "watch": "npm install;gulp watch",
-    "build": "npm install;gulp build"
-  }
+  "homepage": "https://github.com/xinglie/xinglie.github.io#readme"
 }

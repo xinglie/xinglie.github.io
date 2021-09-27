@@ -1,5 +1,5 @@
 /*
-    author:xinglie.lkf@alibaba-inc.com
+    author:https://github.com/xinglie
 */
 import Magix from '../../lib/magix';
 export default Magix.View.extend({

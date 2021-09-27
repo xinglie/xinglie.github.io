@@ -1,41 +1,46 @@
-body{
+body {
     background: var(--scoped-desktop_background);
-    color:var(--scoped-desktop_foreground);
+    color: var(--scoped-desktop_foreground);
 }
-body:-webkit-full-screen::backdrop{
+
+body:-webkit-full-screen::backdrop {
     background: transparent;
 }
 
-.clearfix::before,
+.clearfix::before, .clearfix::after {
+    content: " ";
+    display: table;
+}
+
 .clearfix::after {
-    content: " "; 
-    display: table; 
+    clear: both
 }
-.clearfix::after{
-  clear: both
-}
-.global-bg{
+
+.global-bg {
     position: fixed;
-    left:0;
-    top:0;
-    right:0;
-    bottom:0;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
-.icons{
-    height:calc(100vh - var(--scoped-taskbar_height));
+
+.icons {
+    height: calc(100vh - var(--scoped-taskbar_height));
     user-select: none;
 }
-.tools{
-    height:calc(100vh - var(--scoped-taskbar_height));
+
+.tools {
+    height: calc(100vh - var(--scoped-taskbar_height));
     position: absolute;
-    left:0;
-    top:0;
-    right:0;
+    left: 0;
+    top: 0;
+    right: 0;
     user-select: none;
 }
-.icon-grid{
+
+.icon-grid {
     display: grid;
     position: absolute;
     width: var(--scoped-icon_width);
@@ -46,112 +51,122 @@ body:-webkit-full-screen::backdrop{
     border-radius: var(--scoped-icon_border-radius);
     transition: all 0.2s;
 }
-.icon-grid-image{
-    width:40px;
-    height:40px;
+
+.icon-grid-image {
+    width: 40px;
+    height: 40px;
 }
-.icon-grid-title{
+
+.icon-grid-title {
     height: var(--scoped-icon_title_height);
 }
-.icon-grid:hover{
+
+.icon-grid:hover {
     background: var(--scoped-icon_hover_background);
 }
-.dialog{
+
+.dialog {
     position: absolute;
     border-radius: var(--scoped-icon_border-radius) var(--scoped-icon_border-radius) 0 0;
     box-shadow: 0 0 0 1px var(--scoped-dialog_title_background);
-
-    left:0;
-    top:0;
-    right:0;
-    bottom:var(--scoped-taskbar_height);
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: var(--scoped-taskbar_height);
     overflow: hidden;
-
     /* backdrop-filter: blur(4px); */
 }
-.dialog-title{
-    padding-left:5px;
+
+.dialog-title {
+    padding-left: 5px;
     background: var(--scoped-dialog_title_background);
     height: var(--scoped-dialog_title_height);
     user-select: none;
-    color:var(--scoped-dialog_title_foreground);
+    color: var(--scoped-dialog_title_foreground);
     display: flex;
     align-items: center;
 }
-.dialog-title-icon{
+
+.dialog-title-icon {
     display: inline-block;
     width: 18px;
     height: 18px;
     margin-right: 5px;
     filter: grayscale(1);
 }
-.dialog-title-icon-active{
+
+.dialog-title-icon-active {
     filter: none;
 }
-.dialog-ctrls{
+
+.dialog-ctrls {
     position: absolute;
-    right:0;
-    top:0;
+    right: 0;
+    top: 0;
     padding: 0 5px;
     display: inline-flex;
     align-items: center;
     height: var(--scoped-dialog_title_height);
 }
 
-.dialog-active{
-    box-shadow:0 0 0 1px var(--scoped-dialog_title_active_background);
+.dialog-active {
+    box-shadow: 0 0 0 1px var(--scoped-dialog_title_active_background);
 }
 
-.dialog-active .dialog-title{
+.dialog-active .dialog-title {
     background: var(--scoped-dialog_title_active_background);
-    color:var(--scoped-dialog_title_active_foreground);
+    color: var(--scoped-dialog_title_active_foreground);
 }
 
-.dialog-ctrls-btn{
-    width:12px;
-    height:12px;
+.dialog-ctrls-btn {
+    width: 12px;
+    height: 12px;
     background: #ccc;
     border-radius: var(--scoped-icon_border-radius);
     display: inline-block;
-    margin:0 3px;
+    margin: 0 3px;
     position: relative;
 }
 
-.dialog-active .dialog-ctrls-close{
+.dialog-active .dialog-ctrls-close {
     background: red;
 }
-.dialog-active .dialog-ctrls-min{
+
+.dialog-active .dialog-ctrls-min {
     background: #f6c308;
 }
-.dialog-active .dialog-ctrls-max{
+
+.dialog-active .dialog-ctrls-max {
     background: #64ca57;
 }
 
-
-.dialog-ctrls-btn::after{
+.dialog-ctrls-btn::after {
     position: absolute;
-    left:2px;
-    top:-3px;
+    left: 2px;
+    top: -3px;
     font-size: 12px;
 }
-.dialog-ctrls-active:hover .dialog-ctrls-close::after{
-    content:'×';
-    top:-4px;
+
+.dialog-ctrls-active:hover .dialog-ctrls-close::after {
+    content: '×';
+    top: -4px;
 }
 
-.dialog-ctrls-active:hover .dialog-ctrls-min::after{
-    content:'﹣';
-    left:0;
-    top:-2px;
+.dialog-ctrls-active:hover .dialog-ctrls-min::after {
+    content: '﹣';
+    left: 0;
+    top: -2px;
 }
-.dialog-ctrls-active:hover .dialog-ctrls-max::after{
+
+.dialog-ctrls-active:hover .dialog-ctrls-max::after {
     content: '⇗';
 }
-.dialog-ctrls-active:hover .dialog-ctrls-max-state::after{
+
+.dialog-ctrls-active:hover .dialog-ctrls-max-state::after {
     content: '⇙';
 }
 
-.dialog-resizer{
+.dialog-resizer {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -161,24 +176,27 @@ body:-webkit-full-screen::backdrop{
     border-bottom: 10px solid var(--scoped-dialog_title_background);
     border-left: 10px solid #0000;
 }
-.dialog-resizer-active{
+
+.dialog-resizer-active {
     border-bottom-color: var(--scoped-dialog_title_active_background);
 }
 
-.dialog-view{
-    color:var(--scoped-dialog_content_color);
-    height:calc(100% - var(--scoped-dialog_title_height));
+.dialog-view {
+    color: var(--scoped-dialog_content_color);
+    height: calc(100% - var(--scoped-dialog_title_height));
     background: var(--scoped-dialog_background);
     overflow: hidden;
     transition: all 0.3s;
     position: relative;
 }
-.dialog-view-scroll{
+
+.dialog-view-scroll {
     overflow: auto;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
 }
-.dialog-loading{
+
+.dialog-loading {
     position: absolute;
     left: 0;
     right: 0;
@@ -187,40 +205,44 @@ body:-webkit-full-screen::backdrop{
     text-align: center;
     padding-top: 150px;
     font-size: 20px;
-    cursor:progress;
+    cursor: progress;
 }
-.dialog-content-mask{
+
+.dialog-content-mask {
     position: absolute;
-    left:0;
-    top:var(--scoped-dialog_title_height);
-    right:0;
-    bottom:0;
+    left: 0;
+    top: var(--scoped-dialog_title_height);
+    right: 0;
+    bottom: 0;
     background: #fff3;
     border-radius: var(--scoped-icon_border-radius);
 }
-.dialog-content-transparent-mask{
+
+.dialog-content-transparent-mask {
     background: #fff0;
     display: none;
 }
 
-.dialog-hide{
+.dialog-hide {
     opacity: 0;
 }
-@keyframes dialog-anim-show{
-    0%{
+
+@keyframes dialog-anim-show {
+    0% {
         opacity: 0;
     }
-    100%{
+    100% {
         opacity: 1;
     }
 }
-.dialog-anim-show{
-    animation-name:  dialog-anim-show;
+
+.dialog-anim-show {
+    animation-name: dialog-anim-show;
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
 }
 
-.min-anim{
+.min-anim {
     transition: all 0.3s;
     position: absolute;
     opacity: 1;
@@ -228,12 +250,11 @@ body:-webkit-full-screen::backdrop{
     background: var(--scoped-anim_background);
 }
 
-
-.taskbar{
-    height:var(--scoped-taskbar_height);
+.taskbar {
+    height: var(--scoped-taskbar_height);
     position: absolute;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     bottom: 0;
     background: var(--scoped-taskbar_background);
     display: flex;
@@ -243,50 +264,56 @@ body:-webkit-full-screen::backdrop{
     /* backdrop-filter: blur(4px); */
 }
 
-.taskbar-device{
-    width:20px;
+.taskbar-device {
+    width: 20px;
     height: 100%;
     display: inline-flex;
-    margin:0 5px;
+    margin: 0 5px;
     align-items: center;
 }
-.taskbar-start{
+
+.taskbar-start {
     cursor: pointer;
 }
-.taskbar-device-icon{
-    width:100%;
-    height:100%;
+
+.taskbar-device-icon {
+    width: 100%;
+    height: 100%;
 }
 
-.taskbar-item{
-    height:20px;
+.taskbar-item {
+    height: 20px;
     min-width: 75px;
     max-width: 75px;
     line-height: 20px;
     overflow: hidden;
-    margin:4px;
+    margin: 4px;
     cursor: default;
     font-size: 12px;
     border-radius: 2px;
     background: #555;
 }
-.taskbar-item-icon{
-    width:16px;
+
+.taskbar-item-icon {
+    width: 16px;
     height: 16px;
-    margin:2px;
+    margin: 2px;
     display: inline-block;
     float: left;
 }
-.taskbar-item-active{
+
+.taskbar-item-active {
     box-shadow: 0 0 0 2px var(--scoped-taskbar_active_item);
 }
-.tool-item{
+
+.tool-item {
     position: absolute;
 }
-.taskbar-end{
+
+.taskbar-end {
     margin-left: auto;
     margin-right: 5px;
-    height:100%;
+    height: 100%;
 }
 
 .ellipsis {

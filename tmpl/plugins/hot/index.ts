@@ -1,7 +1,7 @@
-import Magix, { Magix5 } from '../../lib/magix';
-import Cron from '../../lib/cron';
-import Agent from '../../lib/agent';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
+import Agent from '../../lib/agent';
+import Cron from '../../lib/cron';
+import Magix from '../../lib/magix';
 Magix.applyStyle('@:index.less');
 let sort = (a, b) => Date.parse(b.ctime) - Date.parse(a.ctime);
 let svg = '<svg viewBox="0 0 1052 1024"><path d="M454.438 1024C302.958 835.56 124.213 693.17 0 648.331l294.779-176.927 142.087 276.298S668.326 186.925 1033.998 0c-7.877 133.605-44.232 249.335 18.48 392.028C891.91 428.383 562.594 828.895 454.438 1024z" fill="green"/></svg>';

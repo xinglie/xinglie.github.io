@@ -43,7 +43,7 @@ export default [{
     dockX: 300,
     dockY: 30,
     width: 700,
-    height: 50,
+    height: 164,
     dockXKey: 'left',
     dockYKey: 'bottom'
 }];

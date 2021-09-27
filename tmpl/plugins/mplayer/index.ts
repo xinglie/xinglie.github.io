@@ -1,19 +1,11 @@
 /*
-    author:xinglie.lkf@alibaba-inc.com
+    author:https://github.com/xinglie
 */
 import Magix, { Magix5 } from '../../lib/magix';
 import Dragdrop from '../../gallery/mx-dragdrop/index';
 import Player from './player';
 Magix.applyStyle('@:index.less');
 
-declare global {
-    interface Navigator {
-        mediaSession: {
-            setActionHandler: (key: string, f: () => void) => void
-            playbackState:string
-        }
-    }
-}
 export default Magix.View.extend({
     tmpl: '@:index.html',
     init() {
@@ -98,9 +90,6 @@ export default Magix.View.extend({
                 artist: '行列'
             }
         });
-    },
-    assign(){
-        return false;
     },
     render() {
         this.digest({
